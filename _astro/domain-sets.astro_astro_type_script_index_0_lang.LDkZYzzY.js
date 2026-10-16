@@ -1,0 +1,1 @@
+import{t as e}from"./ds.WOj0wHWd.js";e(document.querySelector(`[data-ds]`));

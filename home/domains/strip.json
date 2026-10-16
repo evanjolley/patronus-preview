@@ -1,0 +1,42 @@
+{
+ "meighen": {
+  "focal": [
+   0.72,
+   0.5
+  ],
+  "dmax": 50.7,
+  "source": "eaa3-meighen-island"
+ },
+ "study": {
+  "focal": [
+   0.5,
+   0.5
+  ],
+  "dmax": 26.48,
+  "source": "eaa4-study-color"
+ },
+ "ganges": {
+  "focal": [
+   0.5,
+   0.5
+  ],
+  "dmax": 79.21,
+  "source": "eaa1-ganges-river-delta"
+ },
+ "himalayas": {
+  "focal": [
+   0.5,
+   0.5
+  ],
+  "dmax": 52.4,
+  "source": "eaa2-himalayas"
+ },
+ "patterns": {
+  "focal": [
+   0.5,
+   0.5
+  ],
+  "dmax": 26.0,
+  "source": "eaa3-desert-patterns"
+ }
+}

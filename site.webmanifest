@@ -1,0 +1,20 @@
+{
+  "name": "Patronus AI",
+  "short_name": "Patronus",
+  "icons": [
+    {
+      "src": "/patronus-preview/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/patronus-preview/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#eeeee6",
+  "background_color": "#eeeee6",
+  "display": "browser"
+}
