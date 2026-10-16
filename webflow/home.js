@@ -26,27 +26,53 @@ var t = e.__P26B, n = {
 		aspect: 1.5,
 		focal: [.5, .2]
 	}
-};
+}, r = matchMedia("(hover: none) and (pointer: coarse)").matches, i = null;
+function a() {
+	return r ? (i || (i = document.createElement("div"), i.style.cssText = "position:fixed;left:0;top:0;width:0;height:100lvh;visibility:hidden;pointer-events:none", document.documentElement.append(i)), Math.max(innerHeight, i.offsetHeight || 0)) : innerHeight;
+}
+function o(e) {
+	let t = innerWidth, n = a();
+	addEventListener("resize", () => {
+		let i = innerWidth, o = a();
+		r && i === t && o === n || (t = i, n = o, e());
+	});
+}
+function s(e = a()) {
+	return r ? Math.round(e * .3) : 120;
+}
+function c(e, t = 0) {
+	let n = Math.round(scrollY) - e;
+	return t ? Math.min(n, Math.floor(document.body.offsetHeight - t)) : n;
+}
+function l(e, t) {
+	return e <= 760 && !(e > t && t <= 500) || e > 760 && e <= 1100 && t >= e * 1.2;
+}
 //#endregion
 //#region src/home/hero/fit.ts
-function r(e) {
-	if (!e) return;
-	let t = () => {
-		if (e.style.fontSize = "", innerWidth <= 760) return;
-		let t = parseFloat(getComputedStyle(e).fontSize), n = t;
-		for (; e.scrollWidth > e.clientWidth + 1 && n > t * .7;) n -= 2, e.style.fontSize = `${n}px`;
-	}, n = innerWidth;
-	addEventListener("resize", () => {
-		innerWidth !== n && (n = innerWidth, t());
-	}), document.fonts?.ready.then(t), t();
+var u = .5, d = "(min-width: 761px) and (max-width: 1100px) and (max-aspect-ratio: 5/6)";
+function f(e) {
+	let t = e?.closest(".ln-hero"), n = t?.querySelector(".ln-lede");
+	if (!e || !t || !n) return;
+	let r = document.createRange(), i = matchMedia(d), a = () => {
+		if (t.classList.remove("is-stacked", "is-side"), innerWidth <= 760 || i.matches) return;
+		let a = getComputedStyle(t).gridTemplateColumns.trim().split(/\s+/).length < 2;
+		t.classList.add("is-side"), e.style.removeProperty("--hk");
+		let o = getComputedStyle(e), s = parseFloat(o.getPropertyValue("--hk"));
+		r.selectNodeContents(e);
+		let c = r.getBoundingClientRect().width / parseFloat(o.fontSize);
+		c > 0 && Math.abs(c - s) > s * .002 && e.style.setProperty("--hk", c.toFixed(4));
+		let l = e.getBoundingClientRect().top - n.getBoundingClientRect().top;
+		t.classList.remove("is-side"), l > 0 !== a && Math.abs(l) > u && t.classList.add(l > 0 ? "is-stacked" : "is-side");
+	};
+	o(a), document.fonts?.ready.then(a), a();
 }
 //#endregion
 //#region src/home/hero/strokes.worker.ts?worker&inline
-var i = "function e(e){let t=new Int32Array(e,0,3),n=t[0],r=t[2],i=new Int32Array(e,12,n*2),a=new Int16Array(e,12+n*8),o=a.length/2,s={n,level:new Int32Array(n),start:new Int32Array(n),count:new Int32Array(n),x:new Float32Array(o),y:new Float32Array(o),cum:new Float32Array(o),len:new Float32Array(n),box:new Float32Array(n*4),d:new Float32Array(n),c0:new Float32Array(n)},c=0;for(let e=0;e<n;e++){s.level[e]=i[e*2],s.count[e]=i[e*2+1],s.start[e]=c;let t=0,n=1e9,o=1e9,l=-1e9,u=-1e9;for(let i=0;i<s.count[e];i++){let e=c+i,d=a[e*2]/r,f=a[e*2+1]/r;s.x[e]=d,s.y[e]=f,i>0&&(t+=Math.hypot(d-s.x[e-1],f-s.y[e-1])),s.cum[e]=t,n=Math.min(n,d),o=Math.min(o,f),l=Math.max(l,d),u=Math.max(u,f)}s.len[e]=t,s.box.set([n,o,l,u],e*4),c+=s.count[e]}return s}function t(e,t,n,r){let i=0xde0b6b3a7640000,a=n,o=r;for(let s=0;s<e.count[t];s++){let c=e.start[t]+s,l=(e.x[c]-n)**2+(e.y[c]-r)**2;l<i&&(i=l,a=e.x[c],o=e.y[c])}return[a,o]}function n(e,t,n){for(let r=0;r<e.n;r++){let i=0xde0b6b3a7640000,a=0;for(let o=0;o<e.count[r];o++){let s=e.start[r]+o,c=(e.x[s]-t)**2+(e.y[s]-n)**2;c<i&&(i=c,a=e.cum[s])}e.d[r]=Math.sqrt(i),e.c0[r]=a}}function r(e,t){let n=0,r=0;for(let t=0;t<e.n;t++)n+=e.count[t],r+=Math.max(0,e.count[t]-1);let i=new Float32Array(n*2*10),a=new Uint32Array(r*6),o=0,s=0;for(let n=0;n<e.n;n++){let r=e.start[n],c=e.count[n],l=n===t?2:+(e.level[n]===2);for(let t=0;t<c;t++){let u=r+t,d=t>0?u-1:u,f=t<c-1?u+1:u,p=e.x[u]-e.x[d],m=e.y[u]-e.y[d],h=e.x[f]-e.x[u],g=e.y[f]-e.y[u],_=Math.hypot(p,m),v=Math.hypot(h,g);_<1e-6&&(p=h,m=g,_=v),v<1e-6&&(h=p,g=m,v=_),_<1e-6&&(p=h=1,m=g=0,_=v=1),p/=_,m/=_,h/=v,g/=v;let y=p+h,b=m+g,x=Math.hypot(y,b);x<1e-6?(y=h,b=g):(y/=x,b/=x);let S=-b,C=y,w=Math.min(2,1/Math.max(.5,S*-m+C*p));S*=w,C*=w;for(let t=-1;t<=1;t+=2)i[o]=e.x[u],i[o+1]=e.y[u],i[o+2]=S,i[o+3]=C,i[o+4]=e.cum[u],i[o+5]=e.c0[n],i[o+6]=e.d[n],i[o+7]=e.len[n],i[o+8]=l,i[o+9]=t,o+=10;if(t<c-1){let e=u*2;a[s]=e,a[s+1]=e+1,a[s+2]=e+2,a[s+3]=e+1,a[s+4]=e+3,a[s+5]=e+2,s+=6}}}return{V:i,I:a}}function i(i,a,o){let s=e(i),[c,l]=t(s,a.stroke,a.x,a.y);return n(s,c,l),o?{s,hx:c,hy:l,...r(s,a.stroke)}:{s,hx:c,hy:l}}self.onmessage=async e=>{try{let t=i(await(await fetch(e.data.url)).arrayBuffer(),e.data.hero,e.data.ribbon),n=Object.values(t.s).filter(e=>ArrayBuffer.isView(e)).map(e=>e.buffer);t.V&&t.I&&n.push(t.V.buffer,t.I.buffer),self.postMessage({ok:!0,r:t},n)}catch(e){self.postMessage({ok:!1,error:String(e)})}};", a = typeof self < "u" && self.Blob && new Blob(["URL.revokeObjectURL(import.meta.url);", i], { type: "text/javascript;charset=utf-8" });
-function o(e) {
+var p = "function e(e){let t=new Int32Array(e,0,3),n=t[0],r=t[2],i=new Int32Array(e,12,n*2),a=new Int16Array(e,12+n*8),o=a.length/2,s={n,level:new Int32Array(n),start:new Int32Array(n),count:new Int32Array(n),x:new Float32Array(o),y:new Float32Array(o),cum:new Float32Array(o),len:new Float32Array(n),box:new Float32Array(n*4),d:new Float32Array(n),c0:new Float32Array(n)},c=0;for(let e=0;e<n;e++){s.level[e]=i[e*2],s.count[e]=i[e*2+1],s.start[e]=c;let t=0,n=1e9,o=1e9,l=-1e9,u=-1e9;for(let i=0;i<s.count[e];i++){let e=c+i,d=a[e*2]/r,f=a[e*2+1]/r;s.x[e]=d,s.y[e]=f,i>0&&(t+=Math.hypot(d-s.x[e-1],f-s.y[e-1])),s.cum[e]=t,n=Math.min(n,d),o=Math.min(o,f),l=Math.max(l,d),u=Math.max(u,f)}s.len[e]=t,s.box.set([n,o,l,u],e*4),c+=s.count[e]}return s}function t(e,t,n,r){let i=0xde0b6b3a7640000,a=n,o=r;for(let s=0;s<e.count[t];s++){let c=e.start[t]+s,l=(e.x[c]-n)**2+(e.y[c]-r)**2;l<i&&(i=l,a=e.x[c],o=e.y[c])}return[a,o]}function n(e,t,n){for(let r=0;r<e.n;r++){let i=0xde0b6b3a7640000,a=0;for(let o=0;o<e.count[r];o++){let s=e.start[r]+o,c=(e.x[s]-t)**2+(e.y[s]-n)**2;c<i&&(i=c,a=e.cum[s])}e.d[r]=Math.sqrt(i),e.c0[r]=a}}function r(e,t){let n=0,r=0;for(let t=0;t<e.n;t++)n+=e.count[t],r+=Math.max(0,e.count[t]-1);let i=new Float32Array(n*2*10),a=new Uint32Array(r*6),o=0,s=0;for(let n=0;n<e.n;n++){let r=e.start[n],c=e.count[n],l=n===t?2:+(e.level[n]===2);for(let t=0;t<c;t++){let u=r+t,d=t>0?u-1:u,f=t<c-1?u+1:u,p=e.x[u]-e.x[d],m=e.y[u]-e.y[d],h=e.x[f]-e.x[u],g=e.y[f]-e.y[u],_=Math.hypot(p,m),v=Math.hypot(h,g);_<1e-6&&(p=h,m=g,_=v),v<1e-6&&(h=p,g=m,v=_),_<1e-6&&(p=h=1,m=g=0,_=v=1),p/=_,m/=_,h/=v,g/=v;let y=p+h,b=m+g,x=Math.hypot(y,b);x<1e-6?(y=h,b=g):(y/=x,b/=x);let S=-b,C=y,w=Math.min(2,1/Math.max(.5,S*-m+C*p));S*=w,C*=w;for(let t=-1;t<=1;t+=2)i[o]=e.x[u],i[o+1]=e.y[u],i[o+2]=S,i[o+3]=C,i[o+4]=e.cum[u],i[o+5]=e.c0[n],i[o+6]=e.d[n],i[o+7]=e.len[n],i[o+8]=l,i[o+9]=t,o+=10;if(t<c-1){let e=u*2;a[s]=e,a[s+1]=e+1,a[s+2]=e+2,a[s+3]=e+1,a[s+4]=e+3,a[s+5]=e+2,s+=6}}}return{V:i,I:a}}function i(i,a,o){let s=e(i),[c,l]=t(s,a.stroke,a.x,a.y);return n(s,c,l),o?{s,hx:c,hy:l,...r(s,a.stroke)}:{s,hx:c,hy:l}}self.onmessage=async e=>{try{let t=i(await(await fetch(e.data.url)).arrayBuffer(),e.data.hero,e.data.ribbon),n=Object.values(t.s).filter(e=>ArrayBuffer.isView(e)).map(e=>e.buffer);t.V&&t.I&&n.push(t.V.buffer,t.I.buffer),self.postMessage({ok:!0,r:t},n)}catch(e){self.postMessage({ok:!1,error:String(e)})}};", m = typeof self < "u" && self.Blob && new Blob(["URL.revokeObjectURL(import.meta.url);", p], { type: "text/javascript;charset=utf-8" });
+function h(e) {
 	let t;
 	try {
-		if (t = a && (self.URL || self.webkitURL).createObjectURL(a), !t) throw "";
+		if (t = m && (self.URL || self.webkitURL).createObjectURL(m), !t) throw "";
 		let n = new Worker(t, {
 			type: "module",
 			name: e?.name
@@ -55,7 +81,7 @@ function o(e) {
 			(self.URL || self.webkitURL).revokeObjectURL(t);
 		}), n;
 	} catch {
-		return new Worker("data:text/javascript;charset=utf-8," + encodeURIComponent(i), {
+		return new Worker("data:text/javascript;charset=utf-8," + encodeURIComponent(p), {
 			type: "module",
 			name: e?.name
 		});
@@ -63,35 +89,35 @@ function o(e) {
 }
 //#endregion
 //#region src/home/shared/diag.ts
-var s = typeof location < "u" && new URLSearchParams(location.search).has("diag"), c = null, l = null, u = [];
-function d() {
-	if (c || !document.body) return c;
-	c = document.createElement("div"), c.setAttribute("aria-hidden", "true"), c.style.cssText = "position:fixed;right:8px;top:8px;z-index:9999;max-width:min(320px,calc(100vw - 16px));max-height:30vh;overflow:hidden;padding:6px 8px;border-radius:6px;background:rgba(29,29,21,.86);color:#f4f1e8;font:10.5px/1.35 ui-monospace,Menlo,monospace;pointer-events:none;white-space:pre-wrap", l = document.createElement("div"), c.append(l), document.body.append(c);
+var g = typeof location < "u" && new URLSearchParams(location.search).has("diag"), _ = null, v = null, y = [];
+function b() {
+	if (_ || !document.body) return _;
+	_ = document.createElement("div"), _.setAttribute("aria-hidden", "true"), _.style.cssText = "position:fixed;right:8px;top:8px;z-index:9999;max-width:min(320px,calc(100vw - 16px));max-height:30vh;overflow:hidden;padding:6px 8px;border-radius:6px;background:rgba(29,29,21,.86);color:#f4f1e8;font:10.5px/1.35 ui-monospace,Menlo,monospace;pointer-events:none;white-space:pre-wrap", v = document.createElement("div"), _.append(v), document.body.append(_);
 	let e = () => {
-		l && (l.textContent = `live WebGL contexts: ${window.__glLive?.() ?? "?"}`), setTimeout(e, 500);
+		v && (v.textContent = `live WebGL contexts: ${window.__glLive?.() ?? "?"}`), setTimeout(e, 500);
 	};
-	return e(), c;
+	return e(), _;
 }
-function f(e, t = !1) {
-	if (!s) return;
+function x(e, t = !1) {
+	if (!g) return;
 	let n = (performance.now() / 1e3).toFixed(1);
-	u.push(`${n}s ${t ? "! " : ""}${e}`);
-	let r = d();
+	y.push(`${n}s ${t ? "! " : ""}${e}`);
+	let r = b();
 	if (!r) return;
 	let i = document.createElement("div");
-	for (i.textContent = u[u.length - 1], t && (i.style.color = "#ff8a7a"), l.after(i); r.childNodes.length > 16;) r.lastChild.remove();
+	for (i.textContent = y[y.length - 1], t && (i.style.color = "#ff8a7a"), v.after(i); r.childNodes.length > 16;) r.lastChild.remove();
 }
-s && (addEventListener("error", (e) => f(`${e.message}${e.filename ? ` (${e.filename.split("/").pop()}:${e.lineno})` : ""}`, !0)), addEventListener("unhandledrejection", (e) => f(`rejection: ${(e.reason && (e.reason.message || e.reason)) ?? "?"}`, !0)), document.readyState === "loading" ? addEventListener("DOMContentLoaded", () => {
-	d(), f("diag on");
-}) : (d(), f("diag on")));
+g && (addEventListener("error", (e) => x(`${e.message}${e.filename ? ` (${e.filename.split("/").pop()}:${e.lineno})` : ""}`, !0)), addEventListener("unhandledrejection", (e) => x(`rejection: ${(e.reason && (e.reason.message || e.reason)) ?? "?"}`, !0)), document.readyState === "loading" ? addEventListener("DOMContentLoaded", () => {
+	b(), x("diag on");
+}) : (b(), x("diag on")));
 //#endregion
 //#region src/home/shared/gl.ts
-var p = /* @__PURE__ */ new WeakMap(), m = /* @__PURE__ */ new WeakMap(), h = (e, t) => e + "\0" + t;
-function g(e, t, n) {
-	let r = h(t, n), i = m.get(e);
-	i || m.set(e, i = /* @__PURE__ */ new Map()), i.set(r, [t, n]);
-	let a = p.get(e)?.get(r);
-	if (a && !e.isContextLost()) return p.get(e).delete(r), a;
+var S = /* @__PURE__ */ new WeakMap(), C = /* @__PURE__ */ new WeakMap(), w = (e, t) => e + "\0" + t;
+function T(e, t, n) {
+	let r = w(t, n), i = C.get(e);
+	i || C.set(e, i = /* @__PURE__ */ new Map()), i.set(r, [t, n]);
+	let a = S.get(e)?.get(r);
+	if (a && !e.isContextLost()) return S.get(e).delete(r), a;
 	let o = (t, n) => {
 		let r = e.createShader(t);
 		return e.shaderSource(r, n), e.compileShader(r), e.getShaderParameter(r, e.COMPILE_STATUS) ? r : null;
@@ -100,27 +126,27 @@ function g(e, t, n) {
 	let l = e.createProgram();
 	return e.attachShader(l, s), e.attachShader(l, c), e.linkProgram(l), e.getProgramParameter(l, e.LINK_STATUS) ? l : null;
 }
-var _ = (e) => {
+var E = (e) => {
 	let t = window.requestIdleCallback;
 	t ? t(e, { timeout: 400 }) : setTimeout(e, 40);
-}, v = [], y = !1, b = (e) => {
-	if (v.push(e), y) return;
-	y = !0;
+}, D = [], O = !1, k = (e) => {
+	if (D.push(e), O) return;
+	O = !0;
 	let t = () => {
-		let e = v.shift();
+		let e = D.shift();
 		if (!e) {
-			y = !1;
+			O = !1;
 			return;
 		}
-		_(() => {
+		E(() => {
 			e(), requestAnimationFrame(t);
 		});
 	};
 	t();
 };
-function x(e, t) {
-	let n = t ?? [...m.get(e)?.values() ?? []], r = p.get(e);
-	r || p.set(e, r = /* @__PURE__ */ new Map());
+function A(e, t) {
+	let n = t ?? [...C.get(e)?.values() ?? []], r = S.get(e);
+	r || S.set(e, r = /* @__PURE__ */ new Map());
 	let i = r, a = e.getExtension("KHR_parallel_shader_compile"), o = ([t, n]) => {
 		let r = e.createProgram(), i = e.createShader(e.VERTEX_SHADER), a = e.createShader(e.FRAGMENT_SHADER);
 		return !r || !i || !a ? null : (e.shaderSource(i, t), e.compileShader(i), e.shaderSource(a, n), e.compileShader(a), e.attachShader(r, i), e.attachShader(r, a), e.linkProgram(r), r);
@@ -128,7 +154,7 @@ function x(e, t) {
 		n && !e.isContextLost() && e.getProgramParameter(n, e.LINK_STATUS) && i.set(t, n);
 	};
 	if (a) {
-		let t = n.map((e) => [h(...e), o(e)]);
+		let t = n.map((e) => [w(...e), o(e)]);
 		return new Promise((n) => {
 			let r = () => {
 				if (e.isContextLost()) {
@@ -140,11 +166,11 @@ function x(e, t) {
 			requestAnimationFrame(r);
 		});
 	}
-	return n.reduce((t, n) => t.then(() => new Promise((t) => _(() => {
-		e.isContextLost() || s(h(...n), o(n)), t();
+	return n.reduce((t, n) => t.then(() => new Promise((t) => E(() => {
+		e.isContextLost() || s(w(...n), o(n)), t();
 	}))), Promise.resolve());
 }
-function S(e, t, n = "p") {
+function j(e, t, n = "p") {
 	let r = e.createBuffer();
 	e.bindBuffer(e.ARRAY_BUFFER, r), e.bufferData(e.ARRAY_BUFFER, new Float32Array([
 		-1,
@@ -159,27 +185,27 @@ function S(e, t, n = "p") {
 	let i = e.getAttribLocation(t, n);
 	e.enableVertexAttribArray(i), e.vertexAttribPointer(i, 2, e.FLOAT, !1, 0, 0);
 }
-var C = 0, w = .3, T = [], E = /* @__PURE__ */ new WeakSet(), D = (e) => !!e && !e.isContextLost() && !E.has(e);
-window.__glLive = () => T.filter((e) => e.canvas.isConnected && !e.gl.isContextLost()).length;
-var O = [], k = 0, A = () => {
-	k = 0;
-	for (let e of O) e();
-}, j = () => {
-	k || (k = requestAnimationFrame(A));
+var M = 0, N = .3, P = [], F = /* @__PURE__ */ new WeakSet(), I = (e) => !!e && !e.isContextLost() && !F.has(e);
+window.__glLive = () => P.filter((e) => e.canvas.isConnected && !e.gl.isContextLost()).length;
+var L = [], R = 0, z = () => {
+	R = 0;
+	for (let e of L) e();
+}, B = () => {
+	R || (R = requestAnimationFrame(z));
 };
-addEventListener("scroll", j, { passive: !0 }), addEventListener("resize", j);
-function M(e, t, n, r, i) {
+addEventListener("scroll", B, { passive: !0 }), addEventListener("resize", B);
+function V(e, t, n, r, i) {
 	let a = t.getExtension("WEBGL_lose_context");
-	T.push({
+	P.push({
 		name: n.name,
 		gl: t,
 		canvas: e
 	});
 	let o = !1, s = !1, c = !0, l = !1, u = 0;
 	e.addEventListener("webglcontextlost", (e) => {
-		e.preventDefault(), o = !0, E.add(t), s && c && setTimeout(() => {
+		e.preventDefault(), o = !0, F.add(t), s && c && setTimeout(() => {
 			c && t.isContextLost() && a?.restoreContext();
-		}), u++, p.delete(t), s || (l = !0, f(`${n.name}: context lost`, !0));
+		}), u++, S.delete(t), s || (l = !0, x(`${n.name}: context lost`, !0));
 	});
 	let d = () => {
 		let e = n.near;
@@ -190,37 +216,37 @@ function M(e, t, n, r, i) {
 	};
 	if (e.addEventListener("webglcontextrestored", () => {
 		if (!c) {
-			s = !0, o = !1, E.add(t), a?.loseContext();
+			s = !0, o = !1, F.add(t), a?.loseContext();
 			return;
 		}
 		s = !1;
-		let e = ++u, p = () => {
+		let e = ++u, f = () => {
 			var a;
 			if (e !== u || t.isContextLost()) return;
-			E.delete(t);
+			F.delete(t);
 			let o = performance.now();
 			try {
 				r(), i();
 			} catch (e) {
-				f(`${n.name}: restore failed: ${e.message}`, !0);
+				x(`${n.name}: restore failed: ${e.message}`, !0);
 			}
 			let s = performance.now() - o;
-			((a = window).__glRestore ?? (a.__glRestore = [])).push([n.name, Math.round(s)]), s > 16 && f(`${n.name}: rebuild took ${Math.round(s)} ms`, !0), l && (l = !1, f(`${n.name}: restored`));
+			((a = window).__glRestore ?? (a.__glRestore = [])).push([n.name, Math.round(s)]), s > 16 && x(`${n.name}: rebuild took ${Math.round(s)} ms`, !0), l && (l = !1, x(`${n.name}: restored`));
 		};
-		d() ? p() : x(t).then(() => b(p));
+		d() ? f() : A(t).then(() => k(f));
 	}), !n.near || !a) return;
-	let m = n.near, h = n.margin ?? 1, g = (e) => {
-		if (typeof m == "function") return m(h + e);
-		let t = m.getBoundingClientRect(), n = innerHeight;
-		return t.bottom > -n * (h + e) && t.top < n * (1 + h + e);
+	let f = n.near, p = n.margin ?? 1, m = (e) => {
+		if (typeof f == "function") return f(p + e);
+		let t = f.getBoundingClientRect(), n = innerHeight;
+		return t.bottom > -n * (p + e) && t.top < n * (1 + p + e);
 	};
-	O.push(() => {
-		(c ? !g(w) : g(C)) && (c = !c, !c && !t.isContextLost() ? (s = !0, o = !1, E.add(t), a.loseContext()) : c && s && t.isContextLost() && o && a.restoreContext());
-	}), requestAnimationFrame(j);
+	L.push(() => {
+		(c ? !m(N) : m(M)) && (c = !c, !c && !t.isContextLost() ? (s = !0, o = !1, F.add(t), a.loseContext()) : c && s && t.isContextLost() && o && a.restoreContext());
+	}), requestAnimationFrame(B);
 }
 //#endregion
 //#region src/home/hero/strokes.ts
-function N(e) {
+function H(e) {
 	let t = new Int32Array(e, 0, 3), n = t[0], r = t[2], i = new Int32Array(e, 12, n * 2), a = new Int16Array(e, 12 + n * 8), o = a.length / 2, s = {
 		n,
 		level: new Int32Array(n),
@@ -250,7 +276,7 @@ function N(e) {
 	}
 	return s;
 }
-function P(e, t, n, r) {
+function U(e, t, n, r) {
 	let i = 0xde0b6b3a7640000, a = n, o = r;
 	for (let s = 0; s < e.count[t]; s++) {
 		let c = e.start[t] + s, l = (e.x[c] - n) ** 2 + (e.y[c] - r) ** 2;
@@ -258,7 +284,7 @@ function P(e, t, n, r) {
 	}
 	return [a, o];
 }
-function F(e, t, n) {
+function ee(e, t, n) {
 	for (let r = 0; r < e.n; r++) {
 		let i = 0xde0b6b3a7640000, a = 0;
 		for (let o = 0; o < e.count[r]; o++) {
@@ -268,7 +294,7 @@ function F(e, t, n) {
 		e.d[r] = Math.sqrt(i), e.c0[r] = a;
 	}
 }
-function I(e, t) {
+function W(e, t) {
 	let n = 0, r = 0;
 	for (let t = 0; t < e.n; t++) n += e.count[t], r += Math.max(0, e.count[t] - 1);
 	let i = new Float32Array(n * 2 * 10), a = new Uint32Array(r * 6), o = 0, s = 0;
@@ -293,13 +319,13 @@ function I(e, t) {
 		I: a
 	};
 }
-function L(e, t, n) {
-	let r = N(e), [i, a] = P(r, t.stroke, t.x, t.y);
-	return F(r, i, a), n ? {
+function G(e, t, n) {
+	let r = H(e), [i, a] = U(r, t.stroke, t.x, t.y);
+	return ee(r, i, a), n ? {
 		s: r,
 		hx: i,
 		hy: a,
-		...I(r, t.stroke)
+		...W(r, t.stroke)
 	} : {
 		s: r,
 		hx: i,
@@ -308,16 +334,16 @@ function L(e, t, n) {
 }
 //#endregion
 //#region src/home/hero/lines-gl.ts
-var R = "#version 300 es\nin vec2 p; in vec2 nrm; in float cum; in vec4 st; in float side;\nuniform vec2 cc, oo, view; uniform float z, R, finish, halfView, intro, grow, heroBoost;\nuniform vec3 simple; // ?mline=simple: width multiplier, minimum width (device px), how much of the minor levels shows\nout float vSide; out float vS; out float vW; out float vA;\nvoid main() {\n  float kind = st.w;\n  float a = max(0., R - st.y) * 1.5;\n  if (kind > 1.5) a = max(a, halfView * 1.4) * (0.02 + 0.98 * intro);\n  a = max(a, st.z * finish);\n  vS = abs(cum - st.x) - a;\n  float base = kind < 0.5 ? 0.62 : (kind < 1.5 ? 1.0 : 1.2 * heroBoost);\n  float w = max(base * grow * simple.x, simple.y);     // the line's width in device px\n  float hw = 0.5 * w + 1.0;             // half width plus a pixel for antialiasing\n  vec2 s = oo + (p - cc) * z + nrm * side * hw;\n  vSide = side * hw; vW = w; vA = kind < 0.5 ? 0.8 * simple.z : 0.93;\n  if (kind < 0.5 && simple.z <= 0.) { gl_Position = vec4(2., 2., 2., 1.); return; } // minor levels left out\n  gl_Position = vec4(s.x / view.x * 2. - 1., 1. - s.y / view.y * 2., 0., 1.);\n}", z = "#version 300 es\nprecision highp float;\nin float vSide; in float vS; in float vW; in float vA;\nuniform float grain;\nout vec4 o;\nfloat hash(vec2 q) { return fract(sin(dot(q, vec2(12.9898, 78.233))) * 43758.5453); }\nvoid main() {\n  if (vS > 0.) discard;\n  float cov = clamp(0.5 * vW + 0.5 - abs(vSide), 0., 1.);\n  cov *= min(vW, 1.);                   // hairlines thinner than a pixel get lighter, not jagged\n  // a dry pen: in patches, a few pixels inside a wide line catch less ink\n  vec2 q = gl_FragCoord.xy / 9.; vec2 f = fract(q); f = f * f * (3. - 2. * f); vec2 c = floor(q);\n  float pt = mix(mix(hash(c), hash(c + vec2(1., 0.)), f.x), mix(hash(c + vec2(0., 1.)), hash(c + vec2(1., 1.)), f.x), f.y);\n  float h = hash(floor(gl_FragCoord.xy));\n  cov *= 1. - grain * smoothstep(.55, .9, pt) * step(.6, h);\n  float al = cov * vA;\n  o = vec4(vec3(29., 29., 21.) / 255. * al, al);\n}";
-function ee(e, t, n, r, i) {
+var K = "#version 300 es\nin vec2 p; in vec2 nrm; in float cum; in vec4 st; in float side;\nuniform vec2 cc, oo, view; uniform float z, R, finish, halfView, intro, grow, heroBoost;\nuniform vec3 simple; // ?mline=simple: width multiplier, minimum width (device px), how much of the minor levels shows\nout float vSide; out float vS; out float vW; out float vA;\nvoid main() {\n  float kind = st.w;\n  float a = max(0., R - st.y) * 1.5;\n  if (kind > 1.5) a = max(a, halfView * 1.4) * (0.02 + 0.98 * intro);\n  a = max(a, st.z * finish);\n  vS = abs(cum - st.x) - a;\n  float base = kind < 0.5 ? 0.62 : (kind < 1.5 ? 1.0 : 1.2 * heroBoost);\n  float w = max(base * grow * simple.x, simple.y);     // the line's width in device px\n  float hw = 0.5 * w + 1.0;             // half width plus a pixel for antialiasing\n  vec2 s = oo + (p - cc) * z + nrm * side * hw;\n  vSide = side * hw; vW = w; vA = kind < 0.5 ? 0.8 * simple.z : 0.93;\n  if (kind < 0.5 && simple.z <= 0.) { gl_Position = vec4(2., 2., 2., 1.); return; } // minor levels left out\n  gl_Position = vec4(s.x / view.x * 2. - 1., 1. - s.y / view.y * 2., 0., 1.);\n}", q = "#version 300 es\nprecision highp float;\nin float vSide; in float vS; in float vW; in float vA;\nuniform float grain;\nout vec4 o;\nfloat hash(vec2 q) { return fract(sin(dot(q, vec2(12.9898, 78.233))) * 43758.5453); }\nvoid main() {\n  if (vS > 0.) discard;\n  float cov = clamp(0.5 * vW + 0.5 - abs(vSide), 0., 1.);\n  cov *= min(vW, 1.);                   // hairlines thinner than a pixel get lighter, not jagged\n  // a dry pen: in patches, a few pixels inside a wide line catch less ink\n  vec2 q = gl_FragCoord.xy / 9.; vec2 f = fract(q); f = f * f * (3. - 2. * f); vec2 c = floor(q);\n  float pt = mix(mix(hash(c), hash(c + vec2(1., 0.)), f.x), mix(hash(c + vec2(0., 1.)), hash(c + vec2(1., 1.)), f.x), f.y);\n  float h = hash(floor(gl_FragCoord.xy));\n  cov *= 1. - grain * smoothstep(.55, .9, pt) * step(.6, h);\n  float al = cov * vA;\n  o = vec4(vec3(29., 29., 21.) / 255. * al, al);\n}";
+function te(e, t, n, r, i) {
 	let a = e.getContext("webgl2", {
 		premultipliedAlpha: !0,
 		alpha: !0,
 		antialias: !1
 	});
 	if (!a) return null;
-	let { V: o, I: s } = i ?? I(t, n), c = s.length, l = null, u = {}, d = () => {
-		let e = g(a, R, z);
+	let { V: o, I: s } = i ?? W(t, n), c = s.length, l = null, u = {}, d = () => {
+		let e = T(a, K, q);
 		if (!e) return !1;
 		a.useProgram(e), l = a.createVertexArray(), a.bindVertexArray(l);
 		let t = a.createBuffer();
@@ -347,7 +373,7 @@ function ee(e, t, n, r, i) {
 	let f = {
 		onRestore: () => {},
 		draw(t) {
-			if (!D(a)) return;
+			if (!I(a)) return;
 			let n = e.width, r = e.height;
 			a.viewport(0, 0, n, r), a.disable(a.SCISSOR_TEST), a.clearColor(0, 0, 0, 0), a.clear(a.COLOR_BUFFER_BIT);
 			let [i, o, s, d] = t.clip;
@@ -358,19 +384,19 @@ function ee(e, t, n, r, i) {
 			]), a.uniform1f(u.intro, t.intro), a.uniform1f(u.grow, t.grow), a.uniform1f(u.heroBoost, t.heroBoost), a.uniform1f(u.grain, Math.min(.45, .1 * t.grow)), a.bindVertexArray(l), a.drawElements(a.TRIANGLES, c, a.UNSIGNED_INT, 0);
 		}
 	};
-	return M(e, a, r, d, () => f.onRestore()), f;
+	return V(e, a, r, d, () => f.onRestore()), f;
 }
 //#endregion
 //#region src/home/shared/dom.ts
-var B = /* @__PURE__ */ new WeakMap();
-function V(e, t, n) {
-	let r = B.get(e);
-	r || B.set(e, r = /* @__PURE__ */ new Map()), r.get(t) !== n && (r.set(t, n), t.startsWith("--") ? e.style.setProperty(t, n) : e.style[t] = n);
+var ne = /* @__PURE__ */ new WeakMap();
+function J(e, t, n) {
+	let r = ne.get(e);
+	r || ne.set(e, r = /* @__PURE__ */ new Map()), r.get(t) !== n && (r.set(t, n), t.startsWith("--") ? e.style.setProperty(t, n) : e.style[t] = n);
 }
-function H(e, t) {
-	V(e, "display", t ? "" : "none");
+function re(e, t) {
+	J(e, "display", t ? "" : "none");
 }
-function U(e, t, n = "150%") {
+function ie(e, t, n = "150%") {
 	if (!("IntersectionObserver" in window)) {
 		t();
 		return;
@@ -380,7 +406,7 @@ function U(e, t, n = "150%") {
 	}, { rootMargin: `${n} 0px ${n} 0px` });
 	r.observe(e);
 }
-async function W(e) {
+async function ae(e) {
 	if ("createImageBitmap" in window) try {
 		let t = await (await fetch(e)).blob();
 		return await createImageBitmap(t, {
@@ -391,63 +417,40 @@ async function W(e) {
 	let t = new Image();
 	return t.src = e, await t.decode(), t;
 }
-var G = 0;
+var oe = 0;
 addEventListener("scroll", () => {
-	G = performance.now();
+	oe = performance.now();
 }, { passive: !0 });
-function te(e) {
+function Y(e) {
 	return new Promise((t) => {
 		let n = () => {
-			performance.now() - G > 120 || e.getBoundingClientRect().top < innerHeight * 1.2 ? t() : requestAnimationFrame(n);
+			performance.now() - oe > 120 || e.getBoundingClientRect().top < innerHeight * 1.2 ? t() : requestAnimationFrame(n);
 		};
 		requestAnimationFrame(n);
 	});
 }
 //#endregion
-//#region src/home/shared/viewport.ts
-var K = matchMedia("(hover: none) and (pointer: coarse)").matches, q = null;
-function ne() {
-	return K ? (q || (q = document.createElement("div"), q.style.cssText = "position:fixed;left:0;top:0;width:0;height:100lvh;visibility:hidden;pointer-events:none", document.documentElement.append(q)), Math.max(innerHeight, q.offsetHeight || 0)) : innerHeight;
-}
-function re(e) {
-	let t = innerWidth, n = ne();
-	addEventListener("resize", () => {
-		let r = innerWidth, i = ne();
-		K && r === t && i === n || (t = r, n = i, e());
-	});
-}
-function ie(e = ne()) {
-	return K ? Math.round(e * .3) : 120;
-}
-function ae(e, t = 0) {
-	let n = Math.round(scrollY) - e;
-	return t ? Math.min(n, Math.floor(document.body.offsetHeight - t)) : n;
-}
-function oe(e, t) {
-	return e <= 760 && !(e > t && t <= 500) || e > 760 && e <= 1100 && t >= e * 1.2;
-}
-//#endregion
 //#region src/home/shared/math.ts
-var J = (e, t = 0, n = 1) => Math.min(n, Math.max(t, e)), Y = (e) => (e = J(e), e * e * (3 - 2 * e)), X = (e, t, n) => Y((n - e) / (t - e)), Z = (e, t, n) => e + (t - e) * n, Q = matchMedia("(prefers-reduced-motion: reduce)").matches, se = new URLSearchParams(location.search).get("mline") === "simple", ce = 2e3, $ = "29, 29, 21", le = {
+var X = (e, t = 0, n = 1) => Math.min(n, Math.max(t, e)), Z = (e) => (e = X(e), e * e * (3 - 2 * e)), Q = (e, t, n) => Z((n - e) / (t - e)), $ = (e, t, n) => e + (t - e) * n, se = matchMedia("(prefers-reduced-motion: reduce)").matches, ce = new URLSearchParams(location.search).get("mline") === "simple", le = 2e3, ue = "29, 29, 21", de = {
 	stroke: 0,
 	x: 0,
 	y: 0
-}, ue = {
+}, fe = {
 	id: "sandur",
 	name: "Sandur",
 	alt: "A glacial outwash plain in southern Iceland, first as a drawing, then as a satellite image in black and white, true color and false color."
-}, de = 2, fe = [
-	de,
+}, pe = 2, me = [
+	pe,
 	3,
 	4,
 	5
 ];
-function pe(e, t, n) {
-	let r = async () => L(await (await fetch(e)).arrayBuffer(), t, n);
+function he(e, t, n) {
+	let r = async () => G(await (await fetch(e)).arrayBuffer(), t, n);
 	return typeof Worker > "u" ? r() : new Promise((i) => {
 		let a;
 		try {
-			a = new o();
+			a = new h();
 		} catch {
 			r().then(i);
 			return;
@@ -463,7 +466,7 @@ function pe(e, t, n) {
 		});
 	});
 }
-function me() {
+function ge() {
 	let e = document.createElement("canvas");
 	e.width = e.height = 192;
 	let t = e.getContext("2d"), n = t.createImageData(192, 192);
@@ -473,11 +476,11 @@ function me() {
 	}
 	return t.putImageData(n, 0, 0), t.createPattern(e, "repeat");
 }
-function he(e, t, n, r, i) {
+function _e(e, t, n, r, i) {
 	let a = e.getContext("webgl", {
 		premultipliedAlpha: !0,
 		alpha: !0
-	}), o = [], s = Promise.all([t, n].map((e, t) => W(e).then((e) => {
+	}), o = [], s = Promise.all([t, n].map((e, t) => ae(e).then((e) => {
 		o[t] = e;
 	}).catch(() => {}))), c = 0, l = -1, u = !1;
 	if (!a) {
@@ -500,15 +503,15 @@ function he(e, t, n, r, i) {
 		let i = a.createTexture();
 		a.activeTexture(a.TEXTURE0 + t), a.bindTexture(a.TEXTURE_2D, i), a.texImage2D(a.TEXTURE_2D, 0, a.LUMINANCE, a.LUMINANCE, a.UNSIGNED_BYTE, n), a.texParameteri(a.TEXTURE_2D, a.TEXTURE_MIN_FILTER, a.LINEAR), a.texParameteri(a.TEXTURE_2D, a.TEXTURE_MAG_FILTER, a.LINEAR), a.texParameteri(a.TEXTURE_2D, a.TEXTURE_WRAP_S, a.CLAMP_TO_EDGE), a.texParameteri(a.TEXTURE_2D, a.TEXTURE_WRAP_T, a.CLAMP_TO_EDGE), a.uniform1i(a.getUniformLocation(e, r), t);
 	}, p = null, m = () => {
-		p = g(a, "attribute vec2 p; varying vec2 uv; void main(){ uv = vec2(p.x * .5 + .5, .5 - p.y * .5); gl_Position = vec4(p, 0., 1.); }", "precision mediump float; varying vec2 uv; uniform sampler2D bw, dist; uniform float fill, r0;\n    float hash(vec2 q) { return fract(sin(dot(q, vec2(12.9898, 78.233))) * 43758.5453); }\n    void main(){\n      float lum = texture2D(bw, uv).r;\n      float v = texture2D(dist, uv).r; float d = v * v;            // distance from the drawing, 0..1 of its range\n      // an uneven wash: the halo's reach varies along the line, so its edge is ragged like ink on damp paper\n      vec2 g = uv * 34.; vec2 f = fract(g); f = f * f * (3. - 2. * f); vec2 c = floor(g);\n      float vn = mix(mix(hash(c), hash(c + vec2(1., 0.)), f.x), mix(hash(c + vec2(0., 1.)), hash(c + vec2(1., 1.)), f.x), f.y);\n      vec2 g2 = uv * 97.; vec2 f2 = fract(g2); f2 = f2 * f2 * (3. - 2. * f2); vec2 c2 = floor(g2);\n      float vn2 = mix(mix(hash(c2), hash(c2 + vec2(1., 0.)), f2.x), mix(hash(c2 + vec2(0., 1.)), hash(c2 + vec2(1., 1.)), f2.x), f2.y);\n      d *= 1. + .55 * (vn - .5) + .25 * (vn2 - .5);\n      float r = r0 + 0.4 * fill * fill;\n      float a = exp(-pow(d / r, 0.9));                             // tone bleeds out of the lines and widens\n      a = 1. - (1. - a) * (1. - smoothstep(.55, 1., fill));         // the last of it settles evenly\n      a *= smoothstep(0., .06, fill);                              // nothing at all before the fill begins\n      a *= 1. - .07 * hash(floor(gl_FragCoord.xy)) * (1. - a);      // a little paper tooth in the thin wash\n      gl_FragColor = vec4(vec3(lum) * a, a);\n    }"), p && (a.useProgram(p), S(a, p), d = a.getUniformLocation(p, "fill"), a.uniform1f(a.getUniformLocation(p, "r0"), .5 / r), u && (f(p, 0, o[0], "bw"), f(p, 1, o[1], "dist")));
+		p = T(a, "attribute vec2 p; varying vec2 uv; void main(){ uv = vec2(p.x * .5 + .5, .5 - p.y * .5); gl_Position = vec4(p, 0., 1.); }", "precision mediump float; varying vec2 uv; uniform sampler2D bw, dist; uniform float fill, r0;\n    float hash(vec2 q) { return fract(sin(dot(q, vec2(12.9898, 78.233))) * 43758.5453); }\n    void main(){\n      float lum = texture2D(bw, uv).r;\n      float v = texture2D(dist, uv).r; float d = v * v;            // distance from the drawing, 0..1 of its range\n      // an uneven wash: the halo's reach varies along the line, so its edge is ragged like ink on damp paper\n      vec2 g = uv * 34.; vec2 f = fract(g); f = f * f * (3. - 2. * f); vec2 c = floor(g);\n      float vn = mix(mix(hash(c), hash(c + vec2(1., 0.)), f.x), mix(hash(c + vec2(0., 1.)), hash(c + vec2(1., 1.)), f.x), f.y);\n      vec2 g2 = uv * 97.; vec2 f2 = fract(g2); f2 = f2 * f2 * (3. - 2. * f2); vec2 c2 = floor(g2);\n      float vn2 = mix(mix(hash(c2), hash(c2 + vec2(1., 0.)), f2.x), mix(hash(c2 + vec2(0., 1.)), hash(c2 + vec2(1., 1.)), f2.x), f2.y);\n      d *= 1. + .55 * (vn - .5) + .25 * (vn2 - .5);\n      float r = r0 + 0.4 * fill * fill;\n      float a = exp(-pow(d / r, 0.9));                             // tone bleeds out of the lines and widens\n      a = 1. - (1. - a) * (1. - smoothstep(.55, 1., fill));         // the last of it settles evenly\n      a *= smoothstep(0., .06, fill);                              // nothing at all before the fill begins\n      a *= 1. - .07 * hash(floor(gl_FragCoord.xy)) * (1. - a);      // a little paper tooth in the thin wash\n      gl_FragColor = vec4(vec3(lum) * a, a);\n    }"), p && (a.useProgram(p), j(a, p), d = a.getUniformLocation(p, "fill"), a.uniform1f(a.getUniformLocation(p, "r0"), .5 / r), u && (f(p, 0, o[0], "bw"), f(p, 1, o[1], "dist")));
 	};
 	m();
 	let h = () => {
-		u && c !== l && D(a) && (l = c, a.viewport(0, 0, e.width, e.height), a.clearColor(0, 0, 0, 0), a.clear(a.COLOR_BUFFER_BIT), !(c <= 0) && (a.uniform1f(d, c), a.drawArrays(a.TRIANGLE_STRIP, 0, 4)));
+		u && c !== l && I(a) && (l = c, a.viewport(0, 0, e.width, e.height), a.clearColor(0, 0, 0, 0), a.clear(a.COLOR_BUFFER_BIT), !(c <= 0) && (a.uniform1f(d, c), a.drawArrays(a.TRIANGLE_STRIP, 0, 4)));
 	};
 	return s.then(() => {
-		o[0] && o[1] && (u = !0, p && D(a) && (f(p, 0, o[0], "bw"), f(p, 1, o[1], "dist")), l = -1, h());
-	}), M(e, a, i, m, () => {
+		o[0] && o[1] && (u = !0, p && I(a) && (f(p, 0, o[0], "bw"), f(p, 1, o[1], "dist")), l = -1, h());
+	}), V(e, a, i, m, () => {
 		l = -1, h();
 	}), {
 		ready: s,
@@ -520,25 +523,25 @@ function he(e, t, n, r, i) {
 		}
 	};
 }
-function ge() {
+function ve() {
 	let e = document.querySelector("[data-line]");
 	if (!e) return;
-	let t = e.querySelector(".ln-stick"), n = e.querySelector(".ln-lines"), r = e.querySelector(".ln-frame"), i = e.querySelector(".ln-photo"), a = null, o = e.querySelector(".ln-hero"), s = e.querySelector(".ln-hd"), c = e.querySelector(".ln-text"), l = [...e.querySelectorAll(".ln-stage")], u = [...e.querySelectorAll(".ln-steps span")], d = me(), f = null, p = null, m = null, h = 0, g = 0, _ = 1, v = !1, y = 0, b = 0, x = 0, S = 1, C = 1, w = 0, T = 0, E = 0, D = 0, O = +!!Q, k = null, A = () => {
-		if (h = t.clientWidth, g = t.clientHeight, _ = Math.min(devicePixelRatio || 1, 2), v = oe(h, g), v) {
-			let e = h > 760;
-			b = e ? 72 : 56;
-			let t = c.offsetHeight, n = e ? h - 96 : h;
-			y = Math.round(Math.max(n * .62, Math.min(n, g - b - (e ? 28 : 22) - t - (e ? 28 : 18)))), x = Math.round((h - y) / 2);
-		} else y = Math.min(g, Math.round(h * .625)), b = Math.round((g - y) / 2), x = 0;
-		C = y / ce, S = h / (v ? 58 : 95), w = h * (v ? .5 : .56), T = g * (v ? .34 : .37), E = x + y / 2, D = b + y / 2, n.width = Math.round(h * _), n.height = Math.round(g * _), Object.assign(r.style, {
-			top: `${b}px`,
-			left: `${x}px`,
-			width: `${y}px`,
-			height: `${y}px`
-		}), i.width = i.height = Math.round(y * Math.min(_, 1.5)), e.style.setProperty("--side", `${y}px`), e.style.setProperty("--ftop", `${b}px`), k = null, a?.size(), I = !0;
-	}, j = (e) => {
-		let t = S * (C / S) ** +e, n = J((1 / t - 1 / S) / (1 / C - 1 / S)), r = Z(w, E, n), i = Z(T, D, n), a = Z(le.x, ce / 2, n), o = Z(le.y, ce / 2, n), s = 1 - Y((e - .72) / .26), c = (e, t, n) => t <= n ? J(e, t, n) : (t + n) / 2;
-		return a = Z(a, c(a, r / t, ce - (h - r) / t), s), o = Z(o, c(o, i / t, ce - (g - i) / t), s), a = Math.max(a, (r - x * n) / t), {
+	let t = e.querySelector(".ln-stick"), n = e.querySelector(".ln-lines"), r = e.querySelector(".ln-frame"), i = e.querySelector(".ln-photo"), a = null, o = e.querySelector(".ln-hero"), s = e.querySelector(".ln-hd"), c = e.querySelector(".ln-text"), u = [...e.querySelectorAll(".ln-stage")], d = [...e.querySelectorAll(".ln-steps span")], f = ge(), p = null, m = null, h = null, g = 0, _ = 0, v = 1, y = !1, b = 0, x = 0, S = 0, C = 1, w = 1, T = 0, E = 0, D = 0, O = 0, k = +!!se, A = null, j = () => {
+		if (g = t.clientWidth, _ = t.clientHeight, v = Math.min(devicePixelRatio || 1, 2), y = l(g, _), y) {
+			let e = g > 760;
+			x = e ? 72 : 56;
+			let t = c.offsetHeight, n = e ? g - 96 : g;
+			b = Math.round(Math.max(n * .62, Math.min(n, _ - x - (e ? 28 : 22) - t - (e ? 28 : 18)))), S = Math.round((g - b) / 2);
+		} else b = Math.min(_, Math.round(g * .625)), x = Math.round((_ - b) / 2), S = 0;
+		w = b / le, C = g / (y ? 58 : 95), T = g * (y ? .5 : .56), E = _ * (y ? .34 : .37), D = S + b / 2, O = x + b / 2, n.width = Math.round(g * v), n.height = Math.round(_ * v), Object.assign(r.style, {
+			top: `${x}px`,
+			left: `${S}px`,
+			width: `${b}px`,
+			height: `${b}px`
+		}), i.width = i.height = Math.round(b * Math.min(v, 1.5)), e.style.setProperty("--side", `${b}px`), e.style.setProperty("--ftop", `${x}px`), A = null, a?.size(), L = !0;
+	}, M = (e) => {
+		let t = C * (w / C) ** +e, n = X((1 / t - 1 / C) / (1 / w - 1 / C)), r = $(T, D, n), i = $(E, O, n), a = $(de.x, le / 2, n), o = $(de.y, le / 2, n), s = 1 - Z((e - .72) / .26), c = (e, t, n) => t <= n ? X(e, t, n) : (t + n) / 2;
+		return a = $(a, c(a, r / t, le - (g - r) / t), s), o = $(o, c(o, i / t, le - (_ - i) / t), s), a = Math.max(a, (r - S * n) / t), {
 			z: t,
 			w: n,
 			ox: r,
@@ -546,126 +549,126 @@ function ge() {
 			cx: a,
 			cy: o
 		};
-	}, M = (e) => {
-		let t = j(e), r = t.z * _, i = n.width, a = n.height, o = Y((e - .7) / .25), s = Z(0, x * _, o), c = Z(i, (x + y) * _, o), l = Z(0, b * _, o), u = Z(a, (b + y) * _, o), d = Math.max(i, a) / r * .75;
+	}, N = (e) => {
+		let t = M(e), r = t.z * v, i = n.width, a = n.height, o = Z((e - .7) / .25), s = $(0, S * v, o), c = $(i, (S + b) * v, o), l = $(0, x * v, o), u = $(a, (x + b) * v, o), d = Math.max(i, a) / r * .75;
 		return {
 			z: r,
-			ox: t.ox * _,
-			oy: t.oy * _,
+			ox: t.ox * v,
+			oy: t.oy * v,
 			cx: t.cx,
 			cy: t.cy,
-			R: d * 1.05 * Y(e / .16),
-			finish: Y((e - .78) / .2),
+			R: d * 1.05 * Z(e / .16),
+			finish: Z((e - .78) / .2),
 			halfView: d,
-			intro: O,
-			grow: (t.z / C) ** .6 * _,
-			heroBoost: Z(1.35, 1, t.w),
+			intro: k,
+			grow: (t.z / w) ** .6 * v,
+			heroBoost: $(1.35, 1, t.w),
 			clip: [
 				s,
 				l,
 				c - s,
 				u - l
 			],
-			simple: v && se ? [
+			simple: y && ce ? [
 				1.45,
 				1.1,
 				0
 			] : void 0
 		};
-	}, N = (e, t, n, r, i) => {
-		let a = f, o = j(e), s = o.z * i, c = o.ox * i, l = o.oy * i, u = Y((e - .7) / .25), p = Z(0, x * i, u), m = Z(n, (x + y) * i, u), h = Z(0, b * i, u), g = Z(r, (b + y) * i, u);
-		t.save(), t.beginPath(), t.rect(p, h, m - p, g - h), t.clip();
-		let _ = Math.max(n, r) / s * .75, v = _ * 1.05 * Y(e / .16), S = Y((e - .78) / .2), w = (o.z / C) ** .6, T = 1.4 * i;
+	}, P = (e, t, n, r, i) => {
+		let a = p, o = M(e), s = o.z * i, c = o.ox * i, l = o.oy * i, u = Z((e - .7) / .25), d = $(0, S * i, u), m = $(n, (S + b) * i, u), h = $(0, x * i, u), g = $(r, (x + b) * i, u);
+		t.save(), t.beginPath(), t.rect(d, h, m - d, g - h), t.clip();
+		let _ = Math.max(n, r) / s * .75, v = _ * 1.05 * Z(e / .16), y = Z((e - .78) / .2), C = (o.z / w) ** .6, T = 1.4 * i;
 		t.lineCap = t.lineJoin = "round";
 		for (let e = 0; e < 3; e++) {
 			t.beginPath();
 			for (let n = 0; n < a.n; n++) {
-				let r = n === le.stroke;
+				let r = n === de.stroke;
 				if (e === 2 ? !r : r || e === 1 != (a.level[n] === 2)) continue;
 				let i = Math.max(0, v - a.d[n]) * 1.5;
-				if (r && (i = Math.max(i, _ * 1.4) * (.02 + .98 * O)), i = Math.max(i, a.len[n] * S), i <= 0) continue;
-				let u = n * 4, d = c + (a.box[u] - o.cx) * s, f = l + (a.box[u + 1] - o.cy) * s, p = c + (a.box[u + 2] - o.cx) * s, y = l + (a.box[u + 3] - o.cy) * s;
-				if (p < 0 || y < h || d > m || f > g) continue;
-				let b = a.c0[n] - i, x = a.c0[n] + i, C = a.start[n], w = C + a.count[n], E = !1, D = -1e9, k = -1e9;
+				if (r && (i = Math.max(i, _ * 1.4) * (.02 + .98 * k)), i = Math.max(i, a.len[n] * y), i <= 0) continue;
+				let u = n * 4, d = c + (a.box[u] - o.cx) * s, f = l + (a.box[u + 1] - o.cy) * s, p = c + (a.box[u + 2] - o.cx) * s, b = l + (a.box[u + 3] - o.cy) * s;
+				if (p < 0 || b < h || d > m || f > g) continue;
+				let x = a.c0[n] - i, S = a.c0[n] + i, C = a.start[n], w = C + a.count[n], E = !1, D = -1e9, O = -1e9;
 				for (let e = C; e < w; e++) {
 					let n = a.cum[e];
-					if (n < b) continue;
-					if (n > x) break;
+					if (n < x) continue;
+					if (n > S) break;
 					let r = c + (a.x[e] - o.cx) * s, i = l + (a.y[e] - o.cy) * s;
-					if (!(E && Math.abs(r - D) + Math.abs(i - k) < T && e < w - 1)) {
+					if (!(E && Math.abs(r - D) + Math.abs(i - O) < T && e < w - 1)) {
 						if (r < -60 || i < h - 60 || r > m + 60 || i > g + 60) {
-							E && t.lineTo(r, i), E = !1, D = r, k = i;
+							E && t.lineTo(r, i), E = !1, D = r, O = i;
 							continue;
 						}
-						E || (t.moveTo(D > -1e8 && n > b ? D : r, D > -1e8 && n > b ? k : i), E = !0), t.lineTo(r, i), D = r, k = i;
+						E || (t.moveTo(D > -1e8 && n > x ? D : r, D > -1e8 && n > x ? O : i), E = !0), t.lineTo(r, i), D = r, O = i;
 					}
 				}
 			}
-			t.lineWidth = (e === 0 ? .62 : e === 1 ? 1 : 1.2) * w * i * (e === 2 ? Z(1.35, 1, o.w) : 1), t.strokeStyle = `rgba(${$}, ${e === 0 ? .82 : .92})`, t.stroke();
+			t.lineWidth = (e === 0 ? .62 : e === 1 ? 1 : 1.2) * C * i * (e === 2 ? $(1.35, 1, o.w) : 1), t.strokeStyle = `rgba(${ue}, ${e === 0 ? .82 : .92})`, t.stroke();
 		}
-		d && (t.globalCompositeOperation = "destination-out", t.globalAlpha = .16 * J(w / 4), t.fillStyle = d, t.fillRect(0, 0, n, r), t.globalAlpha = 1, t.globalCompositeOperation = "source-over"), t.restore();
-	}, P = -1, F = -1, I = !0, L = (e) => {
-		if (f && (I || e !== P || O !== F)) {
-			if (P = e, F = O, I = !1, p) {
-				p.draw(M(e));
+		f && (t.globalCompositeOperation = "destination-out", t.globalAlpha = .16 * X(C / 4), t.fillStyle = f, t.fillRect(0, 0, n, r), t.globalAlpha = 1, t.globalCompositeOperation = "source-over"), t.restore();
+	}, F = -1, I = -1, L = !0, R = (e) => {
+		if (p && (L || e !== F || k !== I)) {
+			if (F = e, I = k, L = !1, m) {
+				m.draw(N(e));
 				return;
 			}
-			m && (m.setTransform(1, 0, 0, 1, 0, 0), m.clearRect(0, 0, n.width, n.height), e >= 1 && O >= 1 ? (k || (k = document.createElement("canvas"), k.width = n.width, k.height = n.height, N(1, k.getContext("2d"), n.width, n.height, _)), m.drawImage(k, 0, 0)) : N(e, m, n.width, n.height, _));
+			h && (h.setTransform(1, 0, 0, 1, 0, 0), h.clearRect(0, 0, n.width, n.height), e >= 1 && k >= 1 ? (A || (A = document.createElement("canvas"), A.width = n.width, A.height = n.height, P(1, A.getContext("2d"), n.width, n.height, v)), h.drawImage(A, 0, 0)) : P(e, h, n.width, n.height, v));
 		}
-	}, R = NaN, z = () => {
-		let t = J(-e.getBoundingClientRect().top / g, 0, (e.offsetHeight - g) / g);
-		if (t === R && !I) return;
-		R = t;
-		let i = J(t / de), d = Q ? i < .5 ? 0 : 1 : Z(i, Y(i), .6), f = 1 - Y(t / .32);
-		V(o, "opacity", f.toFixed(3)), V(o, "visibility", f > .01 ? "" : "hidden");
-		let p = 1 - Y((t - .2) / .5);
-		V(s, "opacity", p.toFixed(3)), V(s, "visibility", p > .01 ? "" : "hidden");
-		let m = Y((t - 1.7) / .3);
-		V(c, "--tx", m.toFixed(3)), V(c, "pointerEvents", m > .5 ? "auto" : "none");
+	}, z = NaN, B = () => {
+		let t = X(-e.getBoundingClientRect().top / _, 0, (e.offsetHeight - _) / _);
+		if (t === z && !L) return;
+		z = t;
+		let i = X(t / pe), l = se ? i < .5 ? 0 : 1 : $(i, Z(i), .6), f = 1 - Z(t / .32);
+		J(o, "opacity", f.toFixed(3)), J(o, "visibility", f > .01 ? "" : "hidden");
+		let p = 1 - Z((t - .2) / .5);
+		J(s, "opacity", p.toFixed(3)), J(s, "visibility", p > .01 ? "" : "hidden");
+		let m = Z((t - 1.7) / .3);
+		J(c, "--tx", m.toFixed(3)), J(c, "pointerEvents", m > .5 ? "auto" : "none");
 		let h = -1;
-		fe.forEach((e, n) => {
+		me.forEach((e, n) => {
 			t >= e - (n ? .3 : .15) && (h = n);
-		}), l.forEach((e, n) => {
-			e.classList.contains("is-on") !== (n === h) && e.classList.toggle("is-on", n === h), V(e, "--w", (Q ? 1 : J((t - (fe[n] - (n ? .3 : .15))) / .4)).toFixed(3));
+		}), u.forEach((e, n) => {
+			e.classList.contains("is-on") !== (n === h) && e.classList.toggle("is-on", n === h), J(e, "--w", (se ? 1 : X((t - (me[n] - (n ? .3 : .15))) / .4)).toFixed(3));
 		});
-		let _ = (e) => fe[e] - (e ? .3 : .15), v = (e.offsetHeight - g) / g;
-		u.forEach((e, n) => {
-			let r = _(n), i = n < fe.length - 1 ? _(n + 1) : v;
-			V(e, "--f", (Q ? +(n <= h) : J((t - r) / (i - r))).toFixed(3));
+		let g = (e) => me[e] - (e ? .3 : .15), v = (e.offsetHeight - _) / _;
+		d.forEach((e, n) => {
+			let r = g(n), i = n < me.length - 1 ? g(n + 1) : v;
+			J(e, "--f", (se ? +(n <= h) : X((t - r) / (i - r))).toFixed(3));
 		});
-		let S = Y((t - (fe[1] - .25)) / .75), C = Y((t - (fe[2] - .2)) / .5), w = Y((t - (fe[3] - .2)) / .6);
-		a?.draw(S);
-		let T = 1 - Y((S - .45) / .55);
-		V(n, "opacity", T.toFixed(3)), V(n, "display", T > 0 ? "" : "none"), V(r, "--s3", C.toFixed(3)), V(r, "--s4", w.toFixed(3)), T > 0 ? L(d) : I = !1;
-		let E = j(d);
+		let y = Z((t - (me[1] - .25)) / .75), C = Z((t - (me[2] - .2)) / .5), w = Z((t - (me[3] - .2)) / .6);
+		a?.draw(y);
+		let T = 1 - Z((y - .45) / .55);
+		J(n, "opacity", T.toFixed(3)), J(n, "display", T > 0 ? "" : "none"), J(r, "--s3", C.toFixed(3)), J(r, "--s4", w.toFixed(3)), T > 0 ? R(l) : L = !1;
+		let E = M(l);
 		window.__ln = {
 			u: t,
-			e: d,
+			e: l,
 			z: E.z,
 			ox: E.ox,
 			oy: E.oy,
 			cx: E.cx,
 			cy: E.cy,
-			side: y,
-			ftop: b,
-			fl: x,
-			fill: S,
+			side: b,
+			ftop: x,
+			fl: S,
+			fill: y,
 			lines: T.toFixed(3)
 		};
-	}, B = 0, H = () => {
-		B = 0, z();
+	}, V = 0, H = () => {
+		V = 0, B();
 	}, U = () => {
-		B || (B = requestAnimationFrame(H));
+		V || (V = requestAnimationFrame(H));
 	};
-	A(), addEventListener("scroll", U, { passive: !0 }), addEventListener("resize", () => {
-		A(), U();
+	j(), addEventListener("scroll", U, { passive: !0 }), addEventListener("resize", () => {
+		j(), U();
 	}), document.fonts?.ready.then(() => {
-		A(), U();
+		j(), U();
 	});
-	let W = (t, r, i) => {
+	let ee = (t, r, i) => {
 		let a = i.s;
-		if (f = a, Object.assign(le, r.hero), le.x = i.hx, le.y = i.hy, !new URLSearchParams(location.search).has("nogl")) try {
-			p = ee(n, a, le.stroke, {
+		if (p = a, Object.assign(de, r.hero), de.x = i.hx, de.y = i.hy, !new URLSearchParams(location.search).has("nogl")) try {
+			m = te(n, a, de.stroke, {
 				name: "hero lines",
 				near: e
 			}, i.V && i.I ? {
@@ -673,31 +676,31 @@ function ge() {
 				I: i.I
 			} : void 0);
 		} catch {
-			p = null;
+			m = null;
 		}
-		if (p && (p.onRestore = () => {
-			I = !0, U();
-		}), !p) {
+		if (m && (m.onRestore = () => {
+			L = !0, U();
+		}), !m) {
 			let e = n.cloneNode();
-			n.replaceWith(e), n = e, A(), m = n.getContext("2d");
+			n.replaceWith(e), n = e, j(), h = n.getContext("2d");
 		}
-		if (I = !0, Q) {
+		if (L = !0, se) {
 			U();
 			return;
 		}
 		let o = performance.now(), s = () => {
-			O = Y((performance.now() - o) / 1700), I = !0, z(), O < 1 && requestAnimationFrame(s);
+			k = Z((performance.now() - o) / 1700), L = !0, B(), k < 1 && requestAnimationFrame(s);
 		};
 		requestAnimationFrame(s);
 	};
 	(async () => {
-		let t = ue, n = `${globalThis.__P26B}home/hero`, r = e.querySelector(".ln-alt");
+		let t = fe, n = `${globalThis.__P26B}home/hero`, r = e.querySelector(".ln-alt");
 		r && (r.textContent = t.alt ?? t.name);
 		let o = await (await fetch(`${n}/meta.json`)).json();
-		a = he(i, `${n}/bw.webp`, `${n}/arrive.webp`, o.dmax, {
+		a = _e(i, `${n}/bw.webp`, `${n}/arrive.webp`, o.dmax, {
 			name: "hero photo",
 			near: e
-		}), W(t, o, await pe(`${n}/strokes.bin`, o.hero, !new URLSearchParams(location.search).has("nogl"))), U(), (window.requestIdleCallback ?? ((e) => setTimeout(e, 600)))(() => {
+		}), ee(t, o, await he(`${n}/strokes.bin`, o.hero, !new URLSearchParams(location.search).has("nogl"))), U(), (window.requestIdleCallback ?? ((e) => setTimeout(e, 600)))(() => {
 			for (let [t, r] of [[".ln-true", "true"], [".ln-false", "false"]]) {
 				let i = e.querySelector(t);
 				i.src = `${n}/${r}.webp`, i.hidden = !1, i.decode().catch(() => {});
@@ -707,24 +710,24 @@ function ge() {
 }
 //#endregion
 //#region src/home/domains/strip.ts
-var _e = matchMedia("(prefers-reduced-motion: reduce)").matches, ve = Math.max(1, Number(new URLSearchParams(location.search).get("bleedslow")) || 1), ye = .7 * ve, be = .38 * ve, xe = {
+var ye = matchMedia("(prefers-reduced-motion: reduce)").matches, be = Math.max(1, Number(new URLSearchParams(location.search).get("bleedslow")) || 1), xe = .7 * be, Se = .38 * be, Ce = {
 	bw: 1,
 	line: 2
-}[document.documentElement.dataset.dm ?? ""] ?? 0, Se = "attribute vec2 p; void main(){ gl_Position = vec4(p, 0., 1.); }", Ce = "precision highp float;\nuniform vec2 u_res;\nuniform vec4 u_rect;        // slice in device px, top-left origin: x0 y0 x1 y1\nuniform vec4 u_uv;          // the part of the square crop the slice shows: x y w h\nuniform sampler2D u_bw, u_col, u_dist, u_sk;\nuniform vec2 u_origin;      // device px\nuniform float u_fill;       // the hover bleed, 0..1\nuniform float u_recede;     // the retract on leave, 0..1 (0 while hovered)\nuniform float u_arr;        // this slice's arrival, 0..1\nuniform float u_flash;      // false colour carried by the arrival, 0..1\nuniform float u_seed, u_dpr, u_time;\nuniform float u_mode;       // 0 the Earth as Art strip; 1 black and white, 2 line, developing into true colour\nconst vec3 BONE = vec3(.933,.933,.902);\nconst vec3 INK  = vec3(.114,.114,.082);\nfloat h21(vec2 p){ p = fract(p*vec2(123.34, 456.21)); p += dot(p, p+45.32); return fract(p.x*p.y); }\nfloat vnoise(vec2 p){ vec2 i=floor(p), f=fract(p); vec2 u=f*f*(3.-2.*f);\n  return mix(mix(h21(i),h21(i+vec2(1,0)),u.x), mix(h21(i+vec2(0,1)),h21(i+vec2(1,1)),u.x), u.y); }\nfloat fbm(vec2 p){ float v=0., a=.5; mat2 r=mat2(.8,-.6,.6,.8); for(int k=0;k<5;k++){ v+=a*vnoise(p); p=r*p*2.03+17.1; a*=.5; } return v; }\nfloat farCorner(){ vec2 a = u_rect.xy - u_origin, b = u_rect.zw - u_origin;\n  return max(max(length(a), length(b)), max(length(vec2(a.x,b.y)), length(vec2(b.x,a.y)))); }\nvoid main(){\n  vec2 p = vec2(gl_FragCoord.x, u_res.y - gl_FragCoord.y);\n  vec2 r = (p - u_rect.xy) / (u_rect.zw - u_rect.xy);\n  vec2 uv = u_uv.xy + clamp(r, 0., 1.) * u_uv.zw;\n  float lum = texture2D(u_bw, uv).r;\n  vec3 col = texture2D(u_col, uv).rgb;\n  vec2 aux = vec2(texture2D(u_dist, uv).r, texture2D(u_sk, uv).r);\n  vec2 q = p / u_dpr;                                   // css px, so the texture of the edge is the same at any dpr\n  vec3 tone = mix(INK, BONE, smoothstep(.02, .98, lum));\n\n  // ---- the final landscapes: the arrival's wet front runs down from the top edge carrying the true colour in,\n  // over-bright at its edge (the shock), and leaves the place in true colour. Before it: the warm black and white\n  // (warm black to bone, the post images' tone), or bone under the line drawing (an overlay).\n  if (u_mode > .5) {\n    vec3 pre = u_mode < 1.5 ? mix(vec3(.094, .082, .071), vec3(.933, .925, .886), lum) : BONE;\n    // the river's arrival: a short pulse of the place's own colour runs down at the wet edge and is gone\n    float ft = smoothstep(.12, .92, u_arr);\n    float lead = r.y * .9 + .14 * (fbm(q * .010 + u_seed + 1.3) - .5) + .05 * (fbm(q * .055 + u_seed + 8.1) - .5);\n    float wetP = ft * 1.25 - lead;\n    float pulse = smoothstep(0., .02, wetP) * (1. - smoothstep(.03, .2, wetP)) * (1. - smoothstep(.8, 1., ft)) * u_flash;\n    float tideP = exp(-pow(wetP / .02, 2.)) * step(0., wetP) * (1. - smoothstep(.85, 1., ft)) * u_flash;\n    vec3 mb = mix(pre, mix(col, pre, .2), pulse * .75);\n    mb *= 1. - .1 * tideP;\n    vec3 o = mb;\n    // attention: the true colour bleeds in from the pointer (the strip's hover, below, on this ground)\n    if (u_fill > 0.) {\n      float frac = length(p - u_origin) / farCorner();\n      frac *= .82 + .36 * fbm(q * .006 + u_seed);\n      frac += .09 * (lum - .5);\n      frac += .05 * (fbm(q * .045 + u_seed + 3.7 + u_time * .02) - .5);\n      float f = u_fill * 1.32;\n      float wet = f - frac;\n      float m = smoothstep(0., .022, wet);\n      m = max(m, smoothstep(.97, 1., u_fill));\n      float tideR = 0.;\n      if (u_recede > 0.) {\n        float edgeR = f + .04;\n        float fr = frac + .14 * (fbm(q * .008 + u_seed + 9.1) - .5) + .03 * (fbm(q * .06 + u_seed + 5.3) - .5);\n        float wetR = mix(edgeR, -.16, u_recede) - fr;\n        m *= smoothstep(0., .03, wetR);\n        tideR = exp(-pow(wetR / .02, 2.)) * step(-.004, wetR);\n      }\n      float dil = smoothstep(0., .2, wet);\n      float tide = exp(-pow(wet / .022, 2.)) * step(0., wet) * (1. - smoothstep(.94, 1., u_fill));\n      vec3 pig = mix(mix(col, BONE, .3), col, dil);\n      pig = mix(pig, pig * pig * 1.1, .55 * tide);\n      pig = mix(pig, pig * pig * 1.06, .35 * tideR);\n      float gr = .6 * vnoise(q * .16 + u_seed) + .4 * vnoise(q * .42 + u_seed + 2.);\n      pig *= 1. + .16 * (gr - .5) * (1. - .55 * dil);\n      o = mix(mb, pig, m);\n    }\n    gl_FragColor = vec4(o, 1.);\n    return;\n  }\n\n  // ---- arrival: the slice starts as a faint sketch. A wet front runs down from the top edge (where the river will\n  // come in), reaching the drawn lines a little ahead of the paper between them; it carries the false colour at its\n  // edge and leaves the black-and-white photograph behind it as it dries. At 1 the whole slice is the photograph.\n  float t = u_arr;\n  float ft = smoothstep(.12, .92, t);\n  float d = sqrt(aux.r);                                        // distance from the drawing, 0..1\n  float lead = r.y * .9 + .2 * d\n    + .14 * (fbm(q * .010 + u_seed + 1.3) - .5)\n    + .05 * (fbm(q * .055 + u_seed + 8.1) - .5);\n  float wetA = ft * 1.4 - lead;\n  float a = smoothstep(0., .028, wetA);\n  a = max(a, smoothstep(.96, 1., ft));\n  float tideA = exp(-pow(wetA / .02, 2.)) * step(0., wetA) * (1. - smoothstep(.9, 1., ft));\n  float band = smoothstep(0., .02, wetA) * (1. - smoothstep(.04, .24, wetA)) * (1. - smoothstep(.82, 1., ft)) * u_flash;\n  float sk = aux.g * (.36 + .4 * smoothstep(0., .14, t)) * (1. - .88 * a);\n  vec3 base = mix(BONE, tone, a);\n  base = mix(base, col, band * .9);\n  base *= 1. - .22 * tideA;\n  base = mix(base, INK, sk * .8);\n\n  // ---- hover: the false colour bleeds in from the pointer\n  vec3 outc = base;\n  if (u_fill > 0.) {\n    float frac = length(p - u_origin) / farCorner();\n    frac *= .82 + .36 * fbm(q * .006 + u_seed);                   // the front isn't a circle\n    frac += .09 * (lum - .5);                                      // it runs ahead through the darker ground\n    frac += .05 * (fbm(q * .045 + u_seed + 3.7 + u_time * .02) - .5);  // fingering at the wet edge\n    float f = u_fill * 1.32;\n    float wet = f - frac;\n    float m = smoothstep(0., .022, wet);\n    m = max(m, smoothstep(.97, 1., u_fill));                      // full colour exactly when the fill completes\n    // the retract: a front from the colour's outer edge back past where it came in, at an uneven speed of its own\n    float tideR = 0.;\n    if (u_recede > 0.) {\n      float edgeR = f + .04;\n      float fr = frac + .14 * (fbm(q * .008 + u_seed + 9.1) - .5) + .03 * (fbm(q * .06 + u_seed + 5.3) - .5);\n      float wetR = mix(edgeR, -.16, u_recede) - fr;\n      m *= smoothstep(0., .03, wetR);\n      tideR = exp(-pow(wetR / .02, 2.)) * step(-.004, wetR);\n    }\n    float dil = smoothstep(0., .2, wet);                           // fresh wash is thinner, then deepens\n    float tide = exp(-pow(wet / .022, 2.)) * step(0., wet) * (1. - smoothstep(.94, 1., u_fill));\n    vec3 pig = mix(mix(col, BONE, .3), col, dil);\n    // pigment pools at the drying edge: darker and a little richer\n    pig = mix(pig, pig * pig * 1.1, .55 * tide);\n    pig = mix(pig, pig * pig * 1.06, .35 * tideR);                 // the retreating edge gathers a little pigment\n    // granulation: pigment settles in the paper's tooth, in soft clumps rather than pixels\n    float gr = .6 * vnoise(q * .16 + u_seed) + .4 * vnoise(q * .42 + u_seed + 2.);\n    pig *= 1. + .16 * (gr - .5) * (1. - .55 * dil);\n    outc = mix(base, pig, m);\n  }\n  gl_FragColor = vec4(outc, 1.);\n}";
-function we(e = {}) {
+}[document.documentElement.dataset.dm ?? ""] ?? 0, we = "attribute vec2 p; void main(){ gl_Position = vec4(p, 0., 1.); }", Te = "precision highp float;\nuniform vec2 u_res;\nuniform vec4 u_rect;        // slice in device px, top-left origin: x0 y0 x1 y1\nuniform vec4 u_uv;          // the part of the square crop the slice shows: x y w h\nuniform sampler2D u_bw, u_col, u_dist, u_sk;\nuniform vec2 u_origin;      // device px\nuniform float u_fill;       // the hover bleed, 0..1\nuniform float u_recede;     // the retract on leave, 0..1 (0 while hovered)\nuniform float u_arr;        // this slice's arrival, 0..1\nuniform float u_flash;      // false colour carried by the arrival, 0..1\nuniform float u_seed, u_dpr, u_time;\nuniform float u_mode;       // 0 the Earth as Art strip; 1 black and white, 2 line, developing into true colour\nconst vec3 BONE = vec3(.933,.933,.902);\nconst vec3 INK  = vec3(.114,.114,.082);\nfloat h21(vec2 p){ p = fract(p*vec2(123.34, 456.21)); p += dot(p, p+45.32); return fract(p.x*p.y); }\nfloat vnoise(vec2 p){ vec2 i=floor(p), f=fract(p); vec2 u=f*f*(3.-2.*f);\n  return mix(mix(h21(i),h21(i+vec2(1,0)),u.x), mix(h21(i+vec2(0,1)),h21(i+vec2(1,1)),u.x), u.y); }\nfloat fbm(vec2 p){ float v=0., a=.5; mat2 r=mat2(.8,-.6,.6,.8); for(int k=0;k<5;k++){ v+=a*vnoise(p); p=r*p*2.03+17.1; a*=.5; } return v; }\nfloat farCorner(){ vec2 a = u_rect.xy - u_origin, b = u_rect.zw - u_origin;\n  return max(max(length(a), length(b)), max(length(vec2(a.x,b.y)), length(vec2(b.x,a.y)))); }\nvoid main(){\n  vec2 p = vec2(gl_FragCoord.x, u_res.y - gl_FragCoord.y);\n  vec2 r = (p - u_rect.xy) / (u_rect.zw - u_rect.xy);\n  vec2 uv = u_uv.xy + clamp(r, 0., 1.) * u_uv.zw;\n  float lum = texture2D(u_bw, uv).r;\n  vec3 col = texture2D(u_col, uv).rgb;\n  vec2 aux = vec2(texture2D(u_dist, uv).r, texture2D(u_sk, uv).r);\n  vec2 q = p / u_dpr;                                   // css px, so the texture of the edge is the same at any dpr\n  vec3 tone = mix(INK, BONE, smoothstep(.02, .98, lum));\n\n  // ---- the final landscapes: the arrival's wet front runs down from the top edge carrying the true colour in,\n  // over-bright at its edge (the shock), and leaves the place in true colour. Before it: the warm black and white\n  // (warm black to bone, the post images' tone), or bone under the line drawing (an overlay).\n  if (u_mode > .5) {\n    vec3 pre = u_mode < 1.5 ? mix(vec3(.094, .082, .071), vec3(.933, .925, .886), lum) : BONE;\n    // the river's arrival: a short pulse of the place's own colour runs down at the wet edge and is gone\n    float ft = smoothstep(.12, .92, u_arr);\n    float lead = r.y * .9 + .14 * (fbm(q * .010 + u_seed + 1.3) - .5) + .05 * (fbm(q * .055 + u_seed + 8.1) - .5);\n    float wetP = ft * 1.25 - lead;\n    float pulse = smoothstep(0., .02, wetP) * (1. - smoothstep(.03, .2, wetP)) * (1. - smoothstep(.8, 1., ft)) * u_flash;\n    float tideP = exp(-pow(wetP / .02, 2.)) * step(0., wetP) * (1. - smoothstep(.85, 1., ft)) * u_flash;\n    vec3 mb = mix(pre, mix(col, pre, .2), pulse * .75);\n    mb *= 1. - .1 * tideP;\n    vec3 o = mb;\n    // attention: the true colour bleeds in from the pointer (the strip's hover, below, on this ground)\n    if (u_fill > 0.) {\n      float frac = length(p - u_origin) / farCorner();\n      frac *= .82 + .36 * fbm(q * .006 + u_seed);\n      frac += .09 * (lum - .5);\n      frac += .05 * (fbm(q * .045 + u_seed + 3.7 + u_time * .02) - .5);\n      float f = u_fill * 1.32;\n      float wet = f - frac;\n      float m = smoothstep(0., .022, wet);\n      m = max(m, smoothstep(.97, 1., u_fill));\n      float tideR = 0.;\n      if (u_recede > 0.) {\n        float edgeR = f + .04;\n        float fr = frac + .14 * (fbm(q * .008 + u_seed + 9.1) - .5) + .03 * (fbm(q * .06 + u_seed + 5.3) - .5);\n        float wetR = mix(edgeR, -.16, u_recede) - fr;\n        m *= smoothstep(0., .03, wetR);\n        tideR = exp(-pow(wetR / .02, 2.)) * step(-.004, wetR);\n      }\n      float dil = smoothstep(0., .2, wet);\n      float tide = exp(-pow(wet / .022, 2.)) * step(0., wet) * (1. - smoothstep(.94, 1., u_fill));\n      vec3 pig = mix(mix(col, BONE, .3), col, dil);\n      pig = mix(pig, pig * pig * 1.1, .55 * tide);\n      pig = mix(pig, pig * pig * 1.06, .35 * tideR);\n      float gr = .6 * vnoise(q * .16 + u_seed) + .4 * vnoise(q * .42 + u_seed + 2.);\n      pig *= 1. + .16 * (gr - .5) * (1. - .55 * dil);\n      o = mix(mb, pig, m);\n    }\n    gl_FragColor = vec4(o, 1.);\n    return;\n  }\n\n  // ---- arrival: the slice starts as a faint sketch. A wet front runs down from the top edge (where the river will\n  // come in), reaching the drawn lines a little ahead of the paper between them; it carries the false colour at its\n  // edge and leaves the black-and-white photograph behind it as it dries. At 1 the whole slice is the photograph.\n  float t = u_arr;\n  float ft = smoothstep(.12, .92, t);\n  float d = sqrt(aux.r);                                        // distance from the drawing, 0..1\n  float lead = r.y * .9 + .2 * d\n    + .14 * (fbm(q * .010 + u_seed + 1.3) - .5)\n    + .05 * (fbm(q * .055 + u_seed + 8.1) - .5);\n  float wetA = ft * 1.4 - lead;\n  float a = smoothstep(0., .028, wetA);\n  a = max(a, smoothstep(.96, 1., ft));\n  float tideA = exp(-pow(wetA / .02, 2.)) * step(0., wetA) * (1. - smoothstep(.9, 1., ft));\n  float band = smoothstep(0., .02, wetA) * (1. - smoothstep(.04, .24, wetA)) * (1. - smoothstep(.82, 1., ft)) * u_flash;\n  float sk = aux.g * (.36 + .4 * smoothstep(0., .14, t)) * (1. - .88 * a);\n  vec3 base = mix(BONE, tone, a);\n  base = mix(base, col, band * .9);\n  base *= 1. - .22 * tideA;\n  base = mix(base, INK, sk * .8);\n\n  // ---- hover: the false colour bleeds in from the pointer\n  vec3 outc = base;\n  if (u_fill > 0.) {\n    float frac = length(p - u_origin) / farCorner();\n    frac *= .82 + .36 * fbm(q * .006 + u_seed);                   // the front isn't a circle\n    frac += .09 * (lum - .5);                                      // it runs ahead through the darker ground\n    frac += .05 * (fbm(q * .045 + u_seed + 3.7 + u_time * .02) - .5);  // fingering at the wet edge\n    float f = u_fill * 1.32;\n    float wet = f - frac;\n    float m = smoothstep(0., .022, wet);\n    m = max(m, smoothstep(.97, 1., u_fill));                      // full colour exactly when the fill completes\n    // the retract: a front from the colour's outer edge back past where it came in, at an uneven speed of its own\n    float tideR = 0.;\n    if (u_recede > 0.) {\n      float edgeR = f + .04;\n      float fr = frac + .14 * (fbm(q * .008 + u_seed + 9.1) - .5) + .03 * (fbm(q * .06 + u_seed + 5.3) - .5);\n      float wetR = mix(edgeR, -.16, u_recede) - fr;\n      m *= smoothstep(0., .03, wetR);\n      tideR = exp(-pow(wetR / .02, 2.)) * step(-.004, wetR);\n    }\n    float dil = smoothstep(0., .2, wet);                           // fresh wash is thinner, then deepens\n    float tide = exp(-pow(wet / .022, 2.)) * step(0., wet) * (1. - smoothstep(.94, 1., u_fill));\n    vec3 pig = mix(mix(col, BONE, .3), col, dil);\n    // pigment pools at the drying edge: darker and a little richer\n    pig = mix(pig, pig * pig * 1.1, .55 * tide);\n    pig = mix(pig, pig * pig * 1.06, .35 * tideR);                 // the retreating edge gathers a little pigment\n    // granulation: pigment settles in the paper's tooth, in soft clumps rather than pixels\n    float gr = .6 * vnoise(q * .16 + u_seed) + .4 * vnoise(q * .42 + u_seed + 2.);\n    pig *= 1. + .16 * (gr - .5) * (1. - .55 * dil);\n    outc = mix(base, pig, m);\n  }\n  gl_FragColor = vec4(outc, 1.);\n}";
+function Ee(e = {}) {
 	let t = e.root ?? document.querySelector("[data-strip]");
 	if (!t) return null;
 	let n = t.querySelector("[data-strip-row]"), r = n.querySelector("canvas"), i = [...n.querySelectorAll(".dm-slice")], a = null, o = null, s = !0, c = () => {
-		if (!xe) return;
-		let e = n.getBoundingClientRect(), t = b[b.length - 1];
+		if (!Ce) return;
+		let e = n.getBoundingClientRect(), t = y[y.length - 1];
 		if (!t) return;
-		let r = K(G(b.length - 1, e.top, innerHeight, t.el.getBoundingClientRect().top));
+		let r = U(H(y.length - 1, e.top, innerHeight, t.el.getBoundingClientRect().top));
 		r >= .999 ? o ?? (o = s ? scrollY - innerHeight * 2 : scrollY) : r < .98 && (o = null), s = !1;
 	}, l = (t) => {
-		if (!xe || _e || t <= 0 || e.shock === !1) return [0, 0];
-		let n = J(t * 1.04);
-		return u || t < .999 || o == null ? [n, 0] : [n, J(((scrollY - o) / innerHeight - .2) / .3)];
-	}, u = matchMedia("(max-width: 760px)").matches, d = 1, f = 0, p = 0, m = 0, h = -1, _ = 0, v = 0, y = !1, b = i.map((e, t) => ({
+		if (!Ce || ye || t <= 0 || e.shock === !1) return [0, 0];
+		let n = X(t * 1.04);
+		return u || t < .999 || o == null ? [n, 0] : [n, X(((scrollY - o) / innerHeight - .2) / .3)];
+	}, u = matchMedia("(max-width: 760px)").matches, d = 1, f = 0, p = 0, m = 0, h = -1, g = 0, _ = 0, v = !1, y = i.map((e, t) => ({
 		el: e,
 		place: e.dataset.place,
 		meta: {
@@ -736,12 +739,12 @@ function we(e = {}) {
 		fillAtLeave: 0,
 		origin: [.5, .5],
 		seed: 3.1 + t * 7.3
-	})), x = new URLSearchParams(location.search).has("nogl") ? null : r.getContext("webgl", {
+	})), b = new URLSearchParams(location.search).has("nogl") ? null : r.getContext("webgl", {
 		antialias: !1,
 		premultipliedAlpha: !1
-	}), C = null, w = {}, T = null, E = () => {
-		if (x && (C = g(x, Se, Ce), C)) {
-			x.useProgram(C), S(x, C);
+	}), x = null, S = {}, C = null, w = () => {
+		if (b && (x = T(b, we, Te), x)) {
+			b.useProgram(x), j(b, x);
 			for (let e of [
 				"u_res",
 				"u_rect",
@@ -758,23 +761,23 @@ function we(e = {}) {
 				"u_seed",
 				"u_dpr",
 				"u_time"
-			]) w[e] = x.getUniformLocation(C, e);
-			if (x.uniform1i(w.u_bw, 0), x.uniform1i(w.u_col, 1), x.uniform1i(w.u_dist, 2), x.uniform1i(w.u_sk, 3), T) {
-				for (let e of b) e.tex = void 0;
+			]) S[e] = b.getUniformLocation(x, e);
+			if (b.uniform1i(S.u_bw, 0), b.uniform1i(S.u_col, 1), b.uniform1i(S.u_dist, 2), b.uniform1i(S.u_sk, 3), C) {
+				for (let e of y) e.tex = void 0;
 				n.classList.remove("has-gl");
 				let e = n.getBoundingClientRect();
-				e.bottom > 0 && e.top < innerHeight && L(), T();
+				e.bottom > 0 && e.top < innerHeight && F(), C();
 			}
 		}
 	};
-	E();
-	let O = (e, t) => {
-		let n = D(x) ? x.createTexture() : null;
+	w();
+	let E = (e, t) => {
+		let n = I(b) ? b.createTexture() : null;
 		if (!n) return null;
-		x.bindTexture(x.TEXTURE_2D, n);
-		let r = t ? x.LUMINANCE : x.RGB;
-		return x.texImage2D(x.TEXTURE_2D, 0, r, r, x.UNSIGNED_BYTE, e), x.generateMipmap(x.TEXTURE_2D), x.texParameteri(x.TEXTURE_2D, x.TEXTURE_MIN_FILTER, x.LINEAR_MIPMAP_LINEAR), x.texParameteri(x.TEXTURE_2D, x.TEXTURE_MAG_FILTER, x.LINEAR), x.texParameteri(x.TEXTURE_2D, x.TEXTURE_WRAP_S, x.CLAMP_TO_EDGE), x.texParameteri(x.TEXTURE_2D, x.TEXTURE_WRAP_T, x.CLAMP_TO_EDGE), n;
-	}, k = xe ? `${globalThis.__P26B}home/domains-strip` : `${globalThis.__P26B}home/domains`, A = W, j = !1, N = matchMedia("(max-width: 1100px)").matches, P = xe ? N ? ["bw-m.webp", "col-m.webp"] : ["bw.jpg", "col.jpg"] : N ? [
+		b.bindTexture(b.TEXTURE_2D, n);
+		let r = t ? b.LUMINANCE : b.RGB;
+		return b.texImage2D(b.TEXTURE_2D, 0, r, r, b.UNSIGNED_BYTE, e), b.generateMipmap(b.TEXTURE_2D), b.texParameteri(b.TEXTURE_2D, b.TEXTURE_MIN_FILTER, b.LINEAR_MIPMAP_LINEAR), b.texParameteri(b.TEXTURE_2D, b.TEXTURE_MAG_FILTER, b.LINEAR), b.texParameteri(b.TEXTURE_2D, b.TEXTURE_WRAP_S, b.CLAMP_TO_EDGE), b.texParameteri(b.TEXTURE_2D, b.TEXTURE_WRAP_T, b.CLAMP_TO_EDGE), n;
+	}, D = Ce ? `${globalThis.__P26B}home/domains-strip` : `${globalThis.__P26B}home/domains`, O = ae, k = !1, A = matchMedia("(max-width: 1100px)").matches, M = Ce ? A ? ["bw-m.webp", "col-m.webp"] : ["bw.jpg", "col.jpg"] : A ? [
 		"bw-m.webp",
 		"false-m.webp",
 		"dist.jpg",
@@ -784,36 +787,36 @@ function we(e = {}) {
 		"false.jpg",
 		"dist.jpg",
 		"sketch.png"
-	], F = (e) => {
+	], N = (e) => {
 		let t = () => {
 			let t = window.requestIdleCallback;
 			t ? t(e, { timeout: 1500 }) : setTimeout(e, 200);
 		};
 		document.readyState === "complete" ? t() : addEventListener("load", t, { once: !0 });
-	}, I = [], L = () => {
-		for (let [e, t] of I.splice(0)) e.setAttribute("src", t), e.hidden = !1;
+	}, P = [], F = () => {
+		for (let [e, t] of P.splice(0)) e.setAttribute("src", t), e.hidden = !1;
 		B();
 	};
 	n.querySelectorAll("img.dm-img").forEach((e) => {
 		let t = e.getAttribute("src");
-		t && (e.dataset.small = t, xe && (e.dataset.big = t.replace(/\.jpg$/, "-2k.jpg")), x && !e.complete && (I.push([e, t]), e.removeAttribute("src"), e.hidden = !0));
-	}), x && U(n, () => {
-		n.classList.contains("has-gl") || L();
-	}, N ? "0%" : "60%"), F(() => (e.meta ? Promise.resolve(e.meta) : fetch(`${k}/strip.json`).then((e) => e.json())).then(async (e) => {
-		if (b.forEach((t) => {
+		t && (e.dataset.small = t, Ce && (e.dataset.big = t.replace(/\.jpg$/, "-2k.jpg")), b && !e.complete && (P.push([e, t]), e.removeAttribute("src"), e.hidden = !0));
+	}), b && ie(n, () => {
+		n.classList.contains("has-gl") || F();
+	}, A ? "0%" : "60%"), N(() => (e.meta ? Promise.resolve(e.meta) : fetch(`${D}/strip.json`).then((e) => e.json())).then(async (e) => {
+		if (y.forEach((t) => {
 			e[t.place] && (t.meta = e[t.place]);
-		}), ee = !0, B(), x) {
-			let e = () => N ? new Promise((e) => requestAnimationFrame(() => e())) : te(n), t = 0, r = async () => {
-				let n = ++t, r = b.map((e) => Promise.all(P.map((t) => A(`${e.el.dataset.src ?? `${k}/${e.place}`}/${t}`))));
-				for (let i = 0; i < b.length; i++) {
-					let a = b[i], o = await r[i];
+		}), z = !0, B(), b) {
+			let e = () => A ? new Promise((e) => requestAnimationFrame(() => e())) : Y(n), t = 0, r = async () => {
+				let n = ++t, r = y.map((e) => Promise.all(M.map((t) => O(`${e.el.dataset.src ?? `${D}/${e.place}`}/${t}`))));
+				for (let i = 0; i < y.length; i++) {
+					let a = y[i], o = await r[i];
 					if (n !== t) return;
-					let [s, c, l, u] = xe ? [o[0], o[1]] : o;
+					let [s, c, l, u] = Ce ? [o[0], o[1]] : o;
 					await e();
-					let d = O(s, !0);
+					let d = E(s, !0);
 					await e();
-					let f = O(c, !1), p = d, m = d;
-					if (l && u && (await e(), p = O(l, !0), await e(), m = O(u, !0)), n !== t || !d || !f || !p || !m) return;
+					let f = E(c, !1), p = d, m = d;
+					if (l && u && (await e(), p = E(l, !0), await e(), m = E(u, !0)), n !== t || !d || !f || !p || !m) return;
 					a.tex = {
 						bw: d,
 						col: f,
@@ -821,44 +824,44 @@ function we(e = {}) {
 						sk: m
 					};
 					for (let e of o) "close" in e && e.close();
-					Z = "", $();
+					oe = "", ce();
 				}
 			};
-			T = () => {
+			C = () => {
 				r().then(() => {
-					b.every((e) => e.tex) && (Z = "", n.classList.add("has-gl"), $());
+					y.every((e) => e.tex) && (oe = "", n.classList.add("has-gl"), ce());
 				}).catch(() => {});
-			}, await r(), await e(), j = !0, Z = "", Q(performance.now()), Z = "", b.every((e) => e.tex) && n.classList.add("has-gl");
+			}, await r(), await e(), k = !0, oe = "", Q(performance.now()), oe = "", y.every((e) => e.tex) && n.classList.add("has-gl");
 		}
-		j = !0, $();
+		k = !0, ce();
 	}).catch(() => {
-		L();
+		F();
 	}));
-	let R = () => {
+	let L = () => {
 		u = matchMedia("(max-width: 760px)").matches, d = Math.min(devicePixelRatio || 1, u ? 1.25 : 2), f = n.clientWidth, p = n.clientHeight;
-		let e = getComputedStyle(n), t = b.length, i = Number(e.getPropertyValue("--grow")) || 3.4;
-		m = u ? f : (f - (parseFloat(e.columnGap) || 0) * (t - 1)) * i / (i + t - 1), r.width = Math.round(f * d), r.height = Math.round(p * d), $();
+		let e = getComputedStyle(n), t = y.length, i = Number(e.getPropertyValue("--grow")) || 3.4;
+		m = u ? f : (f - (parseFloat(e.columnGap) || 0) * (t - 1)) * i / (i + t - 1), r.width = Math.round(f * d), r.height = Math.round(p * d), ce();
 	};
-	new ResizeObserver(R).observe(n), x && C && M(r, x, {
+	new ResizeObserver(L).observe(n), b && x && V(r, b, {
 		name: e.name ?? "strip",
 		near: n,
 		margin: 1
-	}, E, () => {
-		Z = "", $();
-	}), x && r.addEventListener("webglcontextlost", () => {
-		C = null;
+	}, w, () => {
+		oe = "", ce();
+	}), b && r.addEventListener("webglcontextlost", () => {
+		x = null;
 	});
-	let z = (e, t, n, r = 1) => {
+	let R = (e, t, n, r = 1) => {
 		let i = Math.max(t, Math.max(m, e) / r), a = Math.min(1, e / (i * r)), o = Math.min(1, t / i);
 		return [
-			J(n[0] - a / 2, 0, 1 - a),
-			J(n[1] - o / 2, 0, 1 - o),
+			X(n[0] - a / 2, 0, 1 - a),
+			X(n[1] - o / 2, 0, 1 - o),
 			a,
 			o
 		];
-	}, ee = !1, B = () => {
-		if (ee) for (let e of b) {
-			let t = e.el.clientWidth, n = e.el.clientHeight, r = xe ? e.meta.aspect ?? 1 : 1, [i, a, o, s] = z(t, n, e.meta.focal, r), c = t / o, l = n / s;
+	}, z = !1, B = () => {
+		if (z) for (let e of y) {
+			let t = e.el.clientWidth, n = e.el.clientHeight, r = Ce ? e.meta.aspect ?? 1 : 1, [i, a, o, s] = R(t, n, e.meta.focal, r), c = t / o, l = n / s;
 			e.el.querySelectorAll("img.dm-img").forEach((e) => {
 				if (e.style.cssText = `inset:auto;left:0;top:0;width:${c.toFixed(1)}px;height:${l.toFixed(1)}px;object-fit:fill;transform:translate(${(-i * c).toFixed(1)}px,${(-a * l).toFixed(1)}px)`, e.dataset.big && !e.hidden) {
 					let t = innerWidth > 760 && c * (devicePixelRatio || 1) > 1500 ? e.dataset.big : e.dataset.small;
@@ -866,81 +869,81 @@ function we(e = {}) {
 				}
 			});
 		}
-	}, G = (e, t, n, r) => J(a == null ? u ? (n * .92 - r) / (n * .45) : J((n * .82 - t) / (n * .56)) * 1.4 - e * .1 : a * 1.4 - e * .1), K = (e) => _e ? +(e > .5) : e, q = (e) => +!_e, ne = (e, t) => e.enteredAt == null ? 0 : e.leftAt == null ? _e ? 1 : 1 - (1 - J((t - e.enteredAt) / 1e3 / ye)) ** 2.6 : _e ? 0 : e.fillAtLeave, re = (e, t) => e.leftAt == null || e.enteredAt == null ? 0 : _e ? 1 : J((t - e.leftAt) / 1e3 / be) ** 1.3, ie = (e, t) => {
-		let n = ne(e, t), r = re(e, t);
-		return r <= 0 ? n : J((n * 1.32 + .04 + r * (-.16 - n * 1.32 - .04)) / 1.32);
-	}, ae = !!xe && e.shock !== !1, oe = (e) => _e ? +(e >= .97) : l(e)[0], X = (e) => {
-		let t = b.map((t) => {
+	}, H = (e, t, n, r) => X(a == null ? u ? (n * .92 - r) / (n * .45) : X((n * .82 - t) / (n * .56)) * 1.4 - e * .1 : a * 1.4 - e * .1), U = (e) => ye ? +(e > .5) : e, ee = (e) => +!ye, W = (e, t) => e.enteredAt == null ? 0 : e.leftAt == null ? ye ? 1 : 1 - (1 - X((t - e.enteredAt) / 1e3 / xe)) ** 2.6 : ye ? 0 : e.fillAtLeave, G = (e, t) => e.leftAt == null || e.enteredAt == null ? 0 : ye ? 1 : X((t - e.leftAt) / 1e3 / Se) ** 1.3, K = (e, t) => {
+		let n = W(e, t), r = G(e, t);
+		return r <= 0 ? n : X((n * 1.32 + .04 + r * (-.16 - n * 1.32 - .04)) / 1.32);
+	}, q = !!Ce && e.shock !== !1, te = (e) => ye ? +(e >= .97) : l(e)[0], ne = (e) => {
+		let t = y.map((t) => {
 			let n = t.el.getBoundingClientRect();
 			return Math.abs(n.top + n.height / 2 - e / 2);
 		}), n = t.indexOf(Math.min(...t));
-		return b.map((r, i) => i === n ? Y(1 - (t[i] / (e / 2) - .06) / .3) : 0);
-	}, Z = "", Q = (e) => {
-		if (!x || !C || !j || !f || !D(x)) return;
-		let t = u && !ae, i = n.getBoundingClientRect(), a = innerHeight, s = t ? X(a) : null, c = `${r.width}x${r.height}|${b.filter((e) => e.tex).length}|${xe && !u && o != null ? ((scrollY - o) / innerHeight).toFixed(3) : ""}`;
-		for (let n = 0; n < b.length; n++) {
-			let r = b[n], o = r.el.getBoundingClientRect(), l = K(G(n, i.top, a, o.top)), d = u ? t ? l >= .97 ? s[n] : 0 : oe(l) : l >= .97 ? ne(r, e) : 0, f = !u && l >= .97 ? re(r, e) : 0;
+		return y.map((r, i) => i === n ? Z(1 - (t[i] / (e / 2) - .06) / .3) : 0);
+	}, oe = "", Q = (e) => {
+		if (!b || !x || !k || !f || !I(b)) return;
+		let t = u && !q, i = n.getBoundingClientRect(), a = innerHeight, s = t ? ne(a) : null, c = `${r.width}x${r.height}|${y.filter((e) => e.tex).length}|${Ce && !u && o != null ? ((scrollY - o) / innerHeight).toFixed(3) : ""}`;
+		for (let n = 0; n < y.length; n++) {
+			let r = y[n], o = r.el.getBoundingClientRect(), l = U(H(n, i.top, a, o.top)), d = u ? t ? l >= .97 ? s[n] : 0 : te(l) : l >= .97 ? W(r, e) : 0, f = !u && l >= .97 ? G(r, e) : 0;
 			c += `|${(o.left - i.left).toFixed(1)},${o.width.toFixed(1)},${l.toFixed(3)},${d.toFixed(3)},${f.toFixed(3)}`;
 		}
-		if (c === Z) return;
-		Z = c, x.viewport(0, 0, r.width, r.height), x.uniform2f(w.u_res, r.width, r.height), x.uniform1f(w.u_dpr, d), x.uniform1f(w.u_time, e / 1e3), x.enable(x.SCISSOR_TEST);
-		let p = n.getBoundingClientRect(), m = innerHeight, h = t ? X(m) : null;
-		for (let t = 0; t < b.length; t++) {
-			let n = b[t];
-			if (u && ae && V(n.el, "--fill", oe(K(G(t, p.top, m, n.el.getBoundingClientRect().top))).toFixed(3)), !n.tex) continue;
+		if (c === oe) return;
+		oe = c, b.viewport(0, 0, r.width, r.height), b.uniform2f(S.u_res, r.width, r.height), b.uniform1f(S.u_dpr, d), b.uniform1f(S.u_time, e / 1e3), b.enable(b.SCISSOR_TEST);
+		let p = n.getBoundingClientRect(), m = innerHeight, h = t ? ne(m) : null;
+		for (let t = 0; t < y.length; t++) {
+			let n = y[t];
+			if (u && q && J(n.el, "--fill", te(U(H(t, p.top, m, n.el.getBoundingClientRect().top))).toFixed(3)), !n.tex) continue;
 			let i = n.el.getBoundingClientRect(), a = (i.left - p.left) * d, o = (i.top - p.top) * d, s = a + i.width * d, c = o + i.height * d;
-			x.scissor(Math.floor(a), Math.floor(r.height - c), Math.ceil(s - a), Math.ceil(c - o)), x.uniform4f(w.u_rect, a, o, s, c), x.uniform4f(w.u_uv, ...z(i.width, i.height, n.meta.focal, n.meta.aspect));
-			let f = K(G(t, p.top, m, i.top));
-			V(n.el, "--arr", f.toFixed(3)), x.uniform1f(w.u_arr, f), x.uniform1f(w.u_flash, q(f)), x.uniform1f(w.u_seed, n.seed), x.uniform1f(x.getUniformLocation(C, "u_mode"), xe), xe && x.uniform1f(w.u_flash, 0);
-			let g = 0, _ = 0, v = n.origin[0], S = n.origin[1];
-			if (u && ae ? (g = oe(f), v = .5, S = -.12) : u ? (g = f >= .97 ? h[t] : 0, v = .04, S = .5) : f >= .97 && (g = ne(n, e), _ = re(n, e)), _ >= 1 && (g = 0), y && (g = 1, _ = 0), xe && !u) {
+			b.scissor(Math.floor(a), Math.floor(r.height - c), Math.ceil(s - a), Math.ceil(c - o)), b.uniform4f(S.u_rect, a, o, s, c), b.uniform4f(S.u_uv, ...R(i.width, i.height, n.meta.focal, n.meta.aspect));
+			let f = U(H(t, p.top, m, i.top));
+			J(n.el, "--arr", f.toFixed(3)), b.uniform1f(S.u_arr, f), b.uniform1f(S.u_flash, ee(f)), b.uniform1f(S.u_seed, n.seed), b.uniform1f(b.getUniformLocation(x, "u_mode"), Ce), Ce && b.uniform1f(S.u_flash, 0);
+			let g = 0, _ = 0, C = n.origin[0], w = n.origin[1];
+			if (u && q ? (g = te(f), C = .5, w = -.12) : u ? (g = f >= .97 ? h[t] : 0, C = .04, w = .5) : f >= .97 && (g = W(n, e), _ = G(n, e)), _ >= 1 && (g = 0), v && (g = 1, _ = 0), Ce && !u) {
 				let [e, t] = l(f);
-				e > 0 && t < 1 && e * (1 - t) >= (_ > 0 ? g * (1 - _) : g) && (g = e, _ = t, v = .5, S = -.12);
+				e > 0 && t < 1 && e * (1 - t) >= (_ > 0 ? g * (1 - _) : g) && (g = e, _ = t, C = .5, w = -.12);
 			}
-			fe[t] = _ > 0 ? g * (1 - _) : g, x.uniform2f(w.u_origin, a + v * (s - a), o + S * (c - o)), x.uniform1f(w.u_fill, g), x.uniform1f(w.u_recede, _), x.activeTexture(x.TEXTURE0), x.bindTexture(x.TEXTURE_2D, n.tex.bw), x.activeTexture(x.TEXTURE1), x.bindTexture(x.TEXTURE_2D, n.tex.col), x.activeTexture(x.TEXTURE2), x.bindTexture(x.TEXTURE_2D, n.tex.dist), x.activeTexture(x.TEXTURE3), x.bindTexture(x.TEXTURE_2D, n.tex.sk), x.drawArrays(x.TRIANGLE_STRIP, 0, 4);
+			fe[t] = _ > 0 ? g * (1 - _) : g, b.uniform2f(S.u_origin, a + C * (s - a), o + w * (c - o)), b.uniform1f(S.u_fill, g), b.uniform1f(S.u_recede, _), b.activeTexture(b.TEXTURE0), b.bindTexture(b.TEXTURE_2D, n.tex.bw), b.activeTexture(b.TEXTURE1), b.bindTexture(b.TEXTURE_2D, n.tex.col), b.activeTexture(b.TEXTURE2), b.bindTexture(b.TEXTURE_2D, n.tex.dist), b.activeTexture(b.TEXTURE3), b.bindTexture(b.TEXTURE_2D, n.tex.sk), b.drawArrays(b.TRIANGLE_STRIP, 0, 4);
 		}
-		x.disable(x.SCISSOR_TEST);
-	}, se = (e) => {
-		let t = n.getBoundingClientRect(), r = innerHeight, i = u && !ae ? X(r) : null;
-		b.forEach((n, a) => {
-			let o = n.el.getBoundingClientRect(), s = K(G(a, t.top, r, o.top)), c = u && ae ? oe(s) : s >= .97 ? i ? i[a] : ie(n, e) : 0;
-			if (xe && !u) {
+		b.disable(b.SCISSOR_TEST);
+	}, $ = (e) => {
+		let t = n.getBoundingClientRect(), r = innerHeight, i = u && !q ? ne(r) : null;
+		y.forEach((n, a) => {
+			let o = n.el.getBoundingClientRect(), s = U(H(a, t.top, r, o.top)), c = u && q ? te(s) : s >= .97 ? i ? i[a] : K(n, e) : 0;
+			if (Ce && !u) {
 				let [e, t] = l(s);
 				t < 1 && (c = Math.max(c, e * (1 - t)));
 			}
-			fe[a] = c, V(n.el, "--arr", s.toFixed(3)), V(n.el, "--fill", (y ? 1 : c).toFixed(3));
+			fe[a] = c, J(n.el, "--arr", s.toFixed(3)), J(n.el, "--fill", (v ? 1 : c).toFixed(3));
 		});
-	}, ce = () => {
-		_ = 0;
+	}, se = () => {
+		g = 0;
 		let e = performance.now();
 		c();
 		let t = n.getBoundingClientRect(), i = t.bottom > -40 && t.top < innerHeight + 40;
-		if (H(r, i), !i) {
-			Z = "";
+		if (re(r, i), !i) {
+			oe = "";
 			return;
 		}
-		x ? Q(e) : se(e), ee && !n.classList.contains("has-gl") && B(), pe.length && he(), (b.some((t) => t.enteredAt != null && t.leftAt == null && e - t.enteredAt < ye * 1e3 + 50 || t.leftAt != null && e - t.leftAt < be * 1e3 + 50) || e < v) && (_ = requestAnimationFrame(ce));
-	}, $ = (e = 0) => {
-		v = Math.max(v, performance.now() + e), _ || (_ = requestAnimationFrame(ce));
+		b ? Q(e) : $(e), z && !n.classList.contains("has-gl") && B(), pe.length && he(), (y.some((t) => t.enteredAt != null && t.leftAt == null && e - t.enteredAt < xe * 1e3 + 50 || t.leftAt != null && e - t.leftAt < Se * 1e3 + 50) || e < _) && (g = requestAnimationFrame(se));
+	}, ce = (e = 0) => {
+		_ = Math.max(_, performance.now() + e), g || (g = requestAnimationFrame(se));
 	};
-	addEventListener("scroll", () => $(), { passive: !0 });
+	addEventListener("scroll", () => ce(), { passive: !0 });
 	let le = (e, t) => {
 		if (u || e === h) return;
 		let r = performance.now();
 		h >= 0 && ue(h, r), h = e;
-		let a = b[e], o = a.leftAt == null ? 0 : ie(a, r);
-		a.enteredAt = r - (o > 0 ? ye * 1e3 * (1 - (1 - o) ** (1 / 2.6)) : 0), a.leftAt = null, o <= .02 && (a.origin = t), n.classList.add("has-active"), i.forEach((t, n) => t.classList.toggle("is-active", n === e)), $(520);
+		let a = y[e], o = a.leftAt == null ? 0 : K(a, r);
+		a.enteredAt = r - (o > 0 ? xe * 1e3 * (1 - (1 - o) ** (1 / 2.6)) : 0), a.leftAt = null, o <= .02 && (a.origin = t), n.classList.add("has-active"), i.forEach((t, n) => t.classList.toggle("is-active", n === e)), ce(520);
 	}, ue = (e, t) => {
-		let n = b[e];
-		n.enteredAt != null && n.leftAt == null && (n.fillAtLeave = ne(n, t), n.leftAt = t);
+		let n = y[e];
+		n.enteredAt != null && n.leftAt == null && (n.fillAtLeave = W(n, t), n.leftAt = t);
 	}, de = () => {
-		h < 0 || (ue(h, performance.now()), h = -1, n.classList.remove("has-active"), i.forEach((e) => e.classList.remove("is-active")), $(520));
+		h < 0 || (ue(h, performance.now()), h = -1, n.classList.remove("has-active"), i.forEach((e) => e.classList.remove("is-active")), ce(520));
 	};
 	i.forEach((e, t) => {
 		e.addEventListener("pointerenter", (n) => {
 			if (n.pointerType === "touch") return;
 			let r = e.getBoundingClientRect();
-			le(t, [J((n.clientX - r.left) / r.width), J((n.clientY - r.top) / r.height)]);
+			le(t, [X((n.clientX - r.left) / r.width), X((n.clientY - r.top) / r.height)]);
 		}), e.addEventListener("focus", () => le(t, [.5, .82])), e.addEventListener("blur", () => {
 			n.contains(document.activeElement) || de();
 		});
@@ -948,20 +951,20 @@ function we(e = {}) {
 		e.pointerType !== "touch" && !n.contains(document.activeElement) && de();
 	});
 	let fe = [], pe = [], me = [], he = () => {
-		b.forEach((e, t) => {
+		y.forEach((e, t) => {
 			let n = pe[t];
 			if (!n) return;
-			let r = e.el.getBoundingClientRect(), [i, a] = me[t], [o, s, c, l] = z(r.width, r.height, e.meta.focal, e.meta.aspect);
-			n.setAttribute("viewBox", `${(o * i).toFixed(1)} ${(s * a).toFixed(1)} ${(c * i).toFixed(1)} ${(l * a).toFixed(1)}`), V(n, "opacity", (1 - Y(((fe[t] ?? 0) - .55) / .4)).toFixed(3));
+			let r = e.el.getBoundingClientRect(), [i, a] = me[t], [o, s, c, l] = R(r.width, r.height, e.meta.focal, e.meta.aspect);
+			n.setAttribute("viewBox", `${(o * i).toFixed(1)} ${(s * a).toFixed(1)} ${(c * i).toFixed(1)} ${(l * a).toFixed(1)}`), J(n, "opacity", (1 - Z(((fe[t] ?? 0) - .55) / .4)).toFixed(3));
 		});
 	};
-	xe === 2 && U(n, () => {
-		b.forEach((e, t) => fetch(`${globalThis.__P26B}home/domains/${e.place}/line.json`).then((e) => e.json()).then((n) => {
+	Ce === 2 && ie(n, () => {
+		y.forEach((e, t) => fetch(`${globalThis.__P26B}home/domains/${e.place}/line.json`).then((e) => e.json()).then((n) => {
 			let r = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-			r.setAttribute("class", "dm-ln"), r.setAttribute("aria-hidden", "true"), r.setAttribute("preserveAspectRatio", "none"), r.innerHTML = `<path d="${n.d}" />`, e.el.append(r), pe[t] = r, me[t] = [n.w, n.h], $();
+			r.setAttribute("class", "dm-ln"), r.setAttribute("aria-hidden", "true"), r.setAttribute("preserveAspectRatio", "none"), r.innerHTML = `<path d="${n.d}" />`, e.el.append(r), pe[t] = r, me[t] = [n.w, n.h], ce();
 		}).catch(() => {}));
-	}, "300%"), xe && (n.peelFrom = () => {
-		let e = b[u ? b.length - 1 : 2]?.el;
+	}, "300%"), Ce && (n.peelFrom = () => {
+		let e = y[u ? y.length - 1 : 2]?.el;
 		if (!e) return null;
 		let t = e.getBoundingClientRect(), n = t.left + t.width * .86, r = t.bottom + scrollY;
 		return {
@@ -973,21 +976,21 @@ function we(e = {}) {
 			],
 			bottom: r
 		};
-	}), R(), n.__uv = () => b.map((e) => {
+	}), L(), n.__uv = () => y.map((e) => {
 		let t = e.el.getBoundingClientRect();
-		return z(t.width, t.height, e.meta.focal, e.meta.aspect);
+		return R(t.width, t.height, e.meta.focal, e.meta.aspect);
 	});
 	let ge = { setArrival(e) {
-		let t = e == null ? null : J(e);
-		t !== a && (a = t, $());
+		let t = e == null ? null : X(e);
+		t !== a && (a = t, ce());
 	} };
 	return e.root || (window.__strip = ge), ge.setRest = (e) => {
-		y = e, Z = "", $();
+		v = e, oe = "", ce();
 	}, ge;
 }
 //#endregion
 //#region src/home/river/river.ts
-var Te = matchMedia("(prefers-reduced-motion: reduce)").matches, Ee = .7, De = 1.7, Oe = .84, ke = 1.04, Ae = 1.25, je = 3, Me = .42, Ne = "attribute vec2 p; void main(){ gl_Position = vec4(p, 0., 1.); }", Pe = `precision highp float;
+var De = matchMedia("(prefers-reduced-motion: reduce)").matches, Oe = .7, ke = 1.7, Ae = .84, je = 1.04, Me = 1.25, Ne = 3, Pe = .42, Fe = "attribute vec2 p; void main(){ gl_Position = vec4(p, 0., 1.); }", Ie = `precision highp float;
 uniform vec2 u_res;           // canvas, device px
 uniform float u_dpr, u_R, u_Rr, u_seed;  // u_Rr: the retract front, in arrival-time units (large = not retracting)
 uniform vec2 u_frame;         // the frame's width in css px, and the share of the field it takes (the field's split)
@@ -997,8 +1000,8 @@ uniform float u_fx;           // the frame's left edge, css px (a phone's frame 
 uniform vec4 u_hole2;         // a second label (a phone: §01's text, which the streams pass behind on their way down)
 uniform float u_over;         // css px of the canvas above the frame's lower edge (under the frame): the first row repeats there
 uniform sampler2D u_field, u_img;
-const float T_MAX = ${Ae.toFixed(2)};
-const float BAND = ${Me.toFixed(2)};
+const float T_MAX = ${Me.toFixed(2)};
+const float BAND = ${Pe.toFixed(2)};
 const vec3 BONE = vec3(.933,.933,.902);
 // Sandur's two pigments: the infrared red of the outwash and the cyan of the glacier's meltwater
 const vec3 RED = vec3(.86,.24,.15);
@@ -1075,38 +1078,38 @@ void main(){
   float a = clamp(alpha * m, 0., 1.);
   gl_FragColor = vec4(pig * a, a);
 }`;
-function Fe(e) {
+function Le(e) {
 	let t = document.querySelector("[data-strip]"), n = document.querySelector("[data-line]"), r = document.querySelector("[data-river]");
 	if (!t || !n || !r) return;
-	let i = r.querySelector("canvas"), a = t.querySelector("[data-strip-row]"), o = t.querySelector(".dm-head"), s = n.querySelector(".ln-false");
-	if (Te) {
+	let i = r.querySelector("canvas"), s = t.querySelector("[data-strip-row]"), c = t.querySelector(".dm-head"), u = n.querySelector(".ln-false");
+	if (De) {
 		e?.setArrival(1), r.hidden = !0;
 		return;
 	}
-	let c = 0, l = 0, u = 1, d = !1, f = 0, p = 0, m = 0, h = 1, _ = 0, v = 0, y = [
+	let d = 0, f = 0, p = 1, m = !1, h = 0, g = 0, _ = 0, v = 1, y = 0, b = 0, x = [
 		0,
 		0,
 		0,
 		0
-	], b = [
+	], S = [
 		0,
 		0,
 		0,
 		0
-	], x = 0, C = 0, w = new URLSearchParams(location.search).has("nogl") ? null : i.getContext("webgl", {
+	], C = 0, w = 0, E = new URLSearchParams(location.search).has("nogl") ? null : i.getContext("webgl", {
 		premultipliedAlpha: !0,
 		antialias: !1
-	}), T = null, E = {}, O = null, k = null, A = null, j = null, N = () => !!s && s.complete && s.naturalWidth > 0, P = () => {
-		D(w) && j && k && (w.bindTexture(w.TEXTURE_2D, k), w.texImage2D(w.TEXTURE_2D, 0, w.RGB, w.RGB, w.UNSIGNED_BYTE, j));
-	}, F = () => {
-		s && !j && W(s.currentSrc || s.src).then((e) => {
-			j = e, P(), G = !0, X();
-		}).catch(() => {});
-	}, I = () => {
-		D(w) && A && O && (w.bindTexture(w.TEXTURE_2D, O), w.texImage2D(w.TEXTURE_2D, 0, w.RGBA, w.RGBA, w.UNSIGNED_BYTE, A));
+	}), D = null, O = {}, k = null, A = null, M = null, N = null, P = () => !!u && u.complete && u.naturalWidth > 0, F = () => {
+		I(E) && N && A && (E.bindTexture(E.TEXTURE_2D, A), E.texImage2D(E.TEXTURE_2D, 0, E.RGB, E.RGB, E.UNSIGNED_BYTE, N));
 	}, L = () => {
-		if (!w || (T = g(w, Ne, Pe), !T)) return;
-		w.useProgram(T), S(w, T);
+		u && !N && ae(u.currentSrc || u.src).then((e) => {
+			N = e, F(), G = !0, Y();
+		}).catch(() => {});
+	}, R = () => {
+		I(E) && M && k && (E.bindTexture(E.TEXTURE_2D, k), E.texImage2D(E.TEXTURE_2D, 0, E.RGBA, E.RGBA, E.UNSIGNED_BYTE, M));
+	}, z = () => {
+		if (!E || (D = T(E, Fe, Ie), !D)) return;
+		E.useProgram(D), j(E, D);
 		for (let e of [
 			"u_res",
 			"u_dpr",
@@ -1121,119 +1124,119 @@ function Fe(e) {
 			"u_field",
 			"u_img",
 			"u_over"
-		]) E[e] = w.getUniformLocation(T, e);
-		w.uniform1i(E.u_field, 0), w.uniform1i(E.u_img, 1), w.uniform1f(E.u_seed, 11.7);
+		]) O[e] = E.getUniformLocation(D, e);
+		E.uniform1i(O.u_field, 0), E.uniform1i(O.u_img, 1), E.uniform1f(O.u_seed, 11.7);
 		let e = () => {
-			let e = w.createTexture();
-			return w.bindTexture(w.TEXTURE_2D, e), w.texParameteri(w.TEXTURE_2D, w.TEXTURE_MIN_FILTER, w.LINEAR), w.texParameteri(w.TEXTURE_2D, w.TEXTURE_MAG_FILTER, w.LINEAR), w.texParameteri(w.TEXTURE_2D, w.TEXTURE_WRAP_S, w.CLAMP_TO_EDGE), w.texParameteri(w.TEXTURE_2D, w.TEXTURE_WRAP_T, w.CLAMP_TO_EDGE), e;
+			let e = E.createTexture();
+			return E.bindTexture(E.TEXTURE_2D, e), E.texParameteri(E.TEXTURE_2D, E.TEXTURE_MIN_FILTER, E.LINEAR), E.texParameteri(E.TEXTURE_2D, E.TEXTURE_MAG_FILTER, E.LINEAR), E.texParameteri(E.TEXTURE_2D, E.TEXTURE_WRAP_S, E.CLAMP_TO_EDGE), E.texParameteri(E.TEXTURE_2D, E.TEXTURE_WRAP_T, E.CLAMP_TO_EDGE), e;
 		};
-		O = e(), k = e(), w.texImage2D(w.TEXTURE_2D, 0, w.RGB, 1, 1, 0, w.RGB, w.UNSIGNED_BYTE, new Uint8Array([
+		k = e(), A = e(), E.texImage2D(E.TEXTURE_2D, 0, E.RGB, 1, 1, 0, E.RGB, E.UNSIGNED_BYTE, new Uint8Array([
 			200,
 			60,
 			40
-		])), P(), I();
+		])), F(), R();
 	};
-	L(), w && i.addEventListener("webglcontextlost", () => {
-		O = k = null;
-	}), w && T && s && (N() ? F() : s.addEventListener("load", F, { once: !0 }));
-	let R = "", z = (e) => {
-		w && R !== e && (R = e, W(`${globalThis.__P26B}home/river/field-${e}.png`).then((e) => {
-			A = e, I(), ee = !0, G = !0, X();
+	z(), E && i.addEventListener("webglcontextlost", () => {
+		k = A = null;
+	}), E && D && u && (P() ? L() : u.addEventListener("load", L, { once: !0 }));
+	let B = "", H = (e) => {
+		E && B !== e && (B = e, ae(`${globalThis.__P26B}home/river/field-${e}.png`).then((e) => {
+			M = e, R(), U = !0, G = !0, Y();
 		}).catch(() => {}));
-	}, ee = !1, B = () => {
-		if (c = innerWidth, l = ne(), u = Math.min(devicePixelRatio || 1, c <= 760 ? 1 : 1.5), d = oe(c, innerHeight), b = [
+	}, U = !1, ee = () => {
+		if (d = innerWidth, f = a(), p = Math.min(devicePixelRatio || 1, d <= 760 ? 1 : 1.5), m = l(d, innerHeight), S = [
 			0,
 			0,
 			0,
 			0
-		], x = 0, d) {
-			f = c;
+		], C = 0, m) {
+			h = d;
 			let e = n.querySelector(".ln-stick"), t = n.querySelector(".ln-frame"), r = n.querySelector(".ln-text");
 			if (e && t) {
 				let n = e.getBoundingClientRect(), i = t.getBoundingClientRect();
-				if (p = Math.max(0, Math.round(n.bottom - i.bottom)), x = i.left, C = i.width, r) {
+				if (g = Math.max(0, Math.round(n.bottom - i.bottom)), C = i.left, w = i.width, r) {
 					let e = r.getBoundingClientRect();
-					b = [
+					S = [
 						e.left - 10,
 						e.top - i.bottom - 10,
 						e.right + 10,
 						e.bottom - i.bottom + 10
 					];
 				}
-			} else p = 0, C = c;
-		} else f = Math.min(l, Math.round(c * .625)), p = Math.round((l - f) / 2);
-		m = (n.querySelector(".ln-stick")?.offsetHeight ?? l) - p, t.style.setProperty("--side", `${f}px`);
-		let e = (t.querySelector("[data-river-stop]") ?? a).getBoundingClientRect().top - t.getBoundingClientRect().top;
-		_ = t.clientWidth, v = p + e, Object.assign(r.style, {
-			top: `${-p - je}px`,
-			height: `${v + je}px`
-		}), h = Math.max(1, v + m - .7 * l), i.width = Math.round(_ * u), i.height = Math.round((v + je) * u), i.style.width = `${_}px`, i.style.height = `${v + je}px`;
-		let s = (o.querySelector("[data-river-hole]") ?? o).getBoundingClientRect(), g = r.getBoundingClientRect();
-		y = [
-			s.left - g.left - 14,
-			s.top - g.top - je - 14,
-			s.right - g.left + 14,
-			s.bottom - g.top - je + 14
-		], Q && z(d ? "m" : "d");
-		let S = document.documentElement.scrollHeight - l, w = r.getBoundingClientRect().top + je + scrollY, T = (e) => (m - (w - e)) / h * Ee, E = T(S), D = t.querySelector(".dm-foot") ?? a, O = o.getBoundingClientRect().top + scrollY, k = (D ? D.getBoundingClientRect().bottom + scrollY : O) - O, A = d || k > l ? O - 40 : O - (l - k) / 2;
-		ke = Math.min(1.2, E - .02, T(A) - .03), Oe = Math.max(.8688235294117647, ke - .2), G = !0;
-	}, V = -1, G = !0, te = () => {
-		let e = r.getBoundingClientRect().top + je, t = m - e;
-		return Math.max(0, t / h * Ee);
-	}, K = (e) => e <= Ee ? e : Ee + (e - Ee) * De, q = (e) => {
-		let t = J((e - Oe) / (ke - Oe));
+			} else g = 0, w = d;
+		} else h = Math.min(f, Math.round(d * .625)), g = Math.round((f - h) / 2);
+		_ = (n.querySelector(".ln-stick")?.offsetHeight ?? f) - g, t.style.setProperty("--side", `${h}px`);
+		let e = (t.querySelector("[data-river-stop]") ?? s).getBoundingClientRect().top - t.getBoundingClientRect().top;
+		y = t.clientWidth, b = g + e, Object.assign(r.style, {
+			top: `${-g - Ne}px`,
+			height: `${b + Ne}px`
+		}), v = Math.max(1, b + _ - .7 * f), i.width = Math.round(y * p), i.height = Math.round((b + Ne) * p), i.style.width = `${y}px`, i.style.height = `${b + Ne}px`;
+		let o = (c.querySelector("[data-river-hole]") ?? c).getBoundingClientRect(), u = r.getBoundingClientRect();
+		x = [
+			o.left - u.left - 14,
+			o.top - u.top - Ne - 14,
+			o.right - u.left + 14,
+			o.bottom - u.top - Ne + 14
+		], Q && H(m ? "m" : "d");
+		let T = document.documentElement.scrollHeight - f, E = r.getBoundingClientRect().top + Ne + scrollY, D = (e) => (_ - (E - e)) / v * Oe, O = D(T), k = t.querySelector(".dm-foot") ?? s, A = c.getBoundingClientRect().top + scrollY, j = (k ? k.getBoundingClientRect().bottom + scrollY : A) - A, M = m || j > f ? A - 40 : A - (f - j) / 2;
+		je = Math.min(1.2, O - .02, D(M) - .03), Ae = Math.max(.8688235294117647, je - .2), G = !0;
+	}, W = -1, G = !0, K = () => {
+		let e = r.getBoundingClientRect().top + Ne, t = _ - e;
+		return Math.max(0, t / v * Oe);
+	}, q = (e) => e <= Oe ? e : Oe + (e - Oe) * ke, te = (e) => {
+		let t = X((e - Ae) / (je - Ae));
 		if (t <= 0) return 9;
-		let n = Math.min(K(e), Ae) + .06;
+		let n = Math.min(q(e), Me) + .06;
 		return n - t ** 1.3 * (n + .14);
-	}, ie = () => {
-		if (!w || !T || !ee || !D(w)) return;
-		let e = r.getBoundingClientRect(), t = e.bottom > -40 && e.top < l + 40 && V > 0 && V < ke;
-		H(i, t), t && (w.viewport(0, 0, i.width, i.height), w.clearColor(0, 0, 0, 0), w.clear(w.COLOR_BUFFER_BIT), w.uniform2f(E.u_res, i.width, i.height), w.uniform1f(E.u_over, je), w.uniform1f(E.u_dpr, u), w.uniform1f(E.u_R, Math.min(K(V), 1.02)), w.uniform1f(E.u_Rr, q(V)), w.uniform2f(E.u_frame, d ? C : f, d ? 1 : .625), w.uniform1f(E.u_fx, x), w.uniform4f(E.u_hole2, ...b), w.uniform4f(E.u_hole, ...y), w.uniform1f(E.u_holeK, d ? .82 : 1), w.activeTexture(w.TEXTURE0), w.bindTexture(w.TEXTURE_2D, O), w.activeTexture(w.TEXTURE1), w.bindTexture(w.TEXTURE_2D, k), w.drawArrays(w.TRIANGLE_STRIP, 0, 4));
-	}, ae = 0, Y = () => {
-		ae = 0;
-		let t = te();
-		e?.setArrival(J((K(t) - .6699999999999999) / .3)), (Math.abs(t - V) > 1e-4 || G) && (V = t, G = !1, ie()), window.__river = {
-			R: V,
-			Hc: v,
-			side: f,
-			ftop: p,
-			pinB: m,
-			span: h,
-			RET0: Oe,
-			RET1: ke,
-			LAND: Ee
+	}, ne = () => {
+		if (!E || !D || !U || !I(E)) return;
+		let e = r.getBoundingClientRect(), t = e.bottom > -40 && e.top < f + 40 && W > 0 && W < je;
+		re(i, t), t && (E.viewport(0, 0, i.width, i.height), E.clearColor(0, 0, 0, 0), E.clear(E.COLOR_BUFFER_BIT), E.uniform2f(O.u_res, i.width, i.height), E.uniform1f(O.u_over, Ne), E.uniform1f(O.u_dpr, p), E.uniform1f(O.u_R, Math.min(q(W), 1.02)), E.uniform1f(O.u_Rr, te(W)), E.uniform2f(O.u_frame, m ? w : h, m ? 1 : .625), E.uniform1f(O.u_fx, C), E.uniform4f(O.u_hole2, ...S), E.uniform4f(O.u_hole, ...x), E.uniform1f(O.u_holeK, m ? .82 : 1), E.activeTexture(E.TEXTURE0), E.bindTexture(E.TEXTURE_2D, k), E.activeTexture(E.TEXTURE1), E.bindTexture(E.TEXTURE_2D, A), E.drawArrays(E.TRIANGLE_STRIP, 0, 4));
+	}, J = 0, oe = () => {
+		J = 0;
+		let t = K();
+		e?.setArrival(X((q(t) - .6699999999999999) / .3)), (Math.abs(t - W) > 1e-4 || G) && (W = t, G = !1, ne()), window.__river = {
+			R: W,
+			Hc: b,
+			side: h,
+			ftop: g,
+			pinB: _,
+			span: v,
+			RET0: Ae,
+			RET1: je,
+			LAND: Oe
 		};
-	}, X = () => {
-		ae || (ae = requestAnimationFrame(Y));
+	}, Y = () => {
+		J || (J = requestAnimationFrame(oe));
 	};
-	addEventListener("scroll", X, { passive: !0 });
+	addEventListener("scroll", Y, { passive: !0 });
 	let Z = 0;
-	re(() => {
+	o(() => {
 		clearTimeout(Z), Z = window.setTimeout(() => {
-			B(), X();
+			ee(), Y();
 		}, 120);
 	}), new ResizeObserver(() => {
-		B(), X();
-	}).observe(a);
+		ee(), Y();
+	}).observe(s);
 	let Q = !1;
-	U(t, () => {
-		Q = !0, z(d ? "m" : "d");
-	}), w && T && M(i, w, {
+	ie(t, () => {
+		Q = !0, H(m ? "m" : "d");
+	}), E && D && V(i, E, {
 		name: "river",
 		near: r,
 		margin: .5
-	}, L, () => {
-		G = !0, X();
-	}), B(), X();
+	}, z, () => {
+		G = !0, Y();
+	}), ee(), Y();
 }
 //#endregion
 //#region src/home/research/ink-gl.ts
-var Ie = [
+var Re = [
 	29 / 255,
 	29 / 255,
 	21 / 255
-], Le = "#version 300 es\nin vec2 p; in vec2 nrm; in float gate; in float w; in float dry; in float a; in float s; in float side; in vec3 col;\nuniform vec2 view; uniform float off, dpr;\nout float vSide; out float vW; out float vGate; out float vDry; out float vA; out float vS; out vec3 vCol;\nvoid main() {\n  float wd = w * dpr;\n  float hw = 0.5 * wd + 1.0;\n  vec2 q = vec2(p.x, p.y - off) * dpr + nrm * side * hw;\n  vSide = side * hw; vW = wd; vGate = gate; vDry = dry; vA = a; vS = s; vCol = col;\n  gl_Position = vec4(q.x / view.x * 2. - 1., 1. - q.y / view.y * 2., 0., 1.);\n}", Re = "#version 300 es\nprecision highp float;\nin float vSide; in float vW; in float vGate; in float vDry; in float vA; in float vS; in vec3 vCol;\nuniform float tip, grain;\nout vec4 o;\nfloat hash(vec2 q) { return fract(sin(dot(q, vec2(12.9898, 78.233))) * 43758.5453); }\nfloat vnoise(vec2 q) {\n  vec2 c = floor(q), f = fract(q); f = f * f * (3. - 2. * f);\n  return mix(mix(hash(c), hash(c + vec2(1., 0.)), f.x), mix(hash(c + vec2(0., 1.)), hash(c + vec2(1., 1.)), f.x), f.y);\n}\nvoid main() {\n  if (vGate > tip) discard;\n  float cov = clamp(0.5 * vW + 0.5 - abs(vSide), 0., 1.);\n  cov *= min(vW, 1.);\n  // the dry-pen grain of the line prototype: in patches, a few pixels inside a wide line catch less ink\n  vec2 g = gl_FragCoord.xy / 9.;\n  float pt = vnoise(g);\n  float h = hash(floor(gl_FragCoord.xy));\n  cov *= 1. - grain * smoothstep(.55, .9, pt) * step(.6, h);\n  // running dry: bristles (noise across the stroke, stretched along it) let go one by one\n  if (vDry > 0.001) {\n    float across = vSide / max(vW * 0.5, 1.) ;            // -1 … 1 across the stroke\n    float br = vnoise(vec2(vS * 0.04, across * 4.6 + 7.)) * 0.72 + vnoise(vec2(vS * 0.19, across * 11.)) * 0.28;\n    cov *= smoothstep(vDry - 0.06, vDry + 0.08, br);\n  }\n  float al = cov * vA;\n  o = vec4(vCol * al, al);\n}";
-function ze(e, t = (e, t) => e.w[t], n = 2) {
+], ze = "#version 300 es\nin vec2 p; in vec2 nrm; in float gate; in float w; in float dry; in float a; in float s; in float side; in vec3 col;\nuniform vec2 view; uniform float off, dpr;\nout float vSide; out float vW; out float vGate; out float vDry; out float vA; out float vS; out vec3 vCol;\nvoid main() {\n  float wd = w * dpr;\n  float hw = 0.5 * wd + 1.0;\n  vec2 q = vec2(p.x, p.y - off) * dpr + nrm * side * hw;\n  vSide = side * hw; vW = wd; vGate = gate; vDry = dry; vA = a; vS = s; vCol = col;\n  gl_Position = vec4(q.x / view.x * 2. - 1., 1. - q.y / view.y * 2., 0., 1.);\n}", Be = "#version 300 es\nprecision highp float;\nin float vSide; in float vW; in float vGate; in float vDry; in float vA; in float vS; in vec3 vCol;\nuniform float tip, grain;\nout vec4 o;\nfloat hash(vec2 q) { return fract(sin(dot(q, vec2(12.9898, 78.233))) * 43758.5453); }\nfloat vnoise(vec2 q) {\n  vec2 c = floor(q), f = fract(q); f = f * f * (3. - 2. * f);\n  return mix(mix(hash(c), hash(c + vec2(1., 0.)), f.x), mix(hash(c + vec2(0., 1.)), hash(c + vec2(1., 1.)), f.x), f.y);\n}\nvoid main() {\n  if (vGate > tip) discard;\n  float cov = clamp(0.5 * vW + 0.5 - abs(vSide), 0., 1.);\n  cov *= min(vW, 1.);\n  // the dry-pen grain of the line prototype: in patches, a few pixels inside a wide line catch less ink\n  vec2 g = gl_FragCoord.xy / 9.;\n  float pt = vnoise(g);\n  float h = hash(floor(gl_FragCoord.xy));\n  cov *= 1. - grain * smoothstep(.55, .9, pt) * step(.6, h);\n  // running dry: bristles (noise across the stroke, stretched along it) let go one by one\n  if (vDry > 0.001) {\n    float across = vSide / max(vW * 0.5, 1.) ;            // -1 … 1 across the stroke\n    float br = vnoise(vec2(vS * 0.04, across * 4.6 + 7.)) * 0.72 + vnoise(vec2(vS * 0.19, across * 11.)) * 0.28;\n    cov *= smoothstep(vDry - 0.06, vDry + 0.08, br);\n  }\n  float al = cov * vA;\n  o = vec4(vCol * al, al);\n}";
+function Ve(e, t = (e, t) => e.w[t], n = 2) {
 	let r = 0, i = 0;
 	for (let t of e) r += t.x.length, i += Math.max(0, t.x.length - 1);
 	let a = new Float32Array(r * 2 * 14), o = new Uint32Array(i * 6), s = 0, c = 0, l = 0;
@@ -1246,7 +1249,7 @@ function ze(e, t = (e, t) => e.w[t], n = 2) {
 			b < 1e-6 ? (v = m, y = h) : (v /= b, y /= b);
 			let x = -y, S = v, C = Math.min(n, 1 / Math.max(.5, x * -p + S * f));
 			x *= C, S *= C;
-			let w = r.c ? r.c[i * 3] : Ie[0], T = r.c ? r.c[i * 3 + 1] : Ie[1], E = r.c ? r.c[i * 3 + 2] : Ie[2], D = t(r, i);
+			let w = r.c ? r.c[i * 3] : Re[0], T = r.c ? r.c[i * 3 + 1] : Re[1], E = r.c ? r.c[i * 3 + 2] : Re[2], D = t(r, i);
 			for (let e of [-1, 1]) a.set([
 				r.x[i],
 				r.y[i],
@@ -1282,17 +1285,17 @@ function ze(e, t = (e, t) => e.w[t], n = 2) {
 		I: o
 	};
 }
-function Be(e, t, n) {
+function He(e, t, n) {
 	let r = e.getContext("webgl2", {
 		premultipliedAlpha: !0,
 		alpha: !0,
 		antialias: !1
 	});
 	if (!r) return null;
-	let i = null, a = null, o = null, s = {}, c = 0, l = ze(t), u = () => {
-		D(r) && (r.bindVertexArray(i), r.bindBuffer(r.ARRAY_BUFFER, a), r.bufferData(r.ARRAY_BUFFER, l.V, r.STATIC_DRAW), r.bindBuffer(r.ELEMENT_ARRAY_BUFFER, o), r.bufferData(r.ELEMENT_ARRAY_BUFFER, l.I, r.STATIC_DRAW), c = l.I.length);
+	let i = null, a = null, o = null, s = {}, c = 0, l = Ve(t), u = () => {
+		I(r) && (r.bindVertexArray(i), r.bindBuffer(r.ARRAY_BUFFER, a), r.bufferData(r.ARRAY_BUFFER, l.V, r.STATIC_DRAW), r.bindBuffer(r.ELEMENT_ARRAY_BUFFER, o), r.bufferData(r.ELEMENT_ARRAY_BUFFER, l.I, r.STATIC_DRAW), c = l.I.length);
 	}, d = () => {
-		let e = g(r, Le, Re);
+		let e = T(r, ze, Be);
 		if (!e) return !1;
 		r.useProgram(e), i = r.createVertexArray(), r.bindVertexArray(i), a = r.createBuffer(), r.bindBuffer(r.ARRAY_BUFFER, a), o = r.createBuffer(), r.bindBuffer(r.ELEMENT_ARRAY_BUFFER, o);
 		let t = (t, n, i) => {
@@ -1311,32 +1314,32 @@ function Be(e, t, n) {
 	let f = {
 		onRestore: () => {},
 		draw(t, n, a) {
-			if (!D(r)) return;
+			if (!I(r)) return;
 			let o = e.width, l = e.height;
 			r.viewport(0, 0, o, l), r.clearColor(0, 0, 0, 0), r.clear(r.COLOR_BUFFER_BIT), r.uniform2f(s.view, o, l), r.uniform1f(s.off, t), r.uniform1f(s.dpr, a), r.uniform1f(s.tip, n), r.uniform1f(s.grain, .32), r.bindVertexArray(i), r.drawElements(r.TRIANGLES, c, r.UNSIGNED_INT, 0);
 		},
 		upload(e) {
-			l = ze(e), u();
+			l = Ve(e), u();
 		}
 	};
-	return M(e, r, n, d, () => f.onRestore()), f;
+	return V(e, r, n, d, () => f.onRestore()), f;
 }
 //#endregion
 //#region src/home/research/wash-gl.ts
-var Ve = "#version 300 es\nin vec2 p; in vec2 nrm; in float gate; in float w; in float dry; in float a; in float s; in float side; in vec3 col;\nuniform vec2 view; uniform float off, dpr;\nout vec2 vPg; out float vSide; out float vGate; out float vDry; out float vA; out vec3 vCol;\nvoid main() {\n  vec2 pg = p + nrm * side * 0.5 * w;               // page (section) px\n  vPg = pg; vSide = side; vGate = gate; vDry = dry; vA = a; vCol = col;\n  vec2 q = vec2(pg.x, pg.y - off) * dpr;\n  gl_Position = vec4(q.x / view.x * 2. - 1., 1. - q.y / view.y * 2., 0., 1.);\n}", He = "#version 300 es\nprecision highp float;\nin vec2 vPg; in float vSide; in float vGate; in float vDry; in float vA; in vec3 vCol;\nuniform sampler2D img;\nuniform vec4 aff;    // page px -> 2000-px image coordinates: (ax, bx, ay, by)\nuniform float tip, wick, rec, dens;\nuniform vec2 canvasPx; // the canvas size in device px: the wash fades out before either edge, never a cut\nuniform float feather;\nuniform float inset;   // device px of the canvas beyond the screen, top and bottom (the fade is at the screen's edges)\nout vec4 o;\nfloat hash(vec2 q) { return fract(sin(dot(q, vec2(12.9898, 78.233))) * 43758.5453); }\nfloat vn(vec2 q) { vec2 c = floor(q), f = fract(q); f = f * f * (3. - 2. * f);\n  return mix(mix(hash(c), hash(c + vec2(1., 0.)), f.x), mix(hash(c + vec2(0., 1.)), hash(c + vec2(1., 1.)), f.x), f.y); }\nfloat fbm(vec2 q) { float a = .5, s = 0.; for (int i = 0; i < 4; i++) { s += a * vn(q); q *= 2.03; a *= .5; } return s; }\nvoid main() {\n  float wet = tip - vGate;\n  if (wet <= 0.) discard;\n  bool own = vCol.r >= 0.;\n  // the pigment wicks out from the channel over the next stretch of the pen's travel\n  float spread = smoothstep(0., wick, wet);\n  // the wash's reach varies along the channel: pools here, a thin seep there; a lobed, ragged edge\n  float nl = fbm(vPg / 210. + 3.1), n = fbm(vPg / 70.), n2 = fbm(vPg / 24. + 7.3);\n  float r = (.25 + .75 * spread) * clamp(.42 + .72 * nl + .26 * (n - .5) + .04 * (n2 - .5), .2, 1.);\n  float across = abs(vSide);\n  float body = 1. - smoothstep(r - .3, r, across);\n  if (body <= 0.002) discard;\n  float tide = smoothstep(r - .2, r - .04, across) * (1. - smoothstep(r - .04, r, across));\n  // the place's colour around here (a blurred read of the photograph: water and land together, not the water alone)\n  vec3 c = own ? vCol : textureLod(img, vec2(aff.x * vPg.x + aff.y, aff.z * vPg.y + aff.w) / 2000., 2.6).rgb; // the source is 512 px: mip 2.6 here is the same blur as mip 4.6 of the old 2048 px file\n  // the photograph's colour as pigment: lifted and a little more saturated (the water is near-black in the picture)\n  float l = dot(c, vec3(.3, .55, .15));\n  c = clamp(mix(vec3(l), c, 1.55) * (1. + .45 * (1. - smoothstep(.0, .4, l))) + .1 * (1. - l), 0., 1.);\n  float gran = vn(vPg / 3.2) * .5 + vn(vPg / 9.) * .5;\n  float d = dens * (1. + .55 * tide) * (.8 + .4 * fbm(vPg / 30. + 1.7)) * (1. + .25 * (smoothstep(.45, .85, gran) - .4));\n  d *= 1. - smoothstep(.02, .75, vDry * 1.35);         // dead ends dry first\n  d *= vA;\n  // no hard edges: the trunk's wash ramps in from nothing as it comes down from the strip (so the colour never starts\n  // at a line where the section begins), and the canvas fades out before its own top and bottom edges\n  d *= smoothstep(-20., 560., vPg.y);\n  d *= smoothstep(inset, inset + feather, gl_FragCoord.y) * smoothstep(inset, inset + feather, canvasPx.y - gl_FragCoord.y);\n  if (own && rec > 0.) {                                // the pool's wet edges retract with the bloom (top down)\n    float ord = n * .35 + n2 * .1;\n    d *= smoothstep(0., .08, ord - (rec * 1.5 - .3));\n  }\n  float al = clamp(d * body, 0., 1.);\n  o = vec4(c * al, al);\n}";
-function Ue(e, t, n) {
+var Ue = "#version 300 es\nin vec2 p; in vec2 nrm; in float gate; in float w; in float dry; in float a; in float s; in float side; in vec3 col;\nuniform vec2 view; uniform float off, dpr;\nout vec2 vPg; out float vSide; out float vGate; out float vDry; out float vA; out vec3 vCol;\nvoid main() {\n  vec2 pg = p + nrm * side * 0.5 * w;               // page (section) px\n  vPg = pg; vSide = side; vGate = gate; vDry = dry; vA = a; vCol = col;\n  vec2 q = vec2(pg.x, pg.y - off) * dpr;\n  gl_Position = vec4(q.x / view.x * 2. - 1., 1. - q.y / view.y * 2., 0., 1.);\n}", We = "#version 300 es\nprecision highp float;\nin vec2 vPg; in float vSide; in float vGate; in float vDry; in float vA; in vec3 vCol;\nuniform sampler2D img;\nuniform vec4 aff;    // page px -> 2000-px image coordinates: (ax, bx, ay, by)\nuniform float tip, wick, rec, dens;\nuniform vec2 canvasPx; // the canvas size in device px: the wash fades out before either edge, never a cut\nuniform float feather;\nuniform float inset;   // device px of the canvas beyond the screen, top and bottom (the fade is at the screen's edges)\nout vec4 o;\nfloat hash(vec2 q) { return fract(sin(dot(q, vec2(12.9898, 78.233))) * 43758.5453); }\nfloat vn(vec2 q) { vec2 c = floor(q), f = fract(q); f = f * f * (3. - 2. * f);\n  return mix(mix(hash(c), hash(c + vec2(1., 0.)), f.x), mix(hash(c + vec2(0., 1.)), hash(c + vec2(1., 1.)), f.x), f.y); }\nfloat fbm(vec2 q) { float a = .5, s = 0.; for (int i = 0; i < 4; i++) { s += a * vn(q); q *= 2.03; a *= .5; } return s; }\nvoid main() {\n  float wet = tip - vGate;\n  if (wet <= 0.) discard;\n  bool own = vCol.r >= 0.;\n  // the pigment wicks out from the channel over the next stretch of the pen's travel\n  float spread = smoothstep(0., wick, wet);\n  // the wash's reach varies along the channel: pools here, a thin seep there; a lobed, ragged edge\n  float nl = fbm(vPg / 210. + 3.1), n = fbm(vPg / 70.), n2 = fbm(vPg / 24. + 7.3);\n  float r = (.25 + .75 * spread) * clamp(.42 + .72 * nl + .26 * (n - .5) + .04 * (n2 - .5), .2, 1.);\n  float across = abs(vSide);\n  float body = 1. - smoothstep(r - .3, r, across);\n  if (body <= 0.002) discard;\n  float tide = smoothstep(r - .2, r - .04, across) * (1. - smoothstep(r - .04, r, across));\n  // the place's colour around here (a blurred read of the photograph: water and land together, not the water alone)\n  vec3 c = own ? vCol : textureLod(img, vec2(aff.x * vPg.x + aff.y, aff.z * vPg.y + aff.w) / 2000., 2.6).rgb; // the source is 512 px: mip 2.6 here is the same blur as mip 4.6 of the old 2048 px file\n  // the photograph's colour as pigment: lifted and a little more saturated (the water is near-black in the picture)\n  float l = dot(c, vec3(.3, .55, .15));\n  c = clamp(mix(vec3(l), c, 1.55) * (1. + .45 * (1. - smoothstep(.0, .4, l))) + .1 * (1. - l), 0., 1.);\n  float gran = vn(vPg / 3.2) * .5 + vn(vPg / 9.) * .5;\n  float d = dens * (1. + .55 * tide) * (.8 + .4 * fbm(vPg / 30. + 1.7)) * (1. + .25 * (smoothstep(.45, .85, gran) - .4));\n  d *= 1. - smoothstep(.02, .75, vDry * 1.35);         // dead ends dry first\n  d *= vA;\n  // no hard edges: the trunk's wash ramps in from nothing as it comes down from the strip (so the colour never starts\n  // at a line where the section begins), and the canvas fades out before its own top and bottom edges\n  d *= smoothstep(-20., 560., vPg.y);\n  d *= smoothstep(inset, inset + feather, gl_FragCoord.y) * smoothstep(inset, inset + feather, canvasPx.y - gl_FragCoord.y);\n  if (own && rec > 0.) {                                // the pool's wet edges retract with the bloom (top down)\n    float ord = n * .35 + n2 * .1;\n    d *= smoothstep(0., .08, ord - (rec * 1.5 - .3));\n  }\n  float al = clamp(d * body, 0., 1.);\n  o = vec4(c * al, al);\n}";
+function Ge(e, t, n) {
 	let r = e.getContext("webgl2", {
 		premultipliedAlpha: !0,
 		alpha: !0,
 		antialias: !1
 	});
 	if (!r) return null;
-	let i = null, a = null, o = null, s = null, c = null, l = {}, u = !1, d = 0, f = !1, p = null, m = null, h = null, _ = () => {
-		p && D(r) && (r.bindVertexArray(a), r.bindBuffer(r.ARRAY_BUFFER, o), r.bufferData(r.ARRAY_BUFFER, p.V, r.STATIC_DRAW), r.bindBuffer(r.ELEMENT_ARRAY_BUFFER, s), r.bufferData(r.ELEMENT_ARRAY_BUFFER, p.I, r.STATIC_DRAW), d = p.I.length);
+	let i = null, a = null, o = null, s = null, c = null, l = {}, u = !1, d = 0, f = !1, p = null, m = null, h = null, g = () => {
+		p && I(r) && (r.bindVertexArray(a), r.bindBuffer(r.ARRAY_BUFFER, o), r.bufferData(r.ARRAY_BUFFER, p.V, r.STATIC_DRAW), r.bindBuffer(r.ELEMENT_ARRAY_BUFFER, s), r.bufferData(r.ELEMENT_ARRAY_BUFFER, p.I, r.STATIC_DRAW), d = p.I.length);
+	}, _ = () => {
+		m && I(r) && (r.bindTexture(r.TEXTURE_2D, c), r.texImage2D(r.TEXTURE_2D, 0, r.RGB, r.RGB, r.UNSIGNED_BYTE, m), r.generateMipmap(r.TEXTURE_2D), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_MIN_FILTER, r.LINEAR_MIPMAP_LINEAR), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_WRAP_S, r.CLAMP_TO_EDGE), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_WRAP_T, r.CLAMP_TO_EDGE));
 	}, v = () => {
-		m && D(r) && (r.bindTexture(r.TEXTURE_2D, c), r.texImage2D(r.TEXTURE_2D, 0, r.RGB, r.RGB, r.UNSIGNED_BYTE, m), r.generateMipmap(r.TEXTURE_2D), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_MIN_FILTER, r.LINEAR_MIPMAP_LINEAR), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_WRAP_S, r.CLAMP_TO_EDGE), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_WRAP_T, r.CLAMP_TO_EDGE));
-	}, y = () => {
-		if (i = g(r, Ve, He), !i) return !1;
+		if (i = T(r, Ue, We), !i) return !1;
 		r.useProgram(i), a = r.createVertexArray(), r.bindVertexArray(a), o = r.createBuffer(), r.bindBuffer(r.ARRAY_BUFFER, o), s = r.createBuffer(), r.bindBuffer(r.ELEMENT_ARRAY_BUFFER, s);
 		let e = (e, t, n) => {
 			let a = r.getAttribLocation(i, e);
@@ -1355,18 +1358,18 @@ function Ue(e, t, n) {
 			"canvasPx",
 			"feather",
 			"inset"
-		].map((e) => [e, r.getUniformLocation(i, e)])), r.uniform1i(l.img, 0), r.enable(r.BLEND), r.blendEquation(r.MAX), r.blendFunc(r.ONE, r.ONE), _(), v(), !0;
+		].map((e) => [e, r.getUniformLocation(i, e)])), r.uniform1i(l.img, 0), r.enable(r.BLEND), r.blendEquation(r.MAX), r.blendFunc(r.ONE, r.ONE), g(), _(), !0;
 	};
-	if (!y()) return null;
-	let b = (e) => {
-		m = e, v(), u = !0, h?.();
-	}, x = {
+	if (!v()) return null;
+	let y = (e) => {
+		m = e, _(), u = !0, h?.();
+	}, b = {
 		onRestore: () => {},
 		upload(e, t) {
-			p = ze(e, t, 1.15), _();
+			p = Ve(e, t, 1.15), g();
 		},
 		draw(t, n, o, s) {
-			if (!D(r)) return;
+			if (!I(r)) return;
 			let f = e.width, p = e.height;
 			r.viewport(0, 0, f, p), r.clearColor(0, 0, 0, 0), r.clear(r.COLOR_BUFFER_BIT), u && (r.useProgram(i), r.activeTexture(r.TEXTURE0), r.bindTexture(r.TEXTURE_2D, c), r.uniform2f(l.view, f, p), r.uniform1f(l.off, t), r.uniform1f(l.dpr, o), r.uniform1f(l.tip, n), r.uniform1f(l.wick, s.wick), r.uniform1f(l.rec, s.rec), r.uniform1f(l.dens, s.dens), r.uniform4f(l.aff, ...s.aff), r.uniform2f(l.canvasPx, f, p), r.uniform1f(l.feather, 56 * o), r.uniform1f(l.inset, (s.inset ?? 0) * o), r.bindVertexArray(a), r.drawElements(r.TRIANGLES, d, r.UNSIGNED_INT, 0));
 		},
@@ -1374,16 +1377,16 @@ function Ue(e, t, n) {
 			h = e;
 		},
 		load() {
-			f || (f = !0, W(t).then(async (t) => {
-				await te(e.parentElement ?? e), b(t);
+			f || (f = !0, ae(t).then(async (t) => {
+				await Y(e.parentElement ?? e), y(t);
 			}).catch(() => {}));
 		}
 	};
-	return M(e, r, n, y, () => x.onRestore()), x;
+	return V(e, r, n, v, () => b.onRestore()), b;
 }
 //#endregion
 //#region src/home/research/geometry.ts
-function We(e, t, n) {
+function Ke(e, t, n) {
 	let r = e.yUnit === "w" ? t : n, i = e.map;
 	return {
 		ax: 1 / (i.kx * t),
@@ -1393,7 +1396,7 @@ function We(e, t, n) {
 		U: r
 	};
 }
-function Ge(e) {
+function qe(e) {
 	let t = e * 2654435761 >>> 0;
 	return () => {
 		t |= 0, t = t + 1831565813 | 0;
@@ -1401,7 +1404,7 @@ function Ge(e) {
 		return e = e + Math.imul(e ^ e >>> 7, 61 | e) ^ e, ((e ^ e >>> 14) >>> 0) / 4294967296;
 	};
 }
-function Ke(e, t = 1.5, n = 0) {
+function Je(e, t = 1.5, n = 0) {
 	let r = [], i = [], a = e.length;
 	for (let o = n; o < a - 1; o++) {
 		let n = e[Math.max(0, o - 1)], s = e[o], c = e[o + 1], l = e[Math.min(a - 1, o + 2)], u = Math.hypot(c[0] - s[0], c[1] - s[1]), d = Math.max(2, Math.ceil(u / t));
@@ -1415,7 +1418,7 @@ function Ke(e, t = 1.5, n = 0) {
 		ys: i
 	};
 }
-function qe(e) {
+function Ye(e) {
 	return {
 		x: Float32Array.from(e.x),
 		y: Float32Array.from(e.y),
@@ -1426,7 +1429,7 @@ function qe(e) {
 		s: Float32Array.from(e.s)
 	};
 }
-function Je(e, t, n, r = .4) {
+function Xe(e, t, n, r = .4) {
 	let i = [n], a = [0];
 	for (let n = 1; n < e.length; n++) {
 		let o = Math.hypot(e[n] - e[n - 1], t[n] - t[n - 1]);
@@ -1437,13 +1440,13 @@ function Je(e, t, n, r = .4) {
 		s: a
 	};
 }
-function Ye(e, t, n, r, i = []) {
+function Ze(e, t, n, r, i = []) {
 	let a = e.yUnit === "w" ? t : n, o = [], s = {}, c = {}, l = {};
 	for (let n of [...e.paths, ...i]) {
 		let u = i.includes(n), d = n.pts;
 		if (n === e.paths[0] && r != null && !u) {
 			let e = r - d[0][0], t = d.length - 1;
-			d = d.map(([n, r], i) => [n + e * (1 - X(0, .35, i / t)), r]);
+			d = d.map(([n, r], i) => [n + e * (1 - Q(0, .35, i / t)), r]);
 		}
 		let f = d.map(([e, n]) => u ? [e, n] : [e * t, n * a]), p = f[0][1];
 		if (n.from) {
@@ -1468,7 +1471,7 @@ function Ye(e, t, n, r, i = []) {
 			}
 			f[f.length - 1] = [e.x[i], e.y[i]];
 		}
-		let { xs: g, ys: _ } = Ke(f, 1.5, m), v = Ge(n.seed), y = [
+		let { xs: g, ys: _ } = Je(f, 1.5, m), v = qe(n.seed), y = [
 			v() * 6.28,
 			v() * 6.28,
 			v() * 6.28,
@@ -1477,19 +1480,19 @@ function Ye(e, t, n, r, i = []) {
 			260 + v() * 200,
 			(n.tw ?? 90) * (.85 + v() * .3),
 			140 + v() * 80
-		], x = Je(g, _, 0), S = [], C = [], w = [], T = x.s[x.s.length - 1];
+		], x = Xe(g, _, 0), S = [], C = [], w = [], T = x.s[x.s.length - 1];
 		for (let e = 0; e < g.length; e++) {
 			let t = x.s[e], r = Math.max(0, e - 1), i = Math.min(g.length - 1, e + 1), a = g[i] - g[r], o = _[i] - _[r], s = Math.hypot(a, o) || 1;
 			a /= s, o /= s;
-			let c = (n.from || n.after ? X(0, 70, t) : 1) * (n.pin ? 1 - X(T - n.pin, T, t) : 1), l = (n.drift * Math.sin(t / b[0] * 6.28 + y[0]) + n.tremor * (.65 * Math.sin(t / b[1] * 6.28 + y[1]) + .35 * Math.sin(t / (b[1] * .43) * 6.28 + y[2]))) * c;
+			let c = (n.from || n.after ? Q(0, 70, t) : 1) * (n.pin ? 1 - Q(T - n.pin, T, t) : 1), l = (n.drift * Math.sin(t / b[0] * 6.28 + y[0]) + n.tremor * (.65 * Math.sin(t / b[1] * 6.28 + y[1]) + .35 * Math.sin(t / (b[1] * .43) * 6.28 + y[2]))) * c;
 			S.push(g[e] - o * l), C.push(_[e] + a * l);
-			let u = 1 + .12 * Math.sin(t / b[2] * 6.28 + y[3]), d = n.from ? .45 + .55 * X(0, 60, t) : 1, f = n.thinTo ? 1 + (n.thinTo - 1) * X(T * .55, T, t) : 1, p = n.w * u * d * f;
-			w.push(Number.isNaN(h) ? p : h + (p - h) * X(0, 140, t));
+			let u = 1 + .12 * Math.sin(t / b[2] * 6.28 + y[3]), d = n.from ? .45 + .55 * Q(0, 60, t) : 1, f = n.thinTo ? 1 + (n.thinTo - 1) * Q(T * .55, T, t) : 1, p = n.w * u * d * f;
+			w.push(Number.isNaN(h) ? p : h + (p - h) * Q(0, 140, t));
 		}
-		let { g: E, s: D } = Je(S, C, p, n.side);
+		let { g: E, s: D } = Xe(S, C, p, n.side);
 		if (n.settle) {
 			let e = Math.max(0, p - C[0]), t = -Infinity;
-			for (let r = 0; r < E.length; r++) t = Math.max(t, E[r] - e * X(0, n.settle, D[r])), E[r] = t;
+			for (let r = 0; r < E.length; r++) t = Math.max(t, E[r] - e * Q(0, n.settle, D[r])), E[r] = t;
 		}
 		let O = {
 			x: S,
@@ -1510,7 +1513,7 @@ function Ye(e, t, n, r, i = []) {
 			x: S,
 			y: C,
 			gate: E
-		}, n.end === "dry" && Ze(O, n.dryLen), n.end === "fray" && Qe(O, o, n.seed), o.push(Object.assign(qe(O), { id: n.id }));
+		}, n.end === "dry" && $e(O, n.dryLen), n.end === "fray" && et(O, o, n.seed), o.push(Object.assign(Ye(O), { id: n.id }));
 	}
 	return {
 		strokes: o,
@@ -1525,7 +1528,7 @@ function Ye(e, t, n, r, i = []) {
 		U: a
 	};
 }
-function Xe(e, t, n = 12) {
+function Qe(e, t, n = 12) {
 	let r = [], i = (e, t) => {
 		let n = r[r.length - 1];
 		(!n || Math.hypot(n[0] - e, n[1] - t) > 6) && r.push([e, t]);
@@ -1551,18 +1554,18 @@ function Xe(e, t, n = 12) {
 	}
 	return r;
 }
-function Ze(e, t = 340) {
+function $e(e, t = 340) {
 	t = Math.min(t, e.s[e.s.length - 1] * .8);
 	let n = e.s[e.s.length - 1];
 	for (let r = 0; r < e.x.length; r++) {
-		let i = X(n - t, n, e.s[r]);
+		let i = Q(n - t, n, e.s[r]);
 		e.dry[r] = i ** 1.1 * 1.12, e.w[r] *= 1 - .25 * i;
 	}
 }
-function Qe(e, t, n) {
-	let r = Ge(n * 31), i = e.x.length - 1, a = e.s[i];
+function et(e, t, n) {
+	let r = qe(n * 31), i = e.x.length - 1, a = e.s[i];
 	for (let t = 0; t < e.x.length; t++) {
-		let n = X(a - 120, a, e.s[t]);
+		let n = Q(a - 120, a, e.s[t]);
 		e.w[t] *= 1 - .4 * n, e.dry[t] = .45 * n;
 	}
 	let o = e.x[i] - e.x[i - 6], s = e.y[i] - e.y[i - 6], c = Math.hypot(o, s) || 1;
@@ -1575,8 +1578,8 @@ function Qe(e, t, n) {
 			let e = Math.cos(c), t = Math.sin(c);
 			f += (o * e - s * t) * 1.5, p += (o * t + s * e) * 1.5, m.push(f), h.push(p);
 		}
-		let { g, s: _ } = Je(m, h, e.gate[i]);
-		t.push(Object.assign(qe({
+		let { g, s: _ } = Xe(m, h, e.gate[i]);
+		t.push(Object.assign(Ye({
 			x: m,
 			y: h,
 			s: _,
@@ -1589,7 +1592,7 @@ function Qe(e, t, n) {
 }
 //#endregion
 //#region src/home/research/channels.ts
-var $e = {
+var tt = {
 	yUnit: "w",
 	survivor: "survivor",
 	mouth: [.8266, 1.1071],
@@ -2680,7 +2683,7 @@ var $e = {
 			from: "survivor"
 		}
 	]
-}, et = {
+}, nt = {
 	yUnit: "vh",
 	survivor: "survivor",
 	mouth: [.8195, 1.6826],
@@ -3376,8 +3379,8 @@ var $e = {
 			from: "survivor"
 		}
 	]
-}, tt = "attribute vec2 p; varying vec2 uv; void main() { uv = p * .5 + .5; uv.y = 1. - uv.y; gl_Position = vec4(p, 0., 1.); }", nt = "precision highp float;\nvarying vec2 uv;\nuniform sampler2D colTex, field;\nuniform vec4 crop;   // the part of the colour image this rectangle shows (x, y, w, h in uv)\nuniform float u;     // the bloom's progress: 0 nothing, U_END settled (about one reach around the channel)\nuniform vec2 px;     // the canvas size, device px\nuniform float rec;   // the retract: 0 none, 1 all gone (the top clears first, the colour drains downwards)\nuniform vec4 hole;   // a text block the pigment runs around, never under (x0, y0, x1, y1 in uv; x1 < x0 for none)\nuniform vec2 holePad; // its soft margin (x: device px)\nuniform vec2 soft;    // a phone: the ragged feather (css px) at the top and sides; 0 = the desktop's (a share of the size)\nuniform vec2 css;     // the rectangle's size, css px\nfloat hash(vec2 q) { return fract(sin(dot(q, vec2(12.9898, 78.233))) * 43758.5453); }\nfloat vn(vec2 q) { vec2 c = floor(q), f = fract(q); f = f * f * (3. - 2. * f);\n  return mix(mix(hash(c), hash(c + vec2(1., 0.)), f.x), mix(hash(c + vec2(0., 1.)), hash(c + vec2(1., 1.)), f.x), f.y); }\nfloat fbm(vec2 q) { float a = .5, s = 0.; for (int i = 0; i < 5; i++) { s += a * vn(q); q *= 2.03; a *= .5; } return s; }\nvoid main() {\n  vec4 f = texture2D(field, uv);\n  float d = f.r * 2., along = f.g;                       // distance from the channel (in reaches), where along it\n  vec2 q = uv * px / 180.;\n  float n = fbm(q * 1.7 + 3.1), n2 = fbm(q * 5. + 11.);\n  // arrival: along the channel first, then out through the paper; the fbm makes the front ragged and lobed\n  float t = along * .45 + d * 1.05 + (n - .5) * .55 + (n2 - .5) * .12;\n  float wet = u - t;\n  if (wet <= 0.) { gl_FragColor = vec4(0.); return; }\n  float body = smoothstep(0., .08, wet);\n  float edge = 1. - smoothstep(.0, .16, wet);           // the tide line at the front\n  vec2 tuv = crop.xy + uv * crop.zw;\n  vec3 c = texture2D(colTex, clamp(tuv, 0., 1.)).rgb;\n  // past the photograph's edge (the sea runs on below it) the wash thins away, raggedly\n  float inside = smoothstep(-.02, .05, tuv.x + (n - .5) * .05) * smoothstep(-.02, .05, 1. - tuv.x + (n - .5) * .05)\n               * smoothstep(-.02, .05, tuv.y + (n - .5) * .05) * smoothstep(-.06, .04, 1. - tuv.y + (n - .5) * .08);\n  // fresh wash is thinner, deepening behind the front; the tide pools darker; pigment granulates in the paper\n  float depth = mix(.55, 1., smoothstep(0., .5, wet));\n  float gran = vn(gl_FragCoord.xy / 2.3) * .5 + vn(gl_FragCoord.xy / 7.) * .5;\n  // over the open sea (near-black in the photograph) the wash runs thinner and lighter, so it reads as pigment not ink\n  float lum = dot(c, vec3(.3, .55, .15));\n  float deep = 1. - smoothstep(.04, .3, lum);\n  c = mix(c, c * .75 + vec3(.22, .2, .34), deep * .38);\n  c *= 1. - .22 * edge;\n  c = mix(vec3(1.), c, depth);\n  c *= 1. - .1 * smoothstep(.45, .85, gran) * body;\n  float a = body * (.92 - .07 * smoothstep(.35, .75, n2)) * (1. - smoothstep(1.55, 1.95, d)); // never reaches the frame\n  if (soft.x > 0.) {\n    // a phone: the rectangle's top cuts across the wet colour (it stops under the beat above), so it thins out over a\n    // deep, lobed margin that is clear paper at the edge itself, and so do the sides: no edge shows where the canvas is\n    vec2 e = vec2(min(uv.x, 1. - uv.x) * css.x / soft.y, uv.y * css.y / soft.x);\n    float rag = (n - .5) * .9 + (n2 - .5) * .2;\n    a *= smoothstep(0., 1., e.y - .5 + rag) * smoothstep(0., 1., e.x - .5 + rag);\n    a *= 1. - smoothstep(.9, 1., uv.y + (n - .5) * .12);\n  } else {\n    a *= smoothstep(.0, .1, uv.y + (n - .5) * .12) * (1. - smoothstep(.9, 1., uv.y + (n - .5) * .12)); // nor its top or foot\n    a *= smoothstep(.0, .12, uv.x + (n - .5) * .14) * (1. - smoothstep(.88, 1., uv.x + (n - .5) * .14)); // nor its sides: never a cut\n  }\n  a *= inside;\n  a *= 1. - .22 * deep;\n  // the beat beside it stays on clean paper: the wash stops short of its block with a ragged, soft edge\n  if (hole.z > hole.x) {\n    // distance (device px) from the beat's block, as a rounded box; the pigment thins out over a ragged margin\n    vec2 pp = uv * px, h0 = hole.xy * px, h1 = hole.zw * px;\n    vec2 q = abs(pp - (h0 + h1) * .5) - (h1 - h0) * .5;\n    float dist = length(max(q, 0.)) + min(max(q.x, q.y), 0.);\n    float m = holePad.x * (1. + (n - .5) * 1.1 + (n2 - .5) * .3);\n    a *= smoothstep(-.15 * m, m, dist);\n  }\n  // the retract: one front sweeping down through the wash, ragged like the bleed; what it passes is clean paper\n  // clears from the top down, the paper far from the channel first: the last colour gathers at the channel's mouth\n  float ord = uv.y * .8 + (1. - min(d, 1.)) * .2 + (n - .5) * .32 + (n2 - .5) * .06;\n  float back = ord - (rec * 1.45 - .12);\n  if (rec > 0.) {\n    a *= smoothstep(0., .035, back);\n    c *= 1. - .18 * (1. - smoothstep(0., .07, back)) * step(0., back); // the faint tide on the retreating edge\n  }\n  // premultiplied (as the river, ../river/river.ts): straight colour over a low alpha composited on iOS as added light,\n  // a white glow at the bloom's edge and a bright band along the canvas's top, where the colour is white and alpha 0\n  gl_FragColor = vec4(c * a, a);\n}";
-function rt(e, t) {
+}, rt = "attribute vec2 p; varying vec2 uv; void main() { uv = p * .5 + .5; uv.y = 1. - uv.y; gl_Position = vec4(p, 0., 1.); }", it = "precision highp float;\nvarying vec2 uv;\nuniform sampler2D colTex, field;\nuniform vec4 crop;   // the part of the colour image this rectangle shows (x, y, w, h in uv)\nuniform float u;     // the bloom's progress: 0 nothing, U_END settled (about one reach around the channel)\nuniform vec2 px;     // the canvas size, device px\nuniform float rec;   // the retract: 0 none, 1 all gone (the top clears first, the colour drains downwards)\nuniform vec4 hole;   // a text block the pigment runs around, never under (x0, y0, x1, y1 in uv; x1 < x0 for none)\nuniform vec2 holePad; // its soft margin (x: device px)\nuniform vec2 soft;    // a phone: the ragged feather (css px) at the top and sides; 0 = the desktop's (a share of the size)\nuniform vec2 css;     // the rectangle's size, css px\nfloat hash(vec2 q) { return fract(sin(dot(q, vec2(12.9898, 78.233))) * 43758.5453); }\nfloat vn(vec2 q) { vec2 c = floor(q), f = fract(q); f = f * f * (3. - 2. * f);\n  return mix(mix(hash(c), hash(c + vec2(1., 0.)), f.x), mix(hash(c + vec2(0., 1.)), hash(c + vec2(1., 1.)), f.x), f.y); }\nfloat fbm(vec2 q) { float a = .5, s = 0.; for (int i = 0; i < 5; i++) { s += a * vn(q); q *= 2.03; a *= .5; } return s; }\nvoid main() {\n  vec4 f = texture2D(field, uv);\n  float d = f.r * 2., along = f.g;                       // distance from the channel (in reaches), where along it\n  vec2 q = uv * px / 180.;\n  float n = fbm(q * 1.7 + 3.1), n2 = fbm(q * 5. + 11.);\n  // arrival: along the channel first, then out through the paper; the fbm makes the front ragged and lobed\n  float t = along * .45 + d * 1.05 + (n - .5) * .55 + (n2 - .5) * .12;\n  float wet = u - t;\n  if (wet <= 0.) { gl_FragColor = vec4(0.); return; }\n  float body = smoothstep(0., .08, wet);\n  float edge = 1. - smoothstep(.0, .16, wet);           // the tide line at the front\n  vec2 tuv = crop.xy + uv * crop.zw;\n  vec3 c = texture2D(colTex, clamp(tuv, 0., 1.)).rgb;\n  // past the photograph's edge (the sea runs on below it) the wash thins away, raggedly\n  float inside = smoothstep(-.02, .05, tuv.x + (n - .5) * .05) * smoothstep(-.02, .05, 1. - tuv.x + (n - .5) * .05)\n               * smoothstep(-.02, .05, tuv.y + (n - .5) * .05) * smoothstep(-.06, .04, 1. - tuv.y + (n - .5) * .08);\n  // fresh wash is thinner, deepening behind the front; the tide pools darker; pigment granulates in the paper\n  float depth = mix(.55, 1., smoothstep(0., .5, wet));\n  float gran = vn(gl_FragCoord.xy / 2.3) * .5 + vn(gl_FragCoord.xy / 7.) * .5;\n  // over the open sea (near-black in the photograph) the wash runs thinner and lighter, so it reads as pigment not ink\n  float lum = dot(c, vec3(.3, .55, .15));\n  float deep = 1. - smoothstep(.04, .3, lum);\n  c = mix(c, c * .75 + vec3(.22, .2, .34), deep * .38);\n  c *= 1. - .22 * edge;\n  c = mix(vec3(1.), c, depth);\n  c *= 1. - .1 * smoothstep(.45, .85, gran) * body;\n  float a = body * (.92 - .07 * smoothstep(.35, .75, n2)) * (1. - smoothstep(1.55, 1.95, d)); // never reaches the frame\n  if (soft.x > 0.) {\n    // a phone: the rectangle's top cuts across the wet colour (it stops under the beat above), so it thins out over a\n    // deep, lobed margin that is clear paper at the edge itself, and so do the sides: no edge shows where the canvas is\n    vec2 e = vec2(min(uv.x, 1. - uv.x) * css.x / soft.y, uv.y * css.y / soft.x);\n    float rag = (n - .5) * .9 + (n2 - .5) * .2;\n    a *= smoothstep(0., 1., e.y - .5 + rag) * smoothstep(0., 1., e.x - .5 + rag);\n    a *= 1. - smoothstep(.9, 1., uv.y + (n - .5) * .12);\n  } else {\n    a *= smoothstep(.0, .1, uv.y + (n - .5) * .12) * (1. - smoothstep(.9, 1., uv.y + (n - .5) * .12)); // nor its top or foot\n    a *= smoothstep(.0, .12, uv.x + (n - .5) * .14) * (1. - smoothstep(.88, 1., uv.x + (n - .5) * .14)); // nor its sides: never a cut\n  }\n  a *= inside;\n  a *= 1. - .22 * deep;\n  // the beat beside it stays on clean paper: the wash stops short of its block with a ragged, soft edge\n  if (hole.z > hole.x) {\n    // distance (device px) from the beat's block, as a rounded box; the pigment thins out over a ragged margin\n    vec2 pp = uv * px, h0 = hole.xy * px, h1 = hole.zw * px;\n    vec2 q = abs(pp - (h0 + h1) * .5) - (h1 - h0) * .5;\n    float dist = length(max(q, 0.)) + min(max(q.x, q.y), 0.);\n    float m = holePad.x * (1. + (n - .5) * 1.1 + (n2 - .5) * .3);\n    a *= smoothstep(-.15 * m, m, dist);\n  }\n  // the retract: one front sweeping down through the wash, ragged like the bleed; what it passes is clean paper\n  // clears from the top down, the paper far from the channel first: the last colour gathers at the channel's mouth\n  float ord = uv.y * .8 + (1. - min(d, 1.)) * .2 + (n - .5) * .32 + (n2 - .5) * .06;\n  float back = ord - (rec * 1.45 - .12);\n  if (rec > 0.) {\n    a *= smoothstep(0., .035, back);\n    c *= 1. - .18 * (1. - smoothstep(0., .07, back)) * step(0., back); // the faint tide on the retreating edge\n  }\n  // premultiplied (as the river, ../river/river.ts): straight colour over a low alpha composited on iOS as added light,\n  // a white glow at the bloom's edge and a bright band along the canvas's top, where the colour is white and alpha 0\n  gl_FragColor = vec4(c * a, a);\n}";
+function at(e, t) {
 	let n = document.createElement("canvas");
 	n.className = "br-bloom", n.setAttribute("aria-hidden", "true"), e.append(n);
 	let r = new URLSearchParams(location.search).has("nogl") ? null : n.getContext("webgl", {
@@ -3399,13 +3402,13 @@ function rt(e, t) {
 		1,
 		0,
 		0
-	], m = [0, 0], h = null, _ = null, v = null, y = {}, b = null, x = () => {
-		D(r) && a && (r.activeTexture(r.TEXTURE0), r.bindTexture(r.TEXTURE_2D, _), r.texImage2D(r.TEXTURE_2D, 0, r.RGB, r.RGB, r.UNSIGNED_BYTE, a), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_MIN_FILTER, r.LINEAR), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_MAG_FILTER, r.LINEAR), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_WRAP_S, r.CLAMP_TO_EDGE), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_WRAP_T, r.CLAMP_TO_EDGE));
-	}, C = () => {
-		D(r) && b && (r.activeTexture(r.TEXTURE1), r.bindTexture(r.TEXTURE_2D, v), r.texImage2D(r.TEXTURE_2D, 0, r.RGBA, b.w, b.h, 0, r.RGBA, r.UNSIGNED_BYTE, b.data), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_MIN_FILTER, r.LINEAR), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_MAG_FILTER, r.LINEAR), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_WRAP_S, r.CLAMP_TO_EDGE), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_WRAP_T, r.CLAMP_TO_EDGE));
-	}, w = () => {
-		if (r && (h = g(r, tt, nt), h)) {
-			r.useProgram(h), S(r, h);
+	], m = [0, 0], h = null, g = null, _ = null, v = {}, y = null, b = () => {
+		I(r) && a && (r.activeTexture(r.TEXTURE0), r.bindTexture(r.TEXTURE_2D, g), r.texImage2D(r.TEXTURE_2D, 0, r.RGB, r.RGB, r.UNSIGNED_BYTE, a), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_MIN_FILTER, r.LINEAR), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_MAG_FILTER, r.LINEAR), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_WRAP_S, r.CLAMP_TO_EDGE), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_WRAP_T, r.CLAMP_TO_EDGE));
+	}, x = () => {
+		I(r) && y && (r.activeTexture(r.TEXTURE1), r.bindTexture(r.TEXTURE_2D, _), r.texImage2D(r.TEXTURE_2D, 0, r.RGBA, y.w, y.h, 0, r.RGBA, r.UNSIGNED_BYTE, y.data), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_MIN_FILTER, r.LINEAR), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_MAG_FILTER, r.LINEAR), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_WRAP_S, r.CLAMP_TO_EDGE), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_WRAP_T, r.CLAMP_TO_EDGE));
+	}, S = () => {
+		if (r && (h = T(r, rt, it), h)) {
+			r.useProgram(h), j(r, h);
 			for (let e of [
 				"colTex",
 				"field",
@@ -3417,20 +3420,20 @@ function rt(e, t) {
 				"holePad",
 				"soft",
 				"css"
-			]) y[e] = r.getUniformLocation(h, e);
-			r.uniform1i(y.colTex, 0), r.uniform1i(y.field, 1), _ = r.createTexture(), v = r.createTexture(), x(), C();
+			]) v[e] = r.getUniformLocation(h, e);
+			r.uniform1i(v.colTex, 0), r.uniform1i(v.field, 1), g = r.createTexture(), _ = r.createTexture(), b(), x();
 		}
 	};
-	w(), r && h && M(n, r, {
+	S(), r && h && V(n, r, {
 		name: "bloom",
 		near: e,
 		margin: 1
-	}, w, () => {
-		d = NaN, A(O, k);
+	}, S, () => {
+		d = NaN, O(E, D);
 	});
-	let T = () => {
-		a && (o = !0, x(), d = NaN, A(O, k));
-	}, E = (e, t, i, a, o, h) => {
+	let C = () => {
+		a && (o = !0, b(), d = NaN, O(E, D));
+	}, w = (e, t, i, a, o, h) => {
 		s = t, c = i, l = a, u = Math.min(1.5, devicePixelRatio || 1), Object.assign(n.style, {
 			left: `${t.x}px`,
 			top: `${t.y}px`,
@@ -3459,107 +3462,107 @@ function rt(e, t) {
 			0,
 			0
 		], m = [44 * u, 0], !r) return;
-		let _ = Math.max(8, Math.round(t.w / 4)), v = Math.max(8, Math.round(t.h / 4)), y = Math.min(t.w, t.h) * (t.w < 600 ? .3 : .23), x = [];
-		for (let n = 0; n < e.x.length; n += 4) e.gate[n] < i || x.push([
+		let _ = Math.max(8, Math.round(t.w / 4)), v = Math.max(8, Math.round(t.h / 4)), b = Math.min(t.w, t.h) * (t.w < 600 ? .3 : .23), S = [];
+		for (let n = 0; n < e.x.length; n += 4) e.gate[n] < i || S.push([
 			e.x[n] - t.x,
 			e.y[n] - t.y,
-			J((e.gate[n] - i) / (a - i))
+			X((e.gate[n] - i) / (a - i))
 		]);
-		let S = new Uint8Array(_ * v * 4);
+		let C = new Uint8Array(_ * v * 4);
 		for (let e = 0; e < v; e++) for (let n = 0; n < _; n++) {
 			let r = (n + .5) * t.w / _, i = (e + .5) * t.h / v, a = Infinity, o = 1;
-			for (let [e, t, n] of x) {
+			for (let [e, t, n] of S) {
 				let s = (e - r) ** 2 + (t - i) ** 2;
 				s < a && (a = s, o = n);
 			}
 			let s = (e * _ + n) * 4;
-			S[s] = Math.round(J(Math.sqrt(a) / y / 2) * 255), S[s + 1] = Math.round(o * 255), S[s + 3] = 255;
+			C[s] = Math.round(X(Math.sqrt(a) / b / 2) * 255), C[s + 1] = Math.round(o * 255), C[s + 3] = 255;
 		}
-		b = {
+		y = {
 			w: _,
 			h: v,
-			data: S
-		}, C(), d = NaN;
-	}, O = -Infinity, k = 0, A = (t, u = 0) => {
-		O = t, k = u;
-		let g = 1.45, b = J((t - c) / (l - c)), x = t === Infinity ? g : (1 - (1 - b) ** 1.6) * g, S = x + u * 10;
-		if ((!r || D(r)) && S !== d) {
+			data: C
+		}, x(), d = NaN;
+	}, E = -Infinity, D = 0, O = (t, u = 0) => {
+		E = t, D = u;
+		let y = 1.45, b = X((t - c) / (l - c)), x = t === Infinity ? y : (1 - (1 - b) ** 1.6) * y, S = x + u * 10;
+		if ((!r || I(r)) && S !== d) {
 			if (d = S, r) {
 				if (r.viewport(0, 0, n.width, n.height), r.clearColor(0, 0, 0, 0), r.clear(r.COLOR_BUFFER_BIT), !o || x <= 0 || u >= 1) return;
-				r.useProgram(h), r.activeTexture(r.TEXTURE0), r.bindTexture(r.TEXTURE_2D, _), r.activeTexture(r.TEXTURE1), r.bindTexture(r.TEXTURE_2D, v), r.uniform4f(y.crop, ...f), r.uniform1f(y.u, x), r.uniform2f(y.px, n.width, n.height), r.uniform1f(y.rec, u), r.uniform4f(y.hole, ...p), r.uniform2f(y.holePad, ...m), r.uniform2f(y.soft, ...e.clientWidth <= 760 ? [70, 36] : [0, 0]), r.uniform2f(y.css, s.w, s.h), r.drawArrays(r.TRIANGLE_STRIP, 0, 4);
+				r.useProgram(h), r.activeTexture(r.TEXTURE0), r.bindTexture(r.TEXTURE_2D, g), r.activeTexture(r.TEXTURE1), r.bindTexture(r.TEXTURE_2D, _), r.uniform4f(v.crop, ...f), r.uniform1f(v.u, x), r.uniform2f(v.px, n.width, n.height), r.uniform1f(v.rec, u), r.uniform4f(v.hole, ...p), r.uniform2f(v.holePad, ...m), r.uniform2f(v.soft, ...e.clientWidth <= 760 ? [70, 36] : [0, 0]), r.uniform2f(v.css, s.w, s.h), r.drawArrays(r.TRIANGLE_STRIP, 0, 4);
 			} else if (i) {
 				if (i.clearRect(0, 0, n.width, n.height), !o || x <= 0 || u >= 1) return;
 				let e = n.width, t = n.height;
 				i.save();
 				let r = i.createRadialGradient(e / 2, t / 2, 0, e / 2, t / 2, Math.min(e, t) * .5);
-				if (r.addColorStop(0, "rgba(0,0,0,1)"), r.addColorStop(.55, "rgba(0,0,0,.9)"), r.addColorStop(1, "rgba(0,0,0,0)"), i.globalAlpha = J(x / 1.1) * (1 - u), !a) return;
+				if (r.addColorStop(0, "rgba(0,0,0,1)"), r.addColorStop(.55, "rgba(0,0,0,.9)"), r.addColorStop(1, "rgba(0,0,0,0)"), i.globalAlpha = X(x / 1.1) * (1 - u), !a) return;
 				i.drawImage(a, f[0] * a.width, f[1] * a.height, f[2] * a.width, f[3] * a.height, 0, 0, e, t), i.globalCompositeOperation = "destination-in", i.globalAlpha = 1, i.fillStyle = r, i.fillRect(0, 0, e, t), i.restore();
 			}
 		}
-	}, j = !1;
+	}, k = !1;
 	return {
-		layout: E,
-		draw: A,
+		layout: w,
+		draw: O,
 		settledAt: () => l,
 		load: () => {
-			j || (j = !0, W(t).then(async (t) => {
-				await te(e), a = t, T();
+			k || (k = !0, ae(t).then(async (t) => {
+				await Y(e), a = t, C();
 			}).catch(() => {}));
 		}
 	};
 }
 //#endregion
 //#region src/home/research/plate.ts
-var it = .7, at = .38, ot = "attribute vec2 p; varying vec2 uv; void main(){ uv = p * .5 + .5; uv.y = 1. - uv.y; gl_Position = vec4(p, 0., 1.); }", st = "precision highp float;\nvarying vec2 uv;\nuniform sampler2D bw, col;\nuniform vec4 crop;      // the part of the square image the plate shows (cover)\nuniform vec2 origin;    // where the colour came in (plate uv)\nuniform float front;    // how far the colour has run: 0 none, 1.3 the whole plate\nuniform float aspect;   // plate w / h\nfloat hash(vec2 q) { return fract(sin(dot(q, vec2(12.9898, 78.233))) * 43758.5453); }\nfloat vn(vec2 q) { vec2 c = floor(q), f = fract(q); f = f * f * (3. - 2. * f);\n  return mix(mix(hash(c), hash(c + vec2(1., 0.)), f.x), mix(hash(c + vec2(0., 1.)), hash(c + vec2(1., 1.)), f.x), f.y); }\nfloat fbm(vec2 q) { float a = .5, s = 0.; for (int i = 0; i < 5; i++) { s += a * vn(q); q *= 2.03; a *= .5; } return s; }\nvoid main() {\n  vec2 t = crop.xy + uv * crop.zw;\n  float g = texture2D(bw, t).r;\n  vec3 base = vec3(g);\n  vec2 d2 = (uv - origin) * vec2(aspect, 1.);\n  float n = fbm(uv * vec2(aspect, 1.) * 4.2 + 3.1), n2 = fbm(uv * vec2(aspect, 1.) * 13. + 9.);\n  float dist = length(d2) / max(1., aspect) + (n - .5) * .34 + (n2 - .5) * .06 + (g - .5) * .08; // runs ahead through the dark\n  float wet = front - dist;\n  if (front <= 0. || wet <= 0.) { gl_FragColor = vec4(base, 1.); return; }\n  float m = smoothstep(0., .05, wet);\n  float tide = (1. - smoothstep(0., .07, wet)) * m;\n  vec3 c = texture2D(col, t).rgb;\n  c *= 1. - .2 * tide;\n  float gr = vn(gl_FragCoord.xy / 2.4) * .5 + vn(gl_FragCoord.xy / 7.) * .5;\n  c *= 1. + .1 * (gr - .5);\n  gl_FragColor = vec4(mix(base, c, m), 1.);\n}";
-function ct(e) {
+var ot = .7, st = .38, ct = "attribute vec2 p; varying vec2 uv; void main(){ uv = p * .5 + .5; uv.y = 1. - uv.y; gl_Position = vec4(p, 0., 1.); }", lt = "precision highp float;\nvarying vec2 uv;\nuniform sampler2D bw, col;\nuniform vec4 crop;      // the part of the square image the plate shows (cover)\nuniform vec2 origin;    // where the colour came in (plate uv)\nuniform float front;    // how far the colour has run: 0 none, 1.3 the whole plate\nuniform float aspect;   // plate w / h\nfloat hash(vec2 q) { return fract(sin(dot(q, vec2(12.9898, 78.233))) * 43758.5453); }\nfloat vn(vec2 q) { vec2 c = floor(q), f = fract(q); f = f * f * (3. - 2. * f);\n  return mix(mix(hash(c), hash(c + vec2(1., 0.)), f.x), mix(hash(c + vec2(0., 1.)), hash(c + vec2(1., 1.)), f.x), f.y); }\nfloat fbm(vec2 q) { float a = .5, s = 0.; for (int i = 0; i < 5; i++) { s += a * vn(q); q *= 2.03; a *= .5; } return s; }\nvoid main() {\n  vec2 t = crop.xy + uv * crop.zw;\n  float g = texture2D(bw, t).r;\n  vec3 base = vec3(g);\n  vec2 d2 = (uv - origin) * vec2(aspect, 1.);\n  float n = fbm(uv * vec2(aspect, 1.) * 4.2 + 3.1), n2 = fbm(uv * vec2(aspect, 1.) * 13. + 9.);\n  float dist = length(d2) / max(1., aspect) + (n - .5) * .34 + (n2 - .5) * .06 + (g - .5) * .08; // runs ahead through the dark\n  float wet = front - dist;\n  if (front <= 0. || wet <= 0.) { gl_FragColor = vec4(base, 1.); return; }\n  float m = smoothstep(0., .05, wet);\n  float tide = (1. - smoothstep(0., .07, wet)) * m;\n  vec3 c = texture2D(col, t).rgb;\n  c *= 1. - .2 * tide;\n  float gr = vn(gl_FragCoord.xy / 2.4) * .5 + vn(gl_FragCoord.xy / 7.) * .5;\n  c *= 1. + .1 * (gr - .5);\n  gl_FragColor = vec4(mix(base, c, m), 1.);\n}";
+function ut(e) {
 	let t = matchMedia("(prefers-reduced-motion: reduce)").matches, n = new URLSearchParams(location.search).has("nogl"), r = matchMedia("(hover: none)").matches, i = [...e.querySelectorAll("[data-plate]")], a = () => {
 		let e = innerHeight, t = i.map((t) => {
 			let n = t.getBoundingClientRect();
 			return Math.abs(n.top + n.height / 2 - e / 2);
 		}), n = t.indexOf(Math.min(...t));
-		return i.map((r, i) => i === n ? J(1 - (t[i] / (e / 2) - .08) / .34) : 0);
+		return i.map((r, i) => i === n ? X(1 - (t[i] / (e / 2) - .08) / .34) : 0);
 	}, o = [];
 	if (i.forEach((e, i) => {
 		let s = e.closest("a, [data-card]") ?? e, c = e.querySelector("canvas");
 		if (n) return;
-		let l = null, u = {}, d = null, f = !1, p = !1, m = 1, h = 1, _ = null, v = null, y = 0, b = [.5, .5], C = 0, w = (e, t, n) => {
+		let l = null, u = {}, d = null, f = !1, p = !1, m = 1, h = 1, g = null, _ = null, v = 0, y = [.5, .5], b = 0, x = (e, t, n) => {
 			let r = l, i = r.createTexture();
 			r.activeTexture(r.TEXTURE0 + t), r.bindTexture(r.TEXTURE_2D, i);
 			let a = n ? r.LUMINANCE : r.RGB;
 			r.texImage2D(r.TEXTURE_2D, 0, a, a, r.UNSIGNED_BYTE, e), r.generateMipmap(r.TEXTURE_2D), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_MIN_FILTER, r.LINEAR_MIPMAP_LINEAR), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_WRAP_S, r.CLAMP_TO_EDGE), r.texParameteri(r.TEXTURE_2D, r.TEXTURE_WRAP_T, r.CLAMP_TO_EDGE);
-		}, T = () => {
+		}, S = () => {
 			if (!l || !d) return;
-			let e = g(l, ot, st);
-			e && (l.useProgram(e), S(l, e), u = Object.fromEntries([
+			let e = T(l, ct, lt);
+			e && (l.useProgram(e), j(l, e), u = Object.fromEntries([
 				"bw",
 				"col",
 				"crop",
 				"origin",
 				"front",
 				"aspect"
-			].map((t) => [t, l.getUniformLocation(e, t)])), l.uniform1i(u.bw, 0), l.uniform1i(u.col, 1), w(d[0], 0, !0), w(d[1], 1, !1), p = !0);
-		}, E = () => {
+			].map((t) => [t, l.getUniformLocation(e, t)])), l.uniform1i(u.bw, 0), l.uniform1i(u.col, 1), x(d[0], 0, !0), x(d[1], 1, !1), p = !0);
+		}, C = () => {
 			if (l || !d) return;
 			let t = c.getContext("webgl", {
 				antialias: !1,
 				premultipliedAlpha: !1
 			});
-			t && (l = t, x(t, [[ot, st]]).then(() => {
-				if (T(), !p) {
+			t && (l = t, A(t, [[ct, lt]]).then(() => {
+				if (S(), !p) {
 					l = null;
 					return;
 				}
-				e.classList.add("has-gl"), A(), o[i]?.(), M(c, t, {
+				e.classList.add("has-gl"), D(), o[i]?.(), V(c, t, {
 					name: `plate ${i + 1}`,
 					near: e,
 					margin: .5
-				}, T, () => N());
+				}, S, () => k());
 			}));
-		}, O = e.dataset.plate, k = (e) => W(`${O}/${e}`), A = () => {
+		}, w = e.dataset.plate, E = (e) => ae(`${w}/${e}`), D = () => {
 			let t = Math.min(devicePixelRatio || 1, 2), n = e.getBoundingClientRect();
-			m = n.width, h = n.height, c.width = Math.max(1, Math.round(m * t)), c.height = Math.max(1, Math.round(h * t)), N();
-		}, j = (e) => r ? t ? C > .5 ? 1.3 : 0 : Y(C) * 1.3 : t ? _ != null && v == null ? 1.3 : 0 : _ != null && v == null ? J((e - _) / 1e3 / it, 0, 1) ** .7 * 1.3 : v == null ? 0 : y * (1 - J((e - v) / 1e3 / at)) ** 1.3, N = (e = performance.now()) => {
-			if (!p || !D(l)) return;
+			m = n.width, h = n.height, c.width = Math.max(1, Math.round(m * t)), c.height = Math.max(1, Math.round(h * t)), k();
+		}, O = (e) => r ? t ? b > .5 ? 1.3 : 0 : Z(b) * 1.3 : t ? g != null && _ == null ? 1.3 : 0 : g != null && _ == null ? X((e - g) / 1e3 / ot, 0, 1) ** .7 * 1.3 : _ == null ? 0 : v * (1 - X((e - _) / 1e3 / st)) ** 1.3, k = (e = performance.now()) => {
+			if (!p || !I(l)) return;
 			let t = m / h, n = t < 1 ? [
 				(1 - t) / 2,
 				0,
@@ -3571,38 +3574,38 @@ function ct(e) {
 				1,
 				1 / t
 			];
-			l.viewport(0, 0, c.width, c.height), l.uniform4f(u.crop, n[0], n[1], n[2], n[3]), l.uniform2f(u.origin, b[0], b[1]), l.uniform1f(u.front, j(e)), l.uniform1f(u.aspect, t), l.drawArrays(l.TRIANGLE_STRIP, 0, 4);
-		}, P = 0, F = (e) => {
-			N(e);
-			let t = _ != null && v == null && e - _ < it * 1e3 || v != null && e - v < at * 1e3;
-			P = t ? requestAnimationFrame(F) : 0, !t && v != null && (_ = null, v = null);
-		}, I = () => {
-			P || (P = requestAnimationFrame(F));
-		}, L = (e, t) => {
-			let n = performance.now(), r = j(n);
-			b = v == null ? [e, t] : b, _ = n - (r / 1.3) ** (1 / .7) * it * 1e3, v = null, I();
-		}, R = () => {
-			_ != null && (y = j(performance.now()), v = performance.now(), I());
+			l.viewport(0, 0, c.width, c.height), l.uniform4f(u.crop, n[0], n[1], n[2], n[3]), l.uniform2f(u.origin, y[0], y[1]), l.uniform1f(u.front, O(e)), l.uniform1f(u.aspect, t), l.drawArrays(l.TRIANGLE_STRIP, 0, 4);
+		}, M = 0, N = (e) => {
+			k(e);
+			let t = g != null && _ == null && e - g < ot * 1e3 || _ != null && e - _ < st * 1e3;
+			M = t ? requestAnimationFrame(N) : 0, !t && _ != null && (g = null, _ = null);
+		}, P = () => {
+			M || (M = requestAnimationFrame(N));
+		}, F = (e, t) => {
+			let n = performance.now(), r = O(n);
+			y = _ == null ? [e, t] : y, g = n - (r / 1.3) ** (1 / .7) * ot * 1e3, _ = null, P();
+		}, L = () => {
+			g != null && (v = O(performance.now()), _ = performance.now(), P());
 		};
 		if (r) {
-			b = [.5, .6];
+			y = [.5, .6];
 			let t = -1;
 			o[i] = () => {
 				let n = a()[i];
-				Math.abs(n - t) < .001 || (t = C = n, N(), e.style.setProperty("--fill", n.toFixed(3)));
+				Math.abs(n - t) < .001 || (t = b = n, k(), e.style.setProperty("--fill", n.toFixed(3)));
 			};
 		} else s.addEventListener("pointerenter", (t) => {
 			if (t.pointerType === "touch") return;
 			let n = e.getBoundingClientRect();
-			L(J((t.clientX - n.left) / n.width), J((t.clientY - n.top) / n.height));
+			F(X((t.clientX - n.left) / n.width), X((t.clientY - n.top) / n.height));
 		}), s.addEventListener("pointerleave", (e) => {
-			e.pointerType !== "touch" && R();
+			e.pointerType !== "touch" && L();
 		});
-		s.addEventListener("focus", () => L(.5, .85)), s.addEventListener("blur", R), U(e, () => {
-			f || (f = !0, Promise.all([k("bw.webp"), k("col.webp")]).then((e) => {
-				d = e, E(), o[i]?.();
+		s.addEventListener("focus", () => F(.5, .85)), s.addEventListener("blur", L), ie(e, () => {
+			f || (f = !0, Promise.all([E("bw.webp"), E("col.webp")]).then((e) => {
+				d = e, C(), o[i]?.();
 			}).catch(() => {}));
-		}, "120%"), new ResizeObserver(() => A()).observe(e);
+		}, "120%"), new ResizeObserver(() => D()).observe(e);
 	}), r && o.length) {
 		let e = 0, t = () => {
 			e = 0, o.forEach((e) => e?.());
@@ -3614,124 +3617,124 @@ function ct(e) {
 }
 //#endregion
 //#region src/home/research/research.ts
-var lt = .64, ut = [
+var dt = .64, ft = [
 	600,
 	960,
 	1600,
 	1700
-], dt = 1e6;
-function ft(e, t = {}) {
+], pt = 1e6;
+function mt(e, t = {}) {
 	var n;
-	let r = matchMedia("(prefers-reduced-motion: reduce)").matches, i = e.querySelector(".br-ink"), a = e.querySelector(".br-wash"), o = e.querySelector(".br-draw"), s = e.querySelector("[data-block]"), c = [...e.querySelectorAll("[data-card]")], l = [...e.querySelectorAll("[data-beat]")], u = new URLSearchParams(location.search), d = u.get("frame") !== "off", f = u.get("mline") === "simple", p = 1.25, m = (e) => e.map((t, n) => {
+	let r = matchMedia("(prefers-reduced-motion: reduce)").matches, i = e.querySelector(".br-ink"), l = e.querySelector(".br-wash"), u = e.querySelector(".br-draw"), d = e.querySelector("[data-block]"), f = [...e.querySelectorAll("[data-card]")], p = [...e.querySelectorAll("[data-beat]")], m = new URLSearchParams(location.search), h = m.get("frame") !== "off", g = m.get("mline") === "simple", _ = 1.25, v = (e) => e.map((t, n) => {
 		let r = Math.min(4, n, e.length - 1 - n), i = 0, a = 0;
 		for (let t = -r; t <= r; t++) i += e[n + t][0], a += e[n + t][1];
 		return [i / (2 * r + 1), a / (2 * r + 1)];
-	}), h = (e) => ({
+	}), y = (e) => ({
 		...e,
 		paths: e.paths.map((e) => ({
 			...e,
-			w: e.w * p,
-			pts: m(m(e.pts)),
+			w: e.w * _,
+			pts: v(v(e.pts)),
 			...e.end === "fray" ? {
 				end: "dry",
 				dryLen: 180
 			} : {}
 		}))
-	}), g, _, v = 0, y = 0, b = 1, x = 1, S = !1, C = 0, w = null, T = null, E = null, D = null, O = [], k = [], A = [], j = 1, M = [], N = [], P = 0, F = [
+	}), b, x, S = 0, C = 0, w = 1, T = 1, E = !1, D = 0, O = null, k = null, A = null, j = null, M = [], N = [], P = [], F = 1, I = [], L = [], R = 0, z = [
 		1,
 		0,
 		1,
 		0
-	], I = [], L = rt(o, matchMedia("(max-width: 760px)").matches ? `${globalThis.__P26B}home/research/yukon-bloom-m.webp` : `${globalThis.__P26B}home/research/yukon-bloom.webp`);
-	ct(e);
-	let R = () => {
-		if (!d || !s) return [];
-		let e = o.getBoundingClientRect(), t = s.getBoundingClientRect(), [n, r] = [_.mouth[0] * y, _.mouth[1] * g.U], i = S ? 4 : 8, a = S ? 28 : 40, c = t.left - e.left + i, l = t.right - e.left - i, u = t.top - e.top + i, m = t.bottom - e.top - i, h = (c + l) / 2, v = g.lines[_.survivor], b = v.x.length - 1, x = Math.max(0, b - 10), C = v.x[b] - v.x[x], w = v.y[b] - v.y[x], T = Math.hypot(C, w) || 1;
-		C /= T, w /= T;
-		let E = S ? 40 : 70, [D, O] = [n + C * E, r + w * E], k = S ? 30 : 48;
-		m + k;
+	], B = [], V = at(u, matchMedia("(max-width: 760px)").matches ? `${globalThis.__P26B}home/research/yukon-bloom-m.webp` : `${globalThis.__P26B}home/research/yukon-bloom.webp`);
+	ut(e);
+	let H = () => {
+		if (!h || !d) return [];
+		let e = u.getBoundingClientRect(), t = d.getBoundingClientRect(), [n, r] = [x.mouth[0] * C, x.mouth[1] * b.U], i = E ? 4 : 8, a = E ? 28 : 40, o = t.left - e.left + i, s = t.right - e.left - i, c = t.top - e.top + i, l = t.bottom - e.top - i, f = (o + s) / 2, p = b.lines[x.survivor], m = p.x.length - 1, v = Math.max(0, m - 10), y = p.x[m] - p.x[v], S = p.y[m] - p.y[v], w = Math.hypot(y, S) || 1;
+		y /= w, S /= w;
+		let T = E ? 40 : 70, [D, O] = [n + y * T, r + S * T], k = E ? 30 : 48;
+		l + k;
 		let A = (e) => Array.from({ length: 8 }, (t, n) => {
 			let r = (n + 1) / 8 * Math.PI / 2;
-			return [h + e * (k - k * Math.sin(r)), m + k - k * Math.cos(r)];
-		}), j = Math.max(O + a * 1.5, Math.min(u - a * 1.5, O + (u - O) * .5)), M = {
+			return [f + e * (k - k * Math.sin(r)), l + k - k * Math.cos(r)];
+		}), j = Math.max(O + a * 1.5, Math.min(c - a * 1.5, O + (c - O) * .5)), M = {
 			tremor: .8,
 			drift: 3.2,
 			tw: 90,
 			side: .14,
 			settle: 360,
 			pin: 120
-		}, N = v.x[b], P = v.y[b], F = E * .55, I = {
+		}, N = p.x[m], P = p.y[m], F = T * .55, I = {
 			id: "fr-lead",
-			after: _.survivor,
-			w: S ? 3.6 : 4.8,
+			after: x.survivor,
+			w: E ? 3.6 : 4.8,
 			seed: 20,
 			tremor: 0,
 			drift: 0,
 			side: M.side,
 			settle: M.settle,
-			pts: [[N + C * F, P + w * F]]
+			pts: [[N + y * F, P + S * F]]
 		}, L = (e) => {
-			let t = e.findIndex(([e, t]) => (e - N) * C + (t - P) * w > F + 4);
+			let t = e.findIndex(([e, t]) => (e - N) * y + (t - P) * S > F + 4);
 			return e.slice(Math.max(1, t));
 		}, R = {
 			id: "fr-l",
 			after: "fr-lead",
-			w: S ? 3.4 : 4.4,
+			w: E ? 3.4 : 4.4,
 			seed: 21,
 			...M,
-			pts: L(Xe([
+			pts: L(Qe([
 				[N, P],
 				[D, O],
-				[D, u],
-				[c, u],
-				[c, m],
-				[h - k, m]
+				[D, c],
+				[o, c],
+				[o, l],
+				[f - k, l]
 			], a * 1.2)).concat(A(-1))
 		}, z = {
 			id: "fr-r",
 			after: "fr-lead",
-			w: S ? 3.2 : 4.2,
+			w: E ? 3.2 : 4.2,
 			seed: 22,
 			...M,
-			pts: L(Xe([
+			pts: L(Qe([
 				[N, P],
 				[D, O],
-				[Math.min(l, D + (l - D) * .5 + a * 2), j],
-				[l, j + a * 2],
-				[l, m],
-				[h + k, m]
+				[Math.min(s, D + (s - D) * .5 + a * 2), j],
+				[s, j + a * 2],
+				[s, l],
+				[f + k, l]
 			], a * 1.2)).concat(A(1))
 		};
-		if (S && (R.drift = z.drift = 1.8, R.tremor = z.tremor = .5), S && f) for (let e of [
+		if (E && (R.drift = z.drift = 1.8, R.tremor = z.tremor = .5), E && g) for (let e of [
 			I,
 			R,
 			z
-		]) e.w *= p;
+		]) e.w *= _;
 		return [
 			I,
 			R,
 			z
 		];
-	}, z = () => {
-		let e = g.lines["fr-l"], t = g.lines["fr-r"];
+	}, U = () => {
+		let e = b.lines["fr-l"], t = b.lines["fr-r"];
 		if (!e || !t) return;
 		let n = Math.max(e.gate[e.gate.length - 1], t.gate[t.gate.length - 1]);
 		for (let e of ["fr-l", "fr-r"]) {
-			let t = g.lines[e].gate, r = t[0], i = t[t.length - 1];
+			let t = b.lines[e].gate, r = t[0], i = t[t.length - 1];
 			if (i >= n - .5 || i <= r) continue;
 			let a = (n - r) / (i - r);
 			for (let e = 0; e < t.length; e++) t[e] = r + (t[e] - r) * a;
-			let o = g.strokes.find((t) => t.id === e);
+			let o = b.strokes.find((t) => t.id === e);
 			if (o) for (let e = 0; e < o.gate.length; e++) o.gate[e] = r + (o.gate[e] - r) * a;
-			g.ends[e].gate = t[t.length - 1];
+			b.ends[e].gate = t[t.length - 1];
 		}
 	}, ee = (e, t) => {
-		let n = O.length ? O : g.strokes, r = (e, t) => {
+		let n = M.length ? M : b.strokes, r = (e, t) => {
 			let r = [];
 			for (let i of n) if (!i.hair) for (let n = 0; n < i.x.length; n++) i.y[n] < e - 28 || i.y[n] > e + t + 28 || i.dry[n] > .6 || r.push([i.x[n] - i.w[n] - 12, i.x[n] + i.w[n] + 12]);
 			r.sort((e, t) => e[0] - t[0]);
 			let i = [0, 0], a = 16;
-			for (let [e, t] of [...r, [y - 16, y - 16]]) e - a > i[1] && (i = [a, e - a]), a = Math.max(a, t);
+			for (let [e, t] of [...r, [C - 16, C - 16]]) e - a > i[1] && (i = [a, e - a]), a = Math.max(a, t);
 			return i[1] >= 128 ? i : null;
 		};
 		e.classList.add("is-beside");
@@ -3742,7 +3745,7 @@ function ft(e, t = {}) {
 			width: `${t[1]}px`,
 			textAlign: "left"
 		}), a = [0];
-		for (let e = 10; e <= v * .3; e += 10) a.push(-e), e <= v * .2 && a.push(e);
+		for (let e = 10; e <= S * .3; e += 10) a.push(-e), e <= S * .2 && a.push(e);
 		a.sort((e, t) => Math.abs(e) - Math.abs(t));
 		for (let n of a) {
 			let a = t + n, o = r(a, e.offsetHeight);
@@ -3751,28 +3754,28 @@ function ft(e, t = {}) {
 		return e.classList.remove("is-beside"), Object.assign(e.style, {
 			top: `${t}px`,
 			left: "16px",
-			width: `${y - 32}px`
+			width: `${C - 32}px`
 		}), t;
-	}, B = () => {
-		v = ne(), y = o.clientWidth, b = Math.min(2, devicePixelRatio || 1), S = y <= 760, _ = S ? f ? h(et) : et : $e, typeof t.entryX == "function" ? t.entryX(S) : t.entryX, g = Ye(_, y, v);
-		let n = _.mouth[1] * g.U;
-		o.style.height = `${Math.round(n + (S ? v * .3 : y * .2))}px`;
-		let r = R();
-		g = Ye(_, y, v, void 0, r), I = [..._.paths, ...r], z(), O = g.strokes;
-		let d = g.lines["fr-l"], p = o.getBoundingClientRect();
-		P = s ? s.getBoundingClientRect().top - p.top : n + y * .2, N = c.map((e) => {
-			if (!d || S) return NaN;
-			let t = e.getBoundingClientRect().left - p.left, n = NaN, r = Infinity;
-			for (let e = 0; e < d.x.length; e++) {
-				if (Math.abs(d.y[e] - P) > 60) continue;
-				let i = Math.abs(d.x[e] - t);
-				i < r && (r = i, n = d.gate[e]);
+	}, W = () => {
+		S = a(), C = u.clientWidth, w = Math.min(2, devicePixelRatio || 1), E = C <= 760, x = E ? g ? y(nt) : nt : tt, typeof t.entryX == "function" ? t.entryX(E) : t.entryX, b = Ze(x, C, S);
+		let n = x.mouth[1] * b.U;
+		u.style.height = `${Math.round(n + (E ? S * .3 : C * .2))}px`;
+		let r = H();
+		b = Ze(x, C, S, void 0, r), B = [...x.paths, ...r], U(), M = b.strokes;
+		let o = b.lines["fr-l"], c = u.getBoundingClientRect();
+		R = d ? d.getBoundingClientRect().top - c.top : n + C * .2, L = f.map((e) => {
+			if (!o || E) return NaN;
+			let t = e.getBoundingClientRect().left - c.left, n = NaN, r = Infinity;
+			for (let e = 0; e < o.x.length; e++) {
+				if (Math.abs(o.y[e] - R) > 60) continue;
+				let i = Math.abs(o.x[e] - t);
+				i < r && (r = i, n = o.gate[e]);
 			}
 			return n;
-		}), x = Math.min(1, b), C = ie(v);
-		for (let [e, t] of [[i, b], [a, x]]) e.width = Math.round(innerWidth * t), e.height = Math.round((v + 2 * C) * t), e.style.width = `${innerWidth}px`, e.style.height = `${v + 2 * C}px`;
-		A = [...O.filter((e) => !e.hair && !e.id?.startsWith("fr-")).map((e) => {
-			let t = I.find((t) => t.id === e.id)?.after, n = t ? O.find((e) => e.id === t) : void 0;
+		}), T = Math.min(1, w), D = s(S);
+		for (let [e, t] of [[i, w], [l, T]]) e.width = Math.round(innerWidth * t), e.height = Math.round((S + 2 * D) * t), e.style.width = `${innerWidth}px`, e.style.height = `${S + 2 * D}px`;
+		P = [...M.filter((e) => !e.hair && !e.id?.startsWith("fr-")).map((e) => {
+			let t = B.find((t) => t.id === e.id)?.after, n = t ? M.find((e) => e.id === t) : void 0;
 			if (!n) return e;
 			let r = Math.min(10, n.x.length - 1), i = n.x.length - 1, a = n.s[i], o = (e, t, n = (e) => e) => {
 				let a = new Float32Array(r + t.length);
@@ -3793,144 +3796,144 @@ function ft(e, t = {}) {
 			...e,
 			c: new Float32Array(e.x.length * 3).fill(-1)
 		}))];
-		let m = We(_, y, v);
-		F = [
-			m.ax,
-			m.bx,
-			m.ay,
-			m.by
+		let h = Ke(x, C, S);
+		z = [
+			h.ax,
+			h.bx,
+			h.ay,
+			h.by
 		];
-		let B = O[0];
-		for (j = 1; j < B.y.length - 1 && B.y[j] < 0;) j++;
-		let V = Float32Array.from(B.dry, (e, t) => t < j ? dt : e);
-		if (k = [{
-			...B,
-			dry: V
-		}, ...O.slice(1)], w) w.upload(k);
-		else if (!E) {
-			if (!u.has("nogl")) try {
-				w = Be(i, k, {
+		let _ = M[0];
+		for (F = 1; F < _.y.length - 1 && _.y[F] < 0;) F++;
+		let v = Float32Array.from(_.dry, (e, t) => t < F ? pt : e);
+		if (N = [{
+			..._,
+			dry: v
+		}, ...M.slice(1)], O) O.upload(N);
+		else if (!A) {
+			if (!m.has("nogl")) try {
+				O = He(i, N, {
 					name: "research ink",
 					near: e,
 					margin: 1
 				});
 			} catch {
-				w = null;
+				O = null;
 			}
-			w && (w.onRestore = () => {
-				K = "", Y();
-			}), w || (E = i.getContext("2d"));
+			O && (O.onRestore = () => {
+				q = "", ae();
+			}), O || (A = i.getContext("2d"));
 		}
-		let H = (e, t) => e.c && e.c[0] >= 0 ? e.w[t] : e.w[t] * (S ? 5 : 7) + (S ? 30 : 52);
-		if (T) T.upload(A, H);
-		else if (!D) {
-			if (!u.has("nogl")) try {
-				T = Ue(a, `${globalThis.__P26B}home/research/yukon-wash.webp`, {
+		let W = (e, t) => e.c && e.c[0] >= 0 ? e.w[t] : e.w[t] * (E ? 5 : 7) + (E ? 30 : 52);
+		if (k) k.upload(P, W);
+		else if (!j) {
+			if (!m.has("nogl")) try {
+				k = Ge(l, `${globalThis.__P26B}home/research/yukon-wash.webp`, {
 					name: "research wash",
 					near: e,
 					margin: 1
 				});
 			} catch {
-				T = null;
+				k = null;
 			}
-			T && (T.onRestore = () => {
-				K = "", Y();
-			}), T ? (T.upload(A, H), T.onReady = () => {
-				K = "", q();
-			}, X && T.load()) : D = a.getContext("2d");
+			k && (k.onRestore = () => {
+				q = "", ae();
+			}), k ? (k.upload(P, W), k.onReady = () => {
+				q = "", te();
+			}, oe && k.load()) : j = l.getContext("2d");
 		}
-		M = l.map((e, t) => {
-			let [n, r, i, a] = _.beats[t], o = r * g.U;
+		I = p.map((e, t) => {
+			let [n, r, i, a] = x.beats[t], o = r * b.U;
 			return Object.assign(e.style, {
 				top: `${o}px`,
-				width: `${Math.min(a, S ? y - 32 : y * .32)}px`,
+				width: `${Math.min(a, E ? C - 32 : C * .32)}px`,
 				textAlign: i,
-				left: i === "left" ? `${n * y}px` : "",
-				right: i === "right" ? `${(1 - n) * y}px` : ""
-			}), e.classList.remove("is-beside"), S ? ee(e, o) : o;
+				left: i === "left" ? `${n * C}px` : "",
+				right: i === "right" ? `${(1 - n) * C}px` : ""
+			}), e.classList.remove("is-beside"), E ? ee(e, o) : o;
 		});
-		let [U, W] = [_.mouth[0] * y, n], G = S ? Math.sqrt(_.map.kx * y * _.map.ky * v) : _.map.kx * y, te = m.ax * U + m.bx, re = m.ay * W + m.by, ae = l[2], oe = S ? Math.max(W - v * .42, ae ? ae.offsetTop + ae.offsetHeight + 6 : -Infinity) : W - y * .3, J = S ? W + v * .2 : P + y * .02, Z = S ? 14 : Math.max(0, U - y * .42), Q = {
+		let [G, K] = [x.mouth[0] * C, n], ne = E ? Math.sqrt(x.map.kx * C * x.map.ky * S) : x.map.kx * C, J = h.ax * G + h.bx, re = h.ay * K + h.by, ie = p[2], Y = E ? Math.max(K - S * .42, ie ? ie.offsetTop + ie.offsetHeight + 6 : -Infinity) : K - C * .3, X = E ? K + S * .2 : R + C * .02, Z = E ? 14 : Math.max(0, G - C * .42), Q = {
 			x: Z,
-			y: oe,
-			w: (S ? y - 14 : Math.min(y, U + y * .36)) - Z,
-			h: J - oe
-		}, [se, ce, $, le] = ut, ue = (e) => (e - se) / ($ - se), de = (e) => (e - ce) / (le - ce), fe = te + (Q.x - U) / G, pe = re + (Q.y - W) / G, me = [
+			y: Y,
+			w: (E ? C - 14 : Math.min(C, G + C * .36)) - Z,
+			h: X - Y
+		}, [$, se, ce, le] = ft, ue = (e) => (e - $) / (ce - $), de = (e) => (e - se) / (le - se), fe = J + (Q.x - G) / ne, pe = re + (Q.y - K) / ne, me = [
 			ue(fe),
 			de(pe),
-			Q.w / G / ($ - se),
-			Q.h / G / (le - ce)
-		], he = g.lines[_.survivor], ge = Math.min(M[3] + v * .06, he.gate[he.gate.length - 1] - 160), _e = l[3], ve = _e && (!S || _e.classList.contains("is-beside")) ? {
+			Q.w / ne / (ce - $),
+			Q.h / ne / (le - se)
+		], he = b.lines[x.survivor], ge = Math.min(I[3] + S * .06, he.gate[he.gate.length - 1] - 160), _e = p[3], ve = _e && (!E || _e.classList.contains("is-beside")) ? {
 			x: _e.offsetLeft,
 			y: _e.offsetTop,
 			w: _e.offsetWidth,
 			h: _e.offsetHeight
 		} : void 0;
-		L?.layout(he, Q, ge, ge + v * .5, me, ve), S && (M[3] = Math.min(M[3], ge - v * .06)), dispatchEvent(new Event("breaks:layout"));
-	}, W = (e, t) => {
-		let n = E;
-		n.setTransform(1, 0, 0, 1, 0, 0), n.clearRect(0, 0, i.width, i.height), n.setTransform(b, 0, 0, b, 0, -e * b), n.lineCap = "round", n.lineJoin = "round";
-		for (let r of k) for (let i = 0; i < r.x.length - 1; i++) if (!(r.dry[i] >= 1e6)) {
+		V?.layout(he, Q, ge, ge + S * .5, me, ve), E && (I[3] = Math.min(I[3], ge - S * .06)), dispatchEvent(new Event("breaks:layout"));
+	}, G = (e, t) => {
+		let n = A;
+		n.setTransform(1, 0, 0, 1, 0, 0), n.clearRect(0, 0, i.width, i.height), n.setTransform(w, 0, 0, w, 0, -e * w), n.lineCap = "round", n.lineJoin = "round";
+		for (let r of N) for (let i = 0; i < r.x.length - 1; i++) if (!(r.dry[i] >= 1e6)) {
 			if (r.gate[i + 1] > t) break;
-			r.y[i] < e - 20 || r.y[i] > e + v + 2 * C + 20 || (n.strokeStyle = `rgba(29, 29, 21, ${r.a[i] * (1 - Math.min(1, r.dry[i]))})`, n.lineWidth = r.w[i], n.beginPath(), n.moveTo(r.x[i], r.y[i]), n.lineTo(r.x[i + 1], r.y[i + 1]), n.stroke());
+			r.y[i] < e - 20 || r.y[i] > e + S + 2 * D + 20 || (n.strokeStyle = `rgba(29, 29, 21, ${r.a[i] * (1 - Math.min(1, r.dry[i]))})`, n.lineWidth = r.w[i], n.beginPath(), n.moveTo(r.x[i], r.y[i]), n.lineTo(r.x[i + 1], r.y[i + 1]), n.stroke());
 		}
-		if (!D) return;
-		let r = D;
-		r.setTransform(1, 0, 0, 1, 0, 0), r.clearRect(0, 0, a.width, a.height), r.setTransform(x, 0, 0, x, 0, -e * x), r.save(), r.beginPath(), r.rect(0, 0, y, 1e6), r.clip(), r.lineCap = "round", r.lineJoin = "round", r.strokeStyle = "rgba(120, 100, 165, .13)";
-		for (let e of A) {
+		if (!j) return;
+		let r = j;
+		r.setTransform(1, 0, 0, 1, 0, 0), r.clearRect(0, 0, l.width, l.height), r.setTransform(T, 0, 0, T, 0, -e * T), r.save(), r.beginPath(), r.rect(0, 0, C, 1e6), r.clip(), r.lineCap = "round", r.lineJoin = "round", r.strokeStyle = "rgba(120, 100, 165, .13)";
+		for (let e of P) {
 			r.lineWidth = e.w[0] * 2.6 + 16, r.beginPath();
 			let n = !1;
 			for (let i = 0; i < e.x.length && !(e.gate[i] > t || e.dry[i] > .6); i++) n ? r.lineTo(e.x[i], e.y[i]) : (r.moveTo(e.x[i], e.y[i]), n = !0);
 			n && r.stroke();
 		}
 		r.restore();
-	}, G = () => {
-		if (!L) return 0;
-		let e = document.querySelector("[data-team]"), t = J(+(window.__team?.dev ?? 0));
-		return e ? J((v - e.getBoundingClientRect().top) / (v * .45)) : t;
-	}, K = "", q = () => {
-		let t = e.getBoundingClientRect(), n = t.bottom > -40 && t.top < v + 40;
-		if (H(i, n), H(a, n), !n && !Z) {
-			K = "";
+	}, K = () => {
+		if (!V) return 0;
+		let e = document.querySelector("[data-team]"), t = X(+(window.__team?.dev ?? 0));
+		return e ? X((S - e.getBoundingClientRect().top) / (S * .45)) : t;
+	}, q = "", te = () => {
+		let t = e.getBoundingClientRect(), n = t.bottom > -40 && t.top < S + 40;
+		if (re(i, n), re(l, n), !n && !Z) {
+			q = "";
 			return;
 		}
-		let s = o.getBoundingClientRect(), u = ae(C), d = scrollY, f = `translate3d(0, ${u - Math.round((t.top + d) * 64) / 64}px, 0)`;
-		V(i, "transform", f), V(a, "transform", f);
-		let p = u - (s.top + d), m = r ? Infinity : -s.top + v * lt, h = r ? 0 : G(), g = `${p.toFixed(1)}|${m.toFixed(1)}|${h.toFixed(4)}`;
-		g !== K && (K = g, w ? w.draw(p, m, b) : E && W(p, m), T?.draw(p, m, x, {
-			wick: v * .3,
-			rec: h,
-			dens: S ? .54 : .5,
-			aff: F,
-			inset: C
-		}), L?.draw(m, h), l.forEach((e, t) => V(e, "--w", r ? "1" : J((m - M[t] - v * .06) / (v * .3)).toFixed(3))), c.forEach((e, t) => {
-			let n = N[t];
-			V(e, "--r", r || Number.isNaN(n) ? "1" : J((m - n) / (v * .22)).toFixed(3));
+		let a = u.getBoundingClientRect(), o = c(D), s = scrollY, d = `translate3d(0, ${o - Math.round((t.top + s) * 64) / 64}px, 0)`;
+		J(i, "transform", d), J(l, "transform", d);
+		let m = o - (a.top + s), h = r ? Infinity : -a.top + S * dt, g = r ? 0 : K(), _ = `${m.toFixed(1)}|${h.toFixed(1)}|${g.toFixed(4)}`;
+		_ !== q && (q = _, O ? O.draw(m, h, w) : A && G(m, h), k?.draw(m, h, T, {
+			wick: S * .3,
+			rec: g,
+			dens: E ? .54 : .5,
+			aff: z,
+			inset: D
+		}), V?.draw(h, g), p.forEach((e, t) => J(e, "--w", r ? "1" : X((h - I[t] - S * .06) / (S * .3)).toFixed(3))), f.forEach((e, t) => {
+			let n = L[t];
+			J(e, "--r", r || Number.isNaN(n) ? "1" : X((h - n) / (S * .22)).toFixed(3));
 		}));
-	}, oe = 0, Y = () => {
-		oe || (oe = requestAnimationFrame(() => {
-			oe = 0, q();
+	}, ne = 0, ae = () => {
+		ne || (ne = requestAnimationFrame(() => {
+			ne = 0, te();
 		}));
-	}, X = !1, Z = !1;
-	U(e, async () => {
-		X = !0, T?.load(), await te(e), L?.load(), await te(e), await new Promise((e) => setTimeout(e, 1200)), await te(e), Z = !0, K = "", q(), Z = !1, K = "";
-	}, "250%"), B(), q(), addEventListener("scroll", Y, { passive: !0 }), addEventListener("team:develop", Y);
+	}, oe = !1, Z = !1;
+	ie(e, async () => {
+		oe = !0, k?.load(), await Y(e), V?.load(), await Y(e), await new Promise((e) => setTimeout(e, 1200)), await Y(e), Z = !0, q = "", te(), Z = !1, q = "";
+	}, "250%"), W(), te(), addEventListener("scroll", ae, { passive: !0 }), addEventListener("team:develop", ae);
 	let Q = 0;
-	re(() => {
+	o(() => {
 		clearTimeout(Q), Q = window.setTimeout(() => {
-			B(), K = "", q();
+			W(), q = "", te();
 		}, 120);
 	}), document.fonts?.ready.then(() => {
-		B(), K = "", q();
+		W(), q = "", te();
 	}), window.__br = () => ({
-		L: g,
-		tip: -o.getBoundingClientRect().top + v * lt
+		L: b,
+		tip: -u.getBoundingClientRect().top + S * dt
 	}), ((n = window).__lineReg ?? (n.__lineReg = {})).research = () => {
-		let e = o.getBoundingClientRect(), t = e.left + scrollX, n = e.top + scrollY, r = Object.fromEntries(I.map((e) => [e.id, {
+		let e = u.getBoundingClientRect(), t = e.left + scrollX, n = e.top + scrollY, r = Object.fromEntries(B.map((e) => [e.id, {
 			from: e.from,
 			after: e.after,
 			end: e.end
 		}]));
-		return k.map((e, i) => ({
+		return N.map((e, i) => ({
 			id: e.id ?? `hair${i}`,
 			hair: !!e.hair,
 			...e.id ? r[e.id] : {},
@@ -3941,15 +3944,15 @@ function ft(e, t = {}) {
 			dry: Array.from(e.dry)
 		}));
 	};
-	let se = {
+	let $ = {
 		update: () => {
-			K = "", q();
+			q = "", te();
 		},
 		relayout: () => {
-			B(), K = "", q();
+			W(), q = "", te();
 		},
 		entry: () => {
-			let e = O[0], t = 1;
+			let e = M[0], t = 1;
 			for (; t < e.y.length - 1 && e.y[t] < 0;) t++;
 			let n = (0 - e.y[t - 1]) / (e.y[t] - e.y[t - 1] || 1), r = (e) => e[t - 1] + (e[t] - e[t - 1]) * n, i = e.x[t] - e.x[t - 1], a = e.y[t] - e.y[t - 1], o = Math.hypot(i, a) || 1;
 			return {
@@ -3961,10 +3964,10 @@ function ft(e, t = {}) {
 			};
 		},
 		joint: () => {
-			let e = O[0], t = o.getBoundingClientRect(), n = t.left + scrollX, r = t.top + scrollY, i = [
-				j - 1,
-				j,
-				j + 1
+			let e = M[0], t = u.getBoundingClientRect(), n = t.left + scrollX, r = t.top + scrollY, i = [
+				F - 1,
+				F,
+				F + 1
 			];
 			return {
 				x: i.map((t) => e.x[t] + n),
@@ -3975,48 +3978,48 @@ function ft(e, t = {}) {
 			};
 		},
 		frameEnd: () => {
-			let e = g?.ends["fr-l"], t = g?.ends["fr-r"];
+			let e = b?.ends["fr-l"], t = b?.ends["fr-r"];
 			if (!e || !t) return null;
-			let n = o.getBoundingClientRect(), r = n.left + scrollX, i = n.top + scrollY;
+			let n = u.getBoundingClientRect(), r = n.left + scrollX, i = n.top + scrollY;
 			return {
 				x: (e.x + t.x) / 2 + r,
 				y: Math.max(e.y, t.y) + i,
 				gate: Math.max(e.gate, t.gate) + i
 			};
 		},
-		draw: o,
+		draw: u,
 		section: e
 	};
-	return window.__breaks = se, se;
+	return window.__breaks = $, $;
 }
 //#endregion
 //#region src/home/research/peel.ts
-var pt = [
+var ht = [
 	145 / 255,
 	40 / 255,
 	62 / 255
-], mt = [
+], gt = [
 	70 / 255,
 	98 / 255,
 	132 / 255
-], ht = [
+], _t = [
 	29 / 255,
 	29 / 255,
 	21 / 255
-], gt = (e, t, n) => [
+], vt = (e, t, n) => [
 	e[0] + (t[0] - e[0]) * n,
 	e[1] + (t[1] - e[1]) * n,
 	e[2] + (t[2] - e[2]) * n
-], _t = (e, t, n) => {
+], yt = (e, t, n) => {
 	let r = e / t, i = r < 1 ? r : 1, a = r < 1 ? 1 : 1 / r;
 	return [
-		J(n[0] - i / 2, 0, 1 - i),
-		J(n[1] - a / 2, 0, 1 - a),
+		X(n[0] - i / 2, 0, 1 - i),
+		X(n[1] - a / 2, 0, 1 - a),
 		i,
 		a
 	];
 };
-async function vt(e) {
+async function bt(e) {
 	var t;
 	let n = matchMedia("(prefers-reduced-motion: reduce)").matches, r;
 	try {
@@ -4026,37 +4029,37 @@ async function vt(e) {
 	}
 	let i = document.querySelector("[data-strip-row]");
 	if (!i) return;
-	let a = document.createElement("canvas");
-	a.className = "pl-ink", a.setAttribute("aria-hidden", "true"), document.body.append(a);
-	let o = null, s = null, c = 1, l = 0, u = 0, d = 0, f = () => {
-		c = Math.min(2, devicePixelRatio || 1), l = innerWidth, u = ne(), d = ie(u), a.width = Math.round(l * c), a.height = Math.round((u + 2 * d) * c), a.style.width = `${l}px`, a.style.height = `${u + 2 * d}px`;
+	let l = document.createElement("canvas");
+	l.className = "pl-ink", l.setAttribute("aria-hidden", "true"), document.body.append(l);
+	let u = null, d = null, f = 1, p = 0, m = 0, h = 0, g = () => {
+		f = Math.min(2, devicePixelRatio || 1), p = innerWidth, m = a(), h = s(m), l.width = Math.round(p * f), l.height = Math.round((m + 2 * h) * f), l.style.width = `${p}px`, l.style.height = `${m + 2 * h}px`;
 	};
-	f();
-	let p = (e) => !!g && g.bottom > scrollY - u * e && g.top < scrollY + u * (1 + e);
+	g();
+	let _ = (e) => !!b && b.bottom > scrollY - m * e && b.top < scrollY + m * (1 + e);
 	if (!new URLSearchParams(location.search).has("nogl")) try {
-		o = Be(a, [], {
+		u = He(l, [], {
 			name: "peel",
-			near: p
+			near: _
 		});
 	} catch {
-		o = null;
+		u = null;
 	}
-	o && (o.onRestore = () => {
-		v = "", x();
-	}), o || (s = a.getContext("2d"));
-	let m = () => {
+	u && (u.onRestore = () => {
+		S = "", T();
+	}), u || (d = l.getContext("2d"));
+	let v = () => {
 		let t = matchMedia("(max-width: 760px)").matches, a = r[t ? "narrow" : "wide"], o = i.querySelector(`.dm-slice[data-place="${a.place}"]`), s = i.peelFrom;
 		if (!o && !s) return null;
-		let c = scrollY, l, d;
+		let c = scrollY, l, u;
 		if (o) {
-			let e = o.getBoundingClientRect(), [t, n, r, i] = _t(e.width, e.height, a.focal), s = e.left, u = e.top + c;
-			d = u + e.height, l = a.pts.map(([a, o]) => [s + (a - t) / r * e.width, u + (o - n) / i * e.height]);
+			let e = o.getBoundingClientRect(), [t, n, r, i] = yt(e.width, e.height, a.focal), s = e.left, d = e.top + c;
+			u = d + e.height, l = a.pts.map(([a, o]) => [s + (a - t) / r * e.width, d + (o - n) / i * e.height]);
 		} else {
 			let e = s();
 			if (!e) return null;
-			l = e.pts, d = e.bottom;
+			l = e.pts, u = e.bottom;
 		}
-		let f = [], p = [];
+		let d = [], f = [];
 		for (let e = 0; e < 2; e++) {
 			let e = [l[0]];
 			for (let t = 0; t < l.length - 1; t++) {
@@ -4089,29 +4092,29 @@ async function vt(e) {
 			l = l.slice(0, l.length - 10);
 		}
 		for (let [e, t] of l) {
-			if (t >= d) {
-				let n = f[f.length - 1], r = p[p.length - 1];
-				if (n != null && r < d) {
-					let i = (d - r) / (t - r);
-					f.push(n + (e - n) * i), p.push(d);
+			if (t >= u) {
+				let n = d[d.length - 1], r = f[f.length - 1];
+				if (n != null && r < u) {
+					let i = (u - r) / (t - r);
+					d.push(n + (e - n) * i), f.push(u);
 				}
 				break;
 			}
-			f.push(e), p.push(t);
+			d.push(e), f.push(t);
 		}
-		if (f.length < 3) return null;
-		if (p[p.length - 1] < d - .5 && (f.push(f[f.length - 1]), p.push(d)), t) {
-			let e = f.length - 1, t = Math.max(0, e - 8), n = f[e] - f[t], r = p[e] - p[t], i = Math.hypot(n, r) || 1;
-			f.splice(0, e, f[e] - n / i * 4), p.splice(0, e, p[e] - r / i * 4);
+		if (d.length < 3) return null;
+		if (f[f.length - 1] < u - .5 && (d.push(d[d.length - 1]), f.push(u)), t) {
+			let e = d.length - 1, t = Math.max(0, e - 8), n = d[e] - d[t], r = f[e] - f[t], i = Math.hypot(n, r) || 1;
+			d.splice(0, e, d[e] - n / i * 4), f.splice(0, e, f[e] - r / i * 4);
 		}
-		let m = f.length, h = e.joint(), g = h.x[1] - h.x[0], _ = h.y[1] - h.y[0], v = Math.hypot(g, _) || 1;
+		let p = d.length, h = e.joint(), g = h.x[1] - h.x[0], _ = h.y[1] - h.y[0], v = Math.hypot(g, _) || 1;
 		g /= v, _ /= v;
 		let y = {
 			x: h.x[0],
 			w: h.w[0],
 			tx: g,
 			ty: _
-		}, b = f[m - 1], x = p[m - 1], S = Math.min(m - 1, 2), C = b - f[m - 1 - S], w = x - p[m - 1 - S], T = Math.hypot(C, w) || 1;
+		}, b = d[p - 1], x = f[p - 1], S = Math.min(p - 1, 2), C = b - d[p - 1 - S], w = x - f[p - 1 - S], T = Math.hypot(C, w) || 1;
 		if (C /= T, w /= T, w < .35) {
 			w = .35;
 			let e = Math.hypot(C, w);
@@ -4122,54 +4125,54 @@ async function vt(e) {
 			let t = e / N, n = 1 - t;
 			P.push(n * n * n * b + 3 * n * n * t * k + 3 * n * t * t * j + t * t * t * E), F.push(n * n * n * x + 3 * n * n * t * A + 3 * n * t * t * M + t * t * t * D);
 		}
-		let I = [...f, ...P], L = [...p, ...F], R = Je(I, L, 0).s, z = R[m - 1], ee = R[R.length - 1], B = [], V = [], H = [];
+		let I = [...d, ...P], L = [...f, ...F], R = Xe(I, L, 0).s, z = R[p - 1], B = R[R.length - 1], V = [], H = [], U = [];
 		for (let e = 0; e < I.length; e++) {
 			let t = R[e];
-			if (e >= m) {
+			if (e >= p) {
 				let n = Math.max(0, e - 1), r = Math.min(I.length - 1, e + 1), i = I[r] - I[n], a = L[r] - L[n], o = Math.hypot(i, a) || 1;
 				i /= o, a /= o;
-				let s = X(z, z + 80, t) * (1 - X(ee - 90, ee, t)) * (5 * Math.sin((t - z) / 330 * 6.28 + .8) + .9 * (.65 * Math.sin(t / 84 * 6.28 + 1.9) + .35 * Math.sin(t / 36 * 6.28 + 4.1)));
-				B.push(I[e] - a * s), V.push(L[e] + i * s);
-			} else B.push(I[e]), V.push(L[e]);
-			if (e < m) {
-				H.push(1.7 + 1.3 * X(0, z, t));
+				let s = Q(z, z + 80, t) * (1 - Q(B - 90, B, t)) * (5 * Math.sin((t - z) / 330 * 6.28 + .8) + .9 * (.65 * Math.sin(t / 84 * 6.28 + 1.9) + .35 * Math.sin(t / 36 * 6.28 + 4.1)));
+				V.push(I[e] - a * s), H.push(L[e] + i * s);
+			} else V.push(I[e]), H.push(L[e]);
+			if (e < p) {
+				U.push(1.7 + 1.3 * Q(0, z, t));
 				continue;
 			}
-			let n = X(z, z + Math.min(260, (ee - z) * .7), t), r = X(ee - 120, ee, t), i = 1 + .1 * Math.sin(t / 190 * 6.28 + 2.3);
-			H.push((3 + (y.w - 3) * n) * (i * (1 - r) + r));
+			let n = Q(z, z + Math.min(260, (B - z) * .7), t), r = Q(B - 120, B, t), i = 1 + .1 * Math.sin(t / 190 * 6.28 + 2.3);
+			U.push((3 + (y.w - 3) * n) * (i * (1 - r) + r));
 		}
-		B.push(h.x[1], h.x[2]), V.push(h.y[1], h.y[2]), H.push(h.w[1], h.w[2]);
-		let U = Je(B.slice(0, -2), V.slice(0, -2), 0).g, W = h.gate[0] - U[U.length - 1], G = [
-			...U.map((e) => e + W),
+		V.push(h.x[1], h.x[2]), H.push(h.y[1], h.y[2]), U.push(h.w[1], h.w[2]);
+		let ee = Xe(V.slice(0, -2), H.slice(0, -2), 0).g, W = h.gate[0] - ee[ee.length - 1], G = [
+			...ee.map((e) => e + W),
 			h.gate[1],
 			h.gate[2]
-		], te = n ? Infinity : c + u * lt, K = G[m - 1], q = G[0], ne = G.length, re = G.map((e, t) => {
-			if (t === ne - 1) return dt;
-			if (t >= m - 1) return 0;
-			let n = K + u * .16 + (e - q) * .9;
-			return J((te - n) / (u * .12)) ** 1.1 * 1.18;
-		}), ie = B.length, ae = Je(B, V, 0).s, oe = new Float32Array(ie * 3);
-		for (let e = 0; e < ie; e++) {
-			let t = e >= R.length ? 1 : X(z + (ee - z) * .12, z + (ee - z) * .68, R[e]), n = Math.sin(Math.PI * J(t * 1.25)) * .35, r = o ? gt(gt(pt, mt, n), ht, t) : ht;
-			oe[e * 3] = r[0], oe[e * 3 + 1] = r[1], oe[e * 3 + 2] = r[2];
+		], K = n ? Infinity : c + m * dt, q = G[p - 1], te = G[0], ne = G.length, J = G.map((e, t) => {
+			if (t === ne - 1) return pt;
+			if (t >= p - 1) return 0;
+			let n = q + m * .16 + (e - te) * .9;
+			return X((K - n) / (m * .12)) ** 1.1 * 1.18;
+		}), re = V.length, ie = Xe(V, H, 0).s, ae = new Float32Array(re * 3);
+		for (let e = 0; e < re; e++) {
+			let t = e >= R.length ? 1 : Q(z + (B - z) * .12, z + (B - z) * .68, R[e]), n = Math.sin(Math.PI * X(t * 1.25)) * .35, r = o ? vt(vt(ht, gt, n), _t, t) : _t;
+			ae[e * 3] = r[0], ae[e * 3 + 1] = r[1], ae[e * 3 + 2] = r[2];
 		}
 		return {
 			stroke: {
-				x: Float32Array.from(B),
-				y: Float32Array.from(V),
-				w: Float32Array.from(H),
+				x: Float32Array.from(V),
+				y: Float32Array.from(H),
+				w: Float32Array.from(U),
 				gate: Float32Array.from(G),
-				dry: Float32Array.from(re),
-				a: Float32Array.from({ length: ie }, (e, t) => t >= ie - 3 ? h.a[t - (ie - 3)] : .93),
-				s: Float32Array.from(ae),
-				c: oe
+				dry: Float32Array.from(J),
+				a: Float32Array.from({ length: re }, (e, t) => t >= re - 3 ? h.a[t - (re - 3)] : .93),
+				s: Float32Array.from(ie),
+				c: ae
 			},
-			top: Math.min(...V),
-			bottom: Math.max(...V)
+			top: Math.min(...H),
+			bottom: Math.max(...H)
 		};
-	}, h = (e, t, n) => {
-		let r = s;
-		r.setTransform(1, 0, 0, 1, 0, 0), r.clearRect(0, 0, a.width, a.height), r.setTransform(c, 0, 0, c, 0, -t * c), r.lineCap = "round", r.lineJoin = "round";
+	}, y = (e, t, n) => {
+		let r = d;
+		r.setTransform(1, 0, 0, 1, 0, 0), r.clearRect(0, 0, l.width, l.height), r.setTransform(f, 0, 0, f, 0, -t * f), r.lineCap = "round", r.lineJoin = "round";
 		for (let t = 0; t < e.x.length - 1 && !(e.dry[t + 1] >= 1e6 || e.gate[t + 1] > n); t++) {
 			let n = t * 3, i = e.c ?? new Float32Array([
 				29 / 255,
@@ -4178,40 +4181,40 @@ async function vt(e) {
 			]), a = e.c ? n : 0;
 			r.strokeStyle = `rgba(${Math.round(i[a] * 255)}, ${Math.round(i[a + 1] * 255)}, ${Math.round(i[a + 2] * 255)}, ${e.a[t] * (1 - Math.min(1, e.dry[t]))})`, r.lineWidth = e.w[t], r.beginPath(), r.moveTo(e.x[t], e.y[t]), r.lineTo(e.x[t + 1], e.y[t + 1]), r.stroke();
 		}
-	}, g = null, _ = !0, v = "", y = () => {
-		_ && (g = m(), _ = !1, v = "", g && o && o.upload([g.stroke]));
-		let e = g, t = scrollY, r = !!e && e.bottom > t - 40 && e.top < t + u + 40;
-		if (H(a, r), !r) {
-			v = "";
+	}, b = null, x = !0, S = "", C = () => {
+		x && (b = v(), x = !1, S = "", b && u && u.upload([b.stroke]));
+		let e = b, t = scrollY, r = !!e && e.bottom > t - 40 && e.top < t + m + 40;
+		if (re(l, r), !r) {
+			S = "";
 			return;
 		}
-		let i = n ? Infinity : t + u * lt, l = `${t.toFixed(1)}`;
-		if (l === v) return;
-		v = l;
-		let f = ae(d, u + 2 * d);
-		a.style.transform = `translate3d(0, ${f}px, 0)`, o ? o.draw(f, i, c) : s && h(e.stroke, f, i);
-	}, b = 0, x = () => {
-		b || (b = requestAnimationFrame(() => {
-			b = 0, y();
+		let i = n ? Infinity : t + m * dt, a = `${t.toFixed(1)}`;
+		if (a === S) return;
+		S = a;
+		let o = c(h, m + 2 * h);
+		l.style.transform = `translate3d(0, ${o}px, 0)`, u ? u.draw(o, i, f) : d && y(e.stroke, o, i);
+	}, w = 0, T = () => {
+		w || (w = requestAnimationFrame(() => {
+			w = 0, C();
 		}));
 	};
-	addEventListener("scroll", x, { passive: !0 }), re(() => {
-		f(), _ = !0, x();
+	addEventListener("scroll", T, { passive: !0 }), o(() => {
+		g(), x = !0, T();
 	});
-	let S = 0, C = () => {
-		_ = !0, y(), performance.now() < S && requestAnimationFrame(C);
-	}, w = () => {
-		let e = performance.now() > S;
-		S = performance.now() + 900, e && requestAnimationFrame(C);
+	let E = 0, D = () => {
+		x = !0, C(), performance.now() < E && requestAnimationFrame(D);
+	}, O = () => {
+		let e = performance.now() > E;
+		E = performance.now() + 900, e && requestAnimationFrame(D);
 	};
-	i.addEventListener("pointerover", w), i.addEventListener("pointerleave", w), i.addEventListener("focusin", w), i.addEventListener("focusout", w), new ResizeObserver(() => {
-		_ = !0, x();
+	i.addEventListener("pointerover", O), i.addEventListener("pointerleave", O), i.addEventListener("focusin", O), i.addEventListener("focusout", O), new ResizeObserver(() => {
+		x = !0, T();
 	}).observe(i), addEventListener("breaks:layout", () => {
-		_ = !0, x();
+		x = !0, T();
 	}), document.fonts?.ready.then(() => {
-		_ = !0, x();
-	}), y(), window.__peel = () => m(), ((t = window).__lineReg ?? (t.__lineReg = {})).peel = () => {
-		let e = g ?? m();
+		x = !0, T();
+	}), C(), window.__peel = () => v(), ((t = window).__lineReg ?? (t.__lineReg = {})).peel = () => {
+		let e = b ?? v();
 		if (!e) return [];
 		let t = e.stroke;
 		return [{
@@ -4226,8 +4229,8 @@ async function vt(e) {
 }
 //#endregion
 //#region src/home/team/teamline.ts
-var yt = .64;
-function bt(e, t, n, r) {
+var xt = .64;
+function St(e, t, n, r) {
 	let i = r + 3, a = [];
 	for (let r of e) for (let o of e) {
 		if (r === o) continue;
@@ -4262,13 +4265,13 @@ function bt(e, t, n, r) {
 		e.id = `tl-g${t}`;
 	}), o;
 }
-function xt(e) {
+function Ct(e) {
 	var t;
 	let n = e.querySelector(".tm-block"), r = e.querySelector(".tm-head");
 	if (!n) return;
-	let i = matchMedia("(prefers-reduced-motion: reduce)").matches, a = new URLSearchParams(location.search), o = a.get("teamline") === "stay" ? "stay" : "fade", s = document.createElement("canvas");
-	s.className = "tm-line", s.setAttribute("aria-hidden", "true"), document.body.append(s);
-	let c = null, l = null, u = [], d = 0, f = 1, p = 0, m = 0, h = 0, g = 0, _ = {}, v = "", y = () => {
+	let i = matchMedia("(prefers-reduced-motion: reduce)").matches, l = new URLSearchParams(location.search), u = l.get("teamline") === "stay" ? "stay" : "fade", d = document.createElement("canvas");
+	d.className = "tm-line", d.setAttribute("aria-hidden", "true"), document.body.append(d);
+	let f = null, p = null, m = [], h = 0, g = 1, _ = 0, v = 0, y = 0, b = 0, x = {}, S = "", C = () => {
 		let e = window.__breaks?.frameEnd?.();
 		if (e) return e;
 		let t = document.querySelector("[data-block]")?.getBoundingClientRect();
@@ -4279,19 +4282,19 @@ function xt(e) {
 			y: n,
 			gate: n
 		};
-	}, b = () => {
-		d = ne(), f = Math.min(2, devicePixelRatio || 1);
-		let e = innerWidth <= 760, t = scrollX, i = scrollY, o = n.getBoundingClientRect(), b = [...n.querySelectorAll("img")].map((e) => e.getBoundingClientRect()), x = parseFloat(getComputedStyle(n).rowGap) || 6, S = e ? 7 : 11, C = e ? 32 : 34, T = o.left + t - S, E = o.right + t + S, D = o.top + i - S, O = o.bottom + i + S, k = (T + E) / 2, A = y() ?? {
-			x: k,
-			y: D - d * .5,
-			gate: D - d * .5
-		}, j = r?.getBoundingClientRect(), M = Infinity, N = -Infinity;
+	}, w = () => {
+		h = a(), g = Math.min(2, devicePixelRatio || 1);
+		let e = innerWidth <= 760, t = scrollX, i = scrollY, o = n.getBoundingClientRect(), c = [...n.querySelectorAll("img")].map((e) => e.getBoundingClientRect()), u = parseFloat(getComputedStyle(n).rowGap) || 6, w = e ? 7 : 11, T = e ? 32 : 34, E = o.left + t - w, D = o.right + t + w, k = o.top + i - w, A = o.bottom + i + w, j = (E + D) / 2, M = C() ?? {
+			x: j,
+			y: k - h * .5,
+			gate: k - h * .5
+		}, N = r?.getBoundingClientRect(), P = Infinity, F = -Infinity;
 		r?.querySelectorAll("h2, a").forEach((e) => {
 			let n = document.createRange();
 			n.selectNodeContents(e);
-			for (let e of n.getClientRects()) M = Math.min(M, e.left + t), N = Math.max(N, e.right + t);
+			for (let e of n.getClientRects()) P = Math.min(P, e.left + t), F = Math.max(F, e.right + t);
 		});
-		let P = T + (E - T) * .3, F = M === Infinity || P < M - 36 || P > N + 36 ? P : E - (N + 36) >= C * 1.6 ? Math.min(E - C * 1.6, (N + 36 + E) / 2) : M - 36 >= T + C * 1.6 ? M - 36 : e && N !== -Infinity && E - N >= 26 ? E : T, I = j ? j.top + i : D - 120, L = e && a.get("mline") === "simple", R = L ? 1.25 : 1, z = (e ? 3 : 3.8) * R, ee = (e ? 2.6 : 3.2) * R, B = (e ? 1.5 : 2.1) * (L ? 1.25 : 1), V = L ? {
+		let I = E + (D - E) * .3, L = P === Infinity || I < P - 36 || I > F + 36 ? I : D - (F + 36) >= T * 1.6 ? Math.min(D - T * 1.6, (F + 36 + D) / 2) : P - 36 >= E + T * 1.6 ? P - 36 : e && F !== -Infinity && D - F >= 26 ? D : E, R = N ? N.top + i : k - 120, z = e && l.get("mline") === "simple", B = z ? 1.25 : 1, V = (e ? 3 : 3.8) * B, H = (e ? 2.6 : 3.2) * B, U = (e ? 1.5 : 2.1) * (z ? 1.25 : 1), ee = z ? {
 			tremor: .2,
 			drift: 1.3,
 			tw: 90
@@ -4299,76 +4302,76 @@ function xt(e) {
 			tremor: .7,
 			drift: 2.6,
 			tw: 90
-		}, H = [], U = Math.min(A.y + (I - A.y) * .45, I - 40), W = e ? 30 : 48, G = D - W;
-		H.push({
+		}, W = [], G = Math.min(M.y + (R - M.y) * .45, R - 40), K = e ? 30 : 48, q = k - K;
+		W.push({
 			id: "tl-drop",
-			w: z,
+			w: V,
 			seed: 41,
-			...V,
+			...ee,
 			side: .35,
 			settle: 320,
 			pin: 90,
 			pts: [
-				[A.x, A.y],
-				[A.x, A.y + 60],
-				[A.x + (F - A.x) * .55, U],
-				[F, Math.min(I - 10, G - 50)],
-				[F, G]
+				[M.x, M.y],
+				[M.x, M.y + 60],
+				[M.x + (L - M.x) * .55, G],
+				[L, Math.min(R - 10, q - 50)],
+				[L, q]
 			]
 		});
 		let te = {
-			...V,
-			drift: L ? 1.1 : 2.2,
+			...ee,
+			drift: z ? 1.1 : 2.2,
 			tw: 80,
 			side: .16,
 			settle: 260,
 			pin: 60
-		}, K = (e) => Array.from({ length: 8 }, (t, n) => {
+		}, ne = (e) => Array.from({ length: 8 }, (t, n) => {
 			let r = (n + 1) / 8 * Math.PI / 2;
-			return [F + e * W * (1 - Math.cos(r)), G + W * Math.sin(r)];
-		}), q = (e, t) => Array.from({ length: 10 }, (e, n) => {
-			let r = (n + 1) / 10, i = 1 - r, a = D + W;
-			return [i * i * i * F + 3 * i * i * r * F + 3 * i * r * r * t + r * r * r * t, i * i * i * G + 3 * i * i * r * (G + W) + 3 * i * r * r * D + r * r * r * a];
-		}), re = (e, t) => Math.abs(t - F) < 1 ? Xe([
-			[t, G],
-			[t, O],
-			[k, O]
-		], C).slice(1) : Math.abs(t - F) < W * 2.5 ? [...q(e, t), ...Xe([
-			[t, D + W],
-			[t, O],
-			[k, O]
-		], C).slice(1)] : [...K(e), ...Xe([
-			[F + e * W, D],
-			[t, D],
-			[t, O],
-			[k, O]
-		], C).slice(1)], ae = re(-1, T), oe = re(1, E);
-		H.push({
+			return [L + e * K * (1 - Math.cos(r)), q + K * Math.sin(r)];
+		}), J = (e, t) => Array.from({ length: 10 }, (e, n) => {
+			let r = (n + 1) / 10, i = 1 - r, a = k + K;
+			return [i * i * i * L + 3 * i * i * r * L + 3 * i * r * r * t + r * r * r * t, i * i * i * q + 3 * i * i * r * (q + K) + 3 * i * r * r * k + r * r * r * a];
+		}), re = (e, t) => Math.abs(t - L) < 1 ? Qe([
+			[t, q],
+			[t, A],
+			[j, A]
+		], T).slice(1) : Math.abs(t - L) < K * 2.5 ? [...J(e, t), ...Qe([
+			[t, k + K],
+			[t, A],
+			[j, A]
+		], T).slice(1)] : [...ne(e), ...Qe([
+			[L + e * K, k],
+			[t, k],
+			[t, A],
+			[j, A]
+		], T).slice(1)], ie = re(-1, E), ae = re(1, D);
+		W.push({
 			id: "tl-l",
 			after: "tl-drop",
-			w: ee,
+			w: H,
 			seed: 42,
 			...te,
-			pts: ae
-		}), H.push({
+			pts: ie
+		}), W.push({
 			id: "tl-r",
 			after: "tl-drop",
-			w: ee,
+			w: H,
 			seed: 43,
 			...te,
-			pts: oe
+			pts: ae
 		});
-		let Y = bt(b, t, i, x), X = (e, n) => {
+		let oe = St(c, t, i, u), Y = (e, n) => {
 			let r = e[n];
-			return e.vertical ? n === "a" ? r - (o.top + i) < x + 3 : o.bottom + i - r < x + 3 : n === "a" ? r - (o.left + t) < x + 3 : o.right + t - r < x + 3;
-		}, Z = [...Y].sort((e, t) => Number(!X(e, "a")) - Number(!X(t, "a")) || e.at - t.at), Q = /* @__PURE__ */ new Set();
+			return e.vertical ? n === "a" ? r - (o.top + i) < u + 3 : o.bottom + i - r < u + 3 : n === "a" ? r - (o.left + t) < u + 3 : o.right + t - r < u + 3;
+		}, Z = [...oe].sort((e, t) => Number(!Y(e, "a")) - Number(!Y(t, "a")) || e.at - t.at), Q = /* @__PURE__ */ new Set();
 		for (let e of Z) {
-			let t = X(e, "a"), n = e.vertical ? e.at < F ? "tl-l" : "tl-r" : "tl-l";
+			let t = Y(e, "a"), n = e.vertical ? e.at < L ? "tl-l" : "tl-r" : "tl-l";
 			if (!t) {
-				let t = Y.find((t) => t !== e && Q.has(t.id) && t.vertical !== e.vertical && Math.abs(t.at - e.a) < x + 3 && e.at >= t.a - 3 && e.at <= t.b + 3);
+				let t = oe.find((t) => t !== e && Q.has(t.id) && t.vertical !== e.vertical && Math.abs(t.at - e.a) < u + 3 && e.at >= t.a - 3 && e.at <= t.b + 3);
 				t && (n = t.id);
 			}
-			let r = t ? e.vertical ? D : T : e.a, i = X(e, "b") ? e.vertical ? O : E : e.b, a = e.vertical ? [
+			let r = t ? e.vertical ? k : E : e.a, i = Y(e, "b") ? e.vertical ? A : D : e.b, a = e.vertical ? [
 				[e.at, r],
 				[e.at, (r + i) / 2],
 				[e.at, i]
@@ -4376,13 +4379,13 @@ function xt(e) {
 				[r, e.at],
 				[(r + i) / 2, e.at],
 				[i, e.at]
-			], o = X(e, "b") ? e.vertical && e.at < k ? "tl-l" : "tl-r" : void 0;
-			H.push({
+			], o = Y(e, "b") ? e.vertical && e.at < j ? "tl-l" : "tl-r" : void 0;
+			W.push({
 				id: e.id,
 				from: n,
 				to: o,
-				w: B,
-				seed: 50 + H.length,
+				w: U,
+				seed: 50 + W.length,
 				tremor: .25,
 				drift: .6,
 				tw: 70,
@@ -4391,7 +4394,7 @@ function xt(e) {
 				pts: a
 			}), Q.add(e.id);
 		}
-		let se = Ye({
+		let $ = Ze({
 			paths: [],
 			yUnit: "vh",
 			survivor: "",
@@ -4405,69 +4408,69 @@ function xt(e) {
 				Y0: 0
 			},
 			beats: []
-		}, innerWidth, d, void 0, H);
-		_ = Object.fromEntries(H.map((e) => [e.id, {
+		}, innerWidth, h, void 0, W);
+		x = Object.fromEntries(W.map((e) => [e.id, {
 			from: e.from,
 			after: e.after,
 			to: e.to
 		}]));
-		let ce = A.gate - A.y;
-		u = se.strokes.map((e) => {
+		let se = M.gate - M.y;
+		m = $.strokes.map((e) => {
 			let t = e.gate.slice();
-			for (let e = 0; e < t.length; e++) t[e] += ce;
+			for (let e = 0; e < t.length; e++) t[e] += se;
 			return {
 				...e,
 				gate: t
 			};
 		});
-		let $ = se.ends["tl-drop"].gate + ce, le = Math.max(...u.map((e) => e.gate[e.gate.length - 1])), ue = J(((D + O) / 2 + .14 * d - $) / Math.max(1, le - $), .15, 1);
-		for (let e of u) for (let t = 0; t < e.gate.length; t++) e.gate[t] > $ && (e.gate[t] = $ + (e.gate[t] - $) * ue);
-		if (g = Math.max(...u.map((e) => e.gate[e.gate.length - 1])), m = Math.min(A.y, D) - 20, h = O + 20, p = ie(d), s.width = Math.round(innerWidth * f), s.height = Math.round((d + 2 * p) * f), s.style.width = `${innerWidth}px`, s.style.height = `${d + 2 * p}px`, c) c.upload(u);
-		else if (!l) {
-			if (!a.has("nogl")) try {
-				c = Be(s, u, {
+		let ce = $.ends["tl-drop"].gate + se, le = Math.max(...m.map((e) => e.gate[e.gate.length - 1])), ue = X(((k + A) / 2 + .14 * h - ce) / Math.max(1, le - ce), .15, 1);
+		for (let e of m) for (let t = 0; t < e.gate.length; t++) e.gate[t] > ce && (e.gate[t] = ce + (e.gate[t] - ce) * ue);
+		if (b = Math.max(...m.map((e) => e.gate[e.gate.length - 1])), v = Math.min(M.y, k) - 20, y = A + 20, _ = s(h), d.width = Math.round(innerWidth * g), d.height = Math.round((h + 2 * _) * g), d.style.width = `${innerWidth}px`, d.style.height = `${h + 2 * _}px`, f) f.upload(m);
+		else if (!p) {
+			if (!l.has("nogl")) try {
+				f = He(d, m, {
 					name: "team line",
-					near: (e) => scrollY + d * (1 + e) > m && scrollY - d * e < h
+					near: (e) => scrollY + h * (1 + e) > v && scrollY - h * e < y
 				});
 			} catch {
-				c = null;
+				f = null;
 			}
-			c && (c.onRestore = () => {
-				v = "", w();
-			}), c || (l = s.getContext("2d"));
+			f && (f.onRestore = () => {
+				S = "", O();
+			}), f || (p = d.getContext("2d"));
 		}
-		v = "";
-	}, x = (e, t) => {
-		let n = l;
-		n.setTransform(1, 0, 0, 1, 0, 0), n.clearRect(0, 0, s.width, s.height), n.setTransform(f, 0, 0, f, 0, -e * f), n.lineCap = "round", n.lineJoin = "round";
-		for (let r of u) for (let i = 0; i < r.x.length - 1 && !(r.gate[i + 1] > t); i++) r.y[i] < e - 20 || r.y[i] > e + d + 2 * p + 20 || (n.strokeStyle = `rgba(29, 29, 21, ${r.a[i] * (1 - Math.min(1, r.dry[i]))})`, n.lineWidth = r.w[i], n.beginPath(), n.moveTo(r.x[i], r.y[i]), n.lineTo(r.x[i + 1], r.y[i + 1]), n.stroke());
-	}, S = () => {
-		let e = scrollY, t = e + d > m && e < h, n = i ? Infinity : e + d * yt, r = o === "stay" || i ? 1 : 1 - J((n - g - d * .08) / (d * .4)), a = t ? `${e.toFixed(1)}|${r.toFixed(3)}` : "off";
-		if (a === v || (v = a, V(s, "opacity", r.toFixed(3)), H(s, t && r > 0), !t || r <= 0)) return;
-		let u = ae(p, d + 2 * p);
-		V(s, "transform", `translate3d(0, ${u}px, 0)`), c ? c.draw(u, n, f) : l && x(u, n);
-	}, C = 0, w = () => {
-		C || (C = requestAnimationFrame(() => {
-			C = 0, S();
+		S = "";
+	}, T = (e, t) => {
+		let n = p;
+		n.setTransform(1, 0, 0, 1, 0, 0), n.clearRect(0, 0, d.width, d.height), n.setTransform(g, 0, 0, g, 0, -e * g), n.lineCap = "round", n.lineJoin = "round";
+		for (let r of m) for (let i = 0; i < r.x.length - 1 && !(r.gate[i + 1] > t); i++) r.y[i] < e - 20 || r.y[i] > e + h + 2 * _ + 20 || (n.strokeStyle = `rgba(29, 29, 21, ${r.a[i] * (1 - Math.min(1, r.dry[i]))})`, n.lineWidth = r.w[i], n.beginPath(), n.moveTo(r.x[i], r.y[i]), n.lineTo(r.x[i + 1], r.y[i + 1]), n.stroke());
+	}, E = () => {
+		let e = scrollY, t = e + h > v && e < y, n = i ? Infinity : e + h * xt, r = u === "stay" || i ? 1 : 1 - X((n - b - h * .08) / (h * .4)), a = t ? `${e.toFixed(1)}|${r.toFixed(3)}` : "off";
+		if (a === S || (S = a, J(d, "opacity", r.toFixed(3)), re(d, t && r > 0), !t || r <= 0)) return;
+		let o = c(_, h + 2 * _);
+		J(d, "transform", `translate3d(0, ${o}px, 0)`), f ? f.draw(o, n, g) : p && T(o, n);
+	}, D = 0, O = () => {
+		D || (D = requestAnimationFrame(() => {
+			D = 0, E();
 		}));
-	}, T = () => {
-		b(), S();
+	}, k = () => {
+		w(), E();
 	};
-	T(), addEventListener("scroll", w, { passive: !0 }), addEventListener("breaks:layout", T);
-	let E = 0;
-	re(() => {
-		clearTimeout(E), E = window.setTimeout(T, 160);
-	}), document.fonts?.ready.then(T), n.querySelectorAll("img").forEach((e) => {
-		e.complete || e.addEventListener("load", T, { once: !0 });
+	k(), addEventListener("scroll", O, { passive: !0 }), addEventListener("breaks:layout", k);
+	let A = 0;
+	o(() => {
+		clearTimeout(A), A = window.setTimeout(k, 160);
+	}), document.fonts?.ready.then(k), n.querySelectorAll("img").forEach((e) => {
+		e.complete || e.addEventListener("load", k, { once: !0 });
 	}), window.__tl = () => ({
-		doneAt: g,
-		tip: scrollY + d * yt,
-		strokes: u.length,
-		mode: o
-	}), ((t = window).__lineReg ?? (t.__lineReg = {})).team = () => u.map((e, t) => ({
+		doneAt: b,
+		tip: scrollY + h * xt,
+		strokes: m.length,
+		mode: u
+	}), ((t = window).__lineReg ?? (t.__lineReg = {})).team = () => m.map((e, t) => ({
 		id: e.id ?? `hair${t}`,
 		hair: !!e.hair,
-		...e.id ? _[e.id] : {},
+		...e.id ? x[e.id] : {},
 		x: Array.from(e.x),
 		y: Array.from(e.y),
 		w: Array.from(e.w),
@@ -4477,19 +4480,19 @@ function xt(e) {
 }
 //#endregion
 //#region src/home/team/team.ts
-function St(e) {
+function wt(e) {
 	let t = 0, n = -1, r = 0, i = () => {
 		r = 0;
 		let i = innerHeight;
-		t = J((i - e.getBoundingClientRect().top) / (i * .5)), Math.abs(t - n) > 1e-4 && (n = t, window.__team = { dev: t }, dispatchEvent(new CustomEvent("team:develop", { detail: { dev: t } })));
+		t = X((i - e.getBoundingClientRect().top) / (i * .5)), Math.abs(t - n) > 1e-4 && (n = t, window.__team = { dev: t }, dispatchEvent(new CustomEvent("team:develop", { detail: { dev: t } })));
 	}, a = () => {
 		r || (r = requestAnimationFrame(i));
 	};
-	return addEventListener("scroll", a, { passive: !0 }), addEventListener("resize", a), i(), xt(e), { dev: () => t };
+	return addEventListener("scroll", a, { passive: !0 }), addEventListener("resize", a), i(), Ct(e), { dev: () => t };
 }
 //#endregion
 //#region src/home/footer/footer.ts
-function Ct(e) {
+function Tt(e) {
 	let t = e.querySelector("[data-drawer]");
 	if (!t) return;
 	let n = () => t.classList.toggle("no-reveal", t.offsetHeight > innerHeight);
@@ -4497,18 +4500,18 @@ function Ct(e) {
 }
 //#endregion
 //#region src/webflow/home.ts
-var wt = (e) => document.querySelector(e), Tt = (e) => /^(https?:)?\/\//.test(e) ? e : t + e.replace(/^\//, "");
+var Et = (e) => document.querySelector(e), Dt = (e) => /^(https?:)?\/\//.test(e) ? e : t + e.replace(/^\//, "");
 document.querySelectorAll("img[data-p26-src]").forEach((e) => {
-	e.src = Tt(e.dataset.p26Src);
+	e.src = Dt(e.dataset.p26Src);
 }), document.querySelectorAll("[data-plate]").forEach((e) => {
-	e.dataset.plate = Tt(e.dataset.plate);
+	e.dataset.plate = Dt(e.dataset.plate);
 });
-var Et = wt(".p26-page > .p26-nav"), Dt = wt("[data-line] .ln-hd");
-Et && Dt && Dt.appendChild(Et), document.documentElement.classList.add("p26-home-live"), r(wt("[data-fit]")), ge(), Fe(we({ meta: n }));
-var Ot = wt("[data-breaks]");
-Ot && vt(ft(Ot, { entryX: (e) => e ? .5 : .6 }));
-var kt = wt("[data-team]");
-kt && St(kt);
-var At = wt(".p26-page > .p26-footer"), jt = wt(".p26-page");
-At && jt && (At.setAttribute("data-drawer", ""), Ct(jt));
+var Ot = Et(".p26-page > .p26-nav"), kt = Et("[data-line] .ln-hd");
+Ot && kt && kt.appendChild(Ot), document.documentElement.classList.add("p26-home-live"), f(Et("[data-fit]")), ve(), Le(Ee({ meta: n }));
+var At = Et("[data-breaks]");
+At && bt(mt(At, { entryX: (e) => e ? .5 : .6 }));
+var jt = Et("[data-team]");
+jt && wt(jt);
+var Mt = Et(".p26-page > .p26-footer"), Nt = Et(".p26-page");
+Mt && Nt && (Mt.setAttribute("data-drawer", ""), Tt(Nt));
 //#endregion
