@@ -1,0 +1,10 @@
+import{t as e}from"./glue.BEqNV-es.js";var t=`https://boards-api.greenhouse.io/v1/boards/patronusaiinc/departments`,n=`https://job-boards.greenhouse.io/patronusaiinc`,r=`Research and Engineering`,i=e=>e.replace(/[&<>"']/g,e=>({"&":`&amp;`,"<":`&lt;`,">":`&gt;`,'"':`&quot;`,"'":`&#39;`})[e]),a=e=>`${e} ${e===1?`role`:`roles`}`;function o(o){let s=o.querySelector(`[data-jn-groups]`);if(!s)return;let c=e=>{document.querySelectorAll(`[data-jn-total]`).forEach(t=>{t.textContent=e?`${e} open ${e===1?`role`:`roles`}`:`Open roles`}),document.querySelectorAll(`[data-jn-head]`).forEach(t=>{t.textContent=e?`Open roles · ${e}`:`Open roles`})};fetch(t).then(e=>e.ok?e.json():Promise.reject(e.status)).then(t=>{let n=(t.departments??[]).filter(e=>e.jobs?.length).sort((e,t)=>e.name===r?-1:t.name===r?1:e.name.localeCompare(t.name)),o=n.reduce((e,t)=>e+t.jobs.length,0);c(o),o?(s.innerHTML=n.map(e=>`
+        <section class="jn-group" aria-label="${i(e.name)}">
+          <div class="jn-dept"><h2>${i(e.name)}</h2><p class="st-mono st-dim">${a(e.jobs.length)}</p></div>
+          <ul class="jn-rows">${e.jobs.map(e=>`
+            <li class="jn-row"><a href="${`/patronus-preview/job-detail/?gh_jid=`+e.id}">
+              <span class="jn-rtitle">${i(e.title)}</span>
+              <span class="jn-rmeta st-mono"><span class="jn-rloc">${i(e.location?.name??``)}</span><span class="jn-rapply">Apply →</span></span>
+            </a></li>`).join(``)}
+          </ul>
+        </section>`).join(``),e(`.jn-dept h2`,s)):s.innerHTML=`<p class="jn-note">There are no open roles right now. Write to <a href="mailto:contact@patronus.ai">contact@patronus.ai</a> if you’d like to work with us.</p>`,s.setAttribute(`aria-busy`,`false`)}).catch(()=>{c(null),s.innerHTML=`<p class="jn-note">We couldn’t load the open roles just now. See them on <a href="${n}">our Greenhouse board</a>, or write to <a href="mailto:contact@patronus.ai">contact@patronus.ai</a>.</p>`,s.setAttribute(`aria-busy`,`false`)})}var s=document.querySelector(`[data-jn]`);s&&o(s);

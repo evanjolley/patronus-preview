@@ -1,0 +1,1 @@
+import{t as e}from"./glue.BEqNV-es.js";e(`.lx-title, .lx-card-title`);
