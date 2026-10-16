@@ -1,1 +1,0 @@
-function e(e){let t=e.querySelector(`[data-drawer]`);if(!t)return;let n=()=>t.classList.toggle(`no-reveal`,t.offsetHeight>innerHeight);addEventListener(`resize`,n),new ResizeObserver(n).observe(t),n()}export{e as t};

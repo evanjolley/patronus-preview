@@ -1,1 +1,0 @@
-import{t as e}from"./menu.CWucu0g9.js";import{t}from"./footer.EwRGz8dx.js";e(document.querySelector(`.st-menu[data-menu]`));var n=document.querySelector(`[data-footer]`);n&&t(n);
