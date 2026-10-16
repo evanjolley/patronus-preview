@@ -866,7 +866,7 @@ function Ce(e = {}) {
 		let p = n.getBoundingClientRect(), m = innerHeight, h = t ? Z(m) : null;
 		for (let t = 0; t < b.length; t++) {
 			let n = b[t];
-			if (!n.tex) continue;
+			if (u && ae && V(n.el, "--fill", X(q(ee(t, p.top, m, n.el.getBoundingClientRect().top))).toFixed(3)), !n.tex) continue;
 			let i = n.el.getBoundingClientRect(), a = (i.left - p.left) * d, o = (i.top - p.top) * d, s = a + i.width * d, c = o + i.height * d;
 			S.scissor(Math.floor(a), Math.floor(r.height - c), Math.ceil(s - a), Math.ceil(c - o)), S.uniform4f(w.u_rect, a, o, s, c), S.uniform4f(w.u_uv, ...z(i.width, i.height, n.meta.focal, n.meta.aspect));
 			let f = q(ee(t, p.top, m, i.top));
