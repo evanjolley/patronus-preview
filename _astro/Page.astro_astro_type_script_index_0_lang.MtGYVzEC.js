@@ -1,1 +1,0 @@
-import{n as e,t}from"./footer.D3QIURG-.js";e(document.querySelector(`.st-menu[data-menu]`));var n=document.querySelector(`[data-footer]`);n&&t(n);
