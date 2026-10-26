@@ -1,0 +1,17 @@
+# Patronus AI docs
+
+> The LLM evaluation platform documented on this site is retired and no longer offered. Patronus AI is a research lab developing training data and simulated environments for frontier AI. Its work spans reinforcement learning environments and digital world models for agents operating in software.
+
+The current source for Patronus AI is https://www.patronus.ai. See https://www.patronus.ai/llms.txt for the main site.
+
+## Pages
+
+- [Docs](https://docs.patronus.ai/docs): Retirement notice for the former LLM evaluation platform documentation, and what Patronus AI does now.
+- [What is Patronus AI](https://docs.patronus.ai/docs/what-is-patronus-ai): What Patronus AI is today, a behavioral research lab for AI, with founders, funding and the domains it studies.
+- [FinanceBench](https://docs.patronus.ai/docs/research_and_differentiators/financebench): FinanceBench, a public research dataset of 10,231 open-book questions about publicly traded companies.
+- [GLIDER](https://docs.patronus.ai/docs/research_and_differentiators/Glider): GLIDER is retired as a product. The research paper on the small, explainable judge model stays public.
+- [Lynx](https://docs.patronus.ai/docs/research_and_differentiators/Lynx/base): Lynx is retired as a product. The research paper on the hallucination detection model stays public.
+- [Research](https://docs.patronus.ai/docs/research_and_differentiators/base): Patronus AI research, recent papers and earlier work.
+- [Percival](https://docs.patronus.ai/docs/percival/percival-chat): Percival is retired. Related research is TRAIL, a benchmark for finding the step where an agent went wrong.
+- [Evaluators](https://docs.patronus.ai/docs/evaluators/concepts): The evaluators and evaluation API are retired. The guide to LLM evaluators lives on patronus.ai.
+- [SDKs](https://docs.patronus.ai/docs/sdks-and-toolkits): The Patronus SDK needs an API key, and new users cannot sign up, so it cannot be run by the public.
