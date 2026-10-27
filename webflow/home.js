@@ -793,7 +793,7 @@ function et() {
 		Ve.forEach((e, t) => {
 			m >= e - (t ? .3 : .15) && (C = t);
 		}), f.forEach((e, t) => {
-			e.classList.contains("is-on") !== (t === C) && e.classList.toggle("is-on", t === C), J(e, "--w", (Ne ? 1 : X((m - (Ve[t] - (t ? .3 : .15))) / .4)).toFixed(3));
+			e.classList.contains("is-on") !== (t === C) && e.classList.toggle("is-on", t === C), e.inert !== (t !== C) && (e.inert = t !== C), J(e, "--w", (Ne ? 1 : X((m - (Ve[t] - (t ? .3 : .15))) / .4)).toFixed(3));
 		});
 		let D = (e) => Ve[e] - (e ? .3 : .15), O = o;
 		p.forEach((e, t) => {
@@ -821,7 +821,7 @@ function et() {
 			lines: M.toFixed(3)
 		}, h;
 	}, ie = () => (J(s, "opacity", "1"), J(s, "visibility", ""), J(c, "opacity", "1"), J(c, "visibility", ""), J(d, "--tx", "1"), J(d, "pointerEvents", "auto"), f.forEach((e) => {
-		e.classList.contains("is-on") || e.classList.add("is-on"), J(e, "--w", "1");
+		e.classList.contains("is-on") || e.classList.add("is-on"), e.inert = !1, J(e, "--w", "1");
 	}), p.forEach((e) => J(e, "--f", "1")), a?.draw(1), J(n, "opacity", "1"), J(n, "display", ""), J(r, "--s3", "1"), J(r, "--s4", "1"), ne(0), U = NaN, !1), q = 0, oe = (e) => {
 		q = 0, re(e) && Y();
 	}, Y = () => {
