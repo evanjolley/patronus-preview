@@ -1,0 +1,1191 @@
+# Patronus AI, full text of key pages
+
+> Markdown versions of the key pages of https://www.patronus.ai, generated 2026-10-29. Each section names its source page. The index is https://www.patronus.ai/llms.txt.
+
+---
+
+# A behavioral research lab for AI
+
+> Patronus AI is a behavioral research lab for AI that studies where models fail and builds training data and simulated environments to improve them.
+
+Source: https://www.patronus.ai  
+Publisher: Patronus AI, a behavioral research lab for AI (https://www.patronus.ai/)
+
+We study where models fail and how to improve them.
+
+[Research](https://www.patronus.ai/research) [Contact](https://www.patronus.ai/contact)
+
+## Behavioral alignment is the next frontier of AI
+
+### Agents learn judgment on the job
+
+They have enough knowledge to do the work. What they lack is judgment, which humans learn on the job and don’t always write down.
+
+### We build worlds for agents to practice
+
+Each one is modeled on a real working environment, where information is fragmented, user requests conflict, and not every requirement is stated.
+
+### We study what agents do
+
+When an agent misses the point or cuts corners, we figure out why. Then we build the training data to correct it.
+
+### Research comes first
+
+We are fundamental researchers and domain experts. [Join us](https://www.patronus.ai/join)
+
+## Every domain asks for different judgment
+
+- [Alignment](https://www.patronus.ai/domains/alignment): Follow instructions and know when to push back.
+- [Coding](https://www.patronus.ai/domains/coding): Ship a feature in code no one documented.
+- [Knowledge Work](https://www.patronus.ai/domains/knowledge-work): Make one decision from sources that disagree.
+- [Science](https://www.patronus.ai/domains/science): Identify and explore the untested question.
+- [Computer Use](https://www.patronus.ai/domains/computer-use): Get work done in software built for people.
+
+[View domains](https://www.patronus.ai/domains)
+
+## Research
+
+Most research doesn’t lead to a breakthrough.
+
+Experiments stall and results come back empty.
+
+Each one rules something out.
+
+Then one breaks through.
+
+### Featured research
+
+[View all research](https://www.patronus.ai/research)
+
+- [World Modeling](https://www.patronus.ai/research/world-modeling-for-agentic-rl): A language model that stands in for an environment while an agent trains. 2026 · arXiv 2607.16204.
+- [MEMTRACK](https://www.patronus.ai/research/memtrack): Testing whether agents keep track of facts spread across workplace tools. 2025 · arXiv 2510.01353.
+- [TRAIL](https://www.patronus.ai/research/trail): A benchmark for finding the step where an agent went wrong. 2025 · arXiv 2505.08638.
+
+## Come work at the limits of model behavior
+
+[View open roles](https://www.patronus.ai/join)
+
+---
+
+# Research and engineering under one roof
+
+> Patronus AI is a behavioral research lab for AI founded in 2023 by Anand Kannappan and Rebecca Qian. We study where models fail and how to improve them.
+
+Source: https://www.patronus.ai/company  
+Publisher: Patronus AI, a behavioral research lab for AI (https://www.patronus.ai/)
+
+Patronus AI was founded in 2023 by Anand Kannappan and Rebecca Qian. Our researchers and engineers come from Meta Superintelligence Labs, Amazon AGI, Apple and Google.
+
+## Mission
+
+Patronus AI is a behavioral research lab for AI. We build [worlds for models to explore](https://www.patronus.ai/domains) and study what they do there and why. Our work combines [open-ended research](https://www.patronus.ai/research) with hands-on engineering to meet difficult problems on the frontier of AI.
+
+## Founders
+
+### Anand Kannappan
+
+Co-founder & CEO
+
+“Reliability for AI agents will require the equivalent of ‘five nines’ for software systems. The path to getting there runs directly through simulation.”
+
+### Rebecca Qian
+
+Co-founder & CTO
+
+“The next frontier of AI depends on scalable simulation and trustworthy evaluation. We’re building the infrastructure to make that possible.”
+
+## Backing
+
+### Seed
+
+$3M · September 2023
+
+Led by Lightspeed Venture Partners, with participation from Factorial Capital and angel investors including Amjad Masad and Gokul Rajaram.
+
+[Read the Seed announcement](https://www.patronus.ai/news/patronus-launch)
+
+### Series A
+
+$17M · May 2024
+
+Led by Notable Capital, with participation from Lightspeed Venture Partners, Datadog, Factorial Capital and angel investors.
+
+[Read the Series A announcement](https://www.patronus.ai/news/announcing-our-17-million-series-a)
+
+### Series B
+
+$50M · June 2026
+
+Led by Greenfield Partners, with participation from Lightspeed Venture Partners, Notable Capital, Datadog, Samsung, Gokul Rajaram, Factorial Capital, and a cohort of AI leaders across the labs and neolabs.
+
+[Read the Series B announcement](https://www.patronus.ai/news/announcing-our-50m-series-b)
+
+Investors
+
+Greenfield Partners
+
+Lightspeed Venture Partners
+
+Notable Capital
+
+Datadog
+
+Samsung
+
+Factorial Capital
+
+Gokul Rajaram
+
+Amjad Masad
+
+## Come work at the limits of model behavior
+
+[View open roles →](https://www.patronus.ai/join)
+
+---
+
+# Domains
+
+> Patronus AI builds training data and simulated environments for alignment, coding, knowledge work, science and computer use, and studies where models fail.
+
+Source: https://www.patronus.ai/domains  
+Publisher: Patronus AI, a behavioral research lab for AI (https://www.patronus.ai/)
+
+- [Alignment](https://www.patronus.ai/domains/alignment): Follow instructions and know when to push back. View domain →.
+- [Coding](https://www.patronus.ai/domains/coding): Ship a feature in code no one documented. View domain →.
+- [Knowledge Work](https://www.patronus.ai/domains/knowledge-work): Make one decision from sources that disagree. View domain →.
+- [Science](https://www.patronus.ai/domains/science): Identify and explore the untested question. View domain →.
+- [Computer Use](https://www.patronus.ai/domains/computer-use): Get work done in software built for people. View domain →.
+
+## Questions about buying environments
+
+### Where can I buy RL environments, off the shelf or built to order?
+
+Patronus AI sells both. It has a set of ready-made RL environments, but most of our work is custom. We build the tasks and problems in each environment, and we can custom-build environments calibrated to your specific needs and requirements.
+
+### Can I buy app simulations or mock websites for agent training?
+
+Yes, you can buy parts of an RL environment on their own. An RL environment is made of parts, such as simulated apps, mock websites and the data behind them. Tell us which parts you need, and we will scope the rest.
+
+### Who owns the training data from a custom build?
+
+Ownership of the training data from a custom build is set in each agreement. We take on your hardest problems, and the data we deliver is built for your needs.
+
+### Can your RL environments run on our own training harness?
+
+It’s possible. Tell us about your training harness when we scope the work, and we’ll confirm how tasks can run in your setup.
+
+### How long does a custom RL environment take from scoping to delivery?
+
+It varies with scope. We usually send samples first and go from there, and our researchers work closely with your research team so the data meets our quality bar.
+
+### How do I judge the quality of an RL environment?
+
+Look for expert review and automated checks. Every Patronus AI environment goes through rigorous manual reviews by domain experts and automated checks before delivery.
+
+### How do I buy RL environments from Patronus AI?
+
+Start with a note through our [contact page](https://www.patronus.ai/contact) with the domain and what you need, and our team will follow up to scope the work.
+
+### Should I build or buy RL environments?
+
+It depends on what your team can staff. An RL environment needs tasks, simulated apps or mock websites, the data behind them and a reward, and each part needs people who know the domain. Buying from Patronus AI gets you environments reviewed by domain experts and checked before delivery, ready-made or custom-built, and you can buy only the parts you need.
+
+### What does an RL environment include?
+
+An RL environment is a sandbox with the tools an agent needs, a task and a reward that scores the result. It is made of parts, such as a codebase or simulated apps, mock websites and the data behind them. For computer use, expert trajectories can show how a skilled person moves through the task.
+
+## Training a model for this kind of work? Talk to us
+
+[Contact →](https://www.patronus.ai/contact)
+
+---
+
+# Research
+
+> Patronus AI studies model failures, world modeling, and synthetic data to develop high-quality tasks and environments for reinforcement learning.
+
+Source: https://www.patronus.ai/research  
+Publisher: Patronus AI, a behavioral research lab for AI (https://www.patronus.ai/)
+
+Featured
+
+- [GlobeBench](https://www.patronus.ai/research/globebench): A benchmark for whether text world models keep track of state, rules and side effects. (October 15, 2026 · arXiv 2610.22708 · NeurIPS 2026 Workshop)
+- [SpeedrunBench](https://www.patronus.ai/research/speedrunbench): Video game speedrunning as a test of whether agents can beat strategies humans already know. (September 3, 2026 · arXiv 2610.08076)
+- [FigmaTrace](https://www.patronus.ai/research/figmatrace): Human design workflows in Figma, captured as training data for creative design tasks. (August 20, 2026 · arXiv 2608.21460)
+
+All papers
+
+Newest first
+
+### [GlobeBench](https://www.patronus.ai/research/globebench)
+
+A benchmark for whether text world models keep track of state, rules and side effects.
+
+Nicholas Saban, Charvi Bannur, Mariya Vasileva, Darshan Deshpande
+
+arXiv 2610.22708
+
+October 15, 2026
+
+NeurIPS 2026 Workshop
+
+### [SpeedrunBench](https://www.patronus.ai/research/speedrunbench)
+
+Video game speedrunning as a test of whether agents can beat strategies humans already know.
+
+Yoshinari Fujinuma, Keisuke Kamahori, Ryuto Koike, Abdelrahman Madkour, Varun Prashant Gangal, Monty Bichouna, Martyna Markiewicz, Shivani Jain, Duncan Curtis, Rebecca Qian, Anand Kannappan
+
+arXiv 2610.08076
+
+September 3, 2026
+
+### [FigmaTrace](https://www.patronus.ai/research/figmatrace)
+
+Human design workflows in Figma, captured as training data for creative design tasks.
+
+Darshan Deshpande, Yoshinari Fujinuma, Martyna Markiewicz, Devanshu Bansal, Shivani Jain, Nicholas Saban, Chirag Maheshwari, Anand Kannappan
+
+arXiv 2608.21460
+
+August 20, 2026
+
+### [HalluWorld](https://www.patronus.ai/research/halluworld)
+
+A controlled benchmark that measures hallucination against reference world models.
+
+Emmy Liu, Varun Prashant Gangal, Michael Yu, Zhuofu Tao, Karan Singh, Sachin Kumar, Steven Y. Feng
+
+arXiv 2605.19341
+
+May 19, 2026
+
+NeurIPS 2026
+
+### [World Modeling for Agentic RL](https://www.patronus.ai/research/world-modeling-for-agentic-rl)
+
+A language model that stands in for an environment while an agent trains.
+
+Darshan Deshpande
+
+arXiv 2607.16204
+
+May 7, 2026
+
+NeurIPS 2026
+
+### [Prompt Infilling for Diffusion LMs](https://www.patronus.ai/research/prompt-infilling-for-diffusion-lms)
+
+Teaching diffusion language models to fill in prompts, not only responses.
+
+Yoshinari Fujinuma, Keisuke Sakaguchi
+
+arXiv 2604.03677
+
+April 4, 2026
+
+COLM 2026 Workshop
+
+### [DETOUR](https://www.patronus.ai/research/detour)
+
+A two-agent benchmark for tip-of-the-tongue search across several turns.
+
+Li Siyan, Darshan Deshpande, Anand Kannappan, Rebecca Qian
+
+arXiv 2602.00352
+
+January 30, 2026
+
+ACL 2026 GEM Workshop
+
+### [TRACE](https://www.patronus.ai/research/trace)
+
+54 kinds of reward exploit in code RL, and how well models catch them.
+
+Darshan Deshpande, Anand Kannappan, Rebecca Qian
+
+arXiv 2601.20103
+
+January 27, 2026
+
+ICML 2026
+
+### [Unified Hallucination Framework](https://www.patronus.ai/research/unified-hallucination-framework)
+
+One definition of hallucination: inaccurate world modeling.
+
+Emmy Liu, Varun Prashant Gangal, Chelsea Zou, Michael Yu, Xiaoqi Huang, Alex Chang, Zhuofu Tao, Karan Singh, Sachin Kumar, Steven Y. Feng
+
+arXiv 2512.21577
+
+December 25, 2025
+
+ICML 2026
+
+### [Generative Simulators](https://www.patronus.ai/research/generative-simulators)
+
+Environments that generate their own tasks, world dynamics and rewards.
+
+Rebecca Qian, Darshan Deshpande, Varun Prashant Gangal, Li Siyan
+
+Technical report (PDF)
+
+December 17, 2025
+
+### [Contrastive Decoding for LLM Judges](https://www.patronus.ai/research/contrastive-decoding-for-llm-judges)
+
+Reducing score range bias when language models act as judges.
+
+Yoshinari Fujinuma
+
+arXiv 2510.18196
+
+October 21, 2025
+
+Findings of ACL 2026
+
+### [MEMTRACK](https://www.patronus.ai/research/memtrack)
+
+Testing whether agents keep track of facts spread across workplace tools.
+
+Darshan Deshpande, Varun Prashant Gangal, Hersh Mehta, Anand Kannappan, Rebecca Qian, Peng Wang
+
+arXiv 2510.01353
+
+October 1, 2025
+
+NeurIPS 2025 Workshop
+
+### [TRAIL](https://www.patronus.ai/research/trail)
+
+A benchmark for finding the step where an agent went wrong.
+
+Darshan Deshpande, Varun Prashant Gangal, Hersh Mehta, Jitin Krishnan, Anand Kannappan, Rebecca Qian
+
+arXiv 2505.08638
+
+May 13, 2025
+
+### [BLUR](https://www.patronus.ai/research/blur)
+
+573 tip-of-the-tongue questions that need search, reasoning and tool use.
+
+Sky CH-Wang, Darshan Deshpande, Smaranda Muresan, Anand Kannappan, Rebecca Qian
+
+arXiv 2503.19193
+
+March 24, 2025
+
+ACL 2025
+
+### [Humanity’s Last Exam](https://www.patronus.ai/research/humanitys-last-exam)
+
+A multi-modal benchmark at the frontier of human knowledge.
+
+Center for AI Safety, Scale AI et al.
+
+arXiv 2501.14249
+
+January 24, 2025
+
+Nature
+
+### [GLIDER](https://www.patronus.ai/research/glider-sota-slm-judge)
+
+A small, explainable judge model for grading LLM interactions.
+
+Darshan Deshpande, Selvan Sunitha Ravi, Sky CH-Wang, Bartosz Mielczarek, Anand Kannappan, Rebecca Qian
+
+arXiv 2412.14140
+
+December 18, 2024
+
+### [Lynx](https://www.patronus.ai/research/lynx-hallucination-detection-model)
+
+An open-source model for detecting hallucinations in retrieval-augmented generation.
+
+Selvan Sunitha Ravi, Bartosz Mielczarek, Anand Kannappan, Douwe Kiela, Rebecca Qian
+
+arXiv 2407.08488
+
+July 11, 2024
+
+### [FinanceBench](https://www.patronus.ai/research/financebench)
+
+Open-book financial question answering about publicly traded companies.
+
+Pranab Islam, Anand Kannappan, Douwe Kiela, Rebecca Qian, Nino Scherrer, Bertie Vidgen
+
+arXiv 2311.11944
+
+November 20, 2023
+
+### [SimpleSafetyTests](https://www.patronus.ai/research/simplesafetytests)
+
+100 prompts for finding critical safety risks in language models.
+
+Bertie Vidgen, Nino Scherrer, Hannah Rose Kirk, Rebecca Qian, Anand Kannappan, Scott A. Hale, Paul Röttger
+
+arXiv 2311.08370
+
+November 14, 2023
+
+---
+
+# Come work at the limits of model behavior
+
+> Join Patronus AI, a behavioral research lab for AI. We build worlds for models to learn in and study where they fail. See our open roles and how we work.
+
+Source: https://www.patronus.ai/join  
+Publisher: Patronus AI, a behavioral research lab for AI (https://www.patronus.ai/)
+
+Researchers and engineers formerly at Meta Superintelligence Labs, Amazon AGI, Apple and Google.
+
+We build worlds for models to learn in and study where they fail. Come join us.
+
+Open roles
+
+### Research and Engineering
+
+- [Member of Technical Staff - Engineering](https://www.patronus.ai/job-detail?gh_jid=4412230009), San Francisco
+- [Member of Technical Staff - Research](https://www.patronus.ai/job-detail?gh_jid=4366662009), San Francisco
+
+### Operations
+
+- [Internal Strategic Projects Lead](https://www.patronus.ai/job-detail?gh_jid=4362065009), San Francisco
+- [Strategic Projects Lead](https://www.patronus.ai/job-detail?gh_jid=4380737009), San Francisco
+- [Technical Recruiter](https://www.patronus.ai/job-detail?gh_jid=4411382009), San Francisco
+
+### Domain Expert
+
+- [Expert: Finance (Contract, Remote)](https://www.patronus.ai/job-detail?gh_jid=4452636009), Remote - US
+- [Expert: Healthcare (Contract, Remote)](https://www.patronus.ai/job-detail?gh_jid=4452633009), Remote - US
+- [Expert: Legal (Contract, Remote)](https://www.patronus.ai/job-detail?gh_jid=4452638009), Remote - US
+- [Expert: Mechanical Engineering (Contract, Remote)](https://www.patronus.ai/job-detail?gh_jid=4464707009), Remote - US
+- [Expert: Sales (Contract, Remote)](https://www.patronus.ai/job-detail?gh_jid=4452640009), Remote - US
+- [Expert: Unreal Game Development (Contract, Remote)](https://www.patronus.ai/job-detail?gh_jid=4452641009), Remote - US
+
+How we work
+
+Solve hard problems at the frontier of AI research.
+
+### Relentless Optimism
+
+We meet complexity with confidence, believing that effort, creativity, and persistence create breakthroughs.
+
+### Unlimited Energy
+
+We bring momentum to everything we do, moving fast while maintaining the stamina to go the distance.
+
+### Intellectual Flexibility
+
+We thrive in uncertainty, embrace complexity, and evolve continuously.
+
+## Questions about working at Patronus AI
+
+### What does Patronus AI work on?
+
+Patronus AI is a behavioral research lab for AI that studies where models fail and builds training data and simulated environments to improve them. Its researchers and engineers build [RL environments](https://www.patronus.ai/domains) for AI agents, run reinforcement learning and post-training experiments, and publish [benchmarks](https://www.patronus.ai/research) across domains such as [coding](https://www.patronus.ai/domains/coding), [computer use](https://www.patronus.ai/domains/computer-use), [knowledge work](https://www.patronus.ai/domains/knowledge-work) and more.
+
+### Is Patronus AI hiring for RL environment roles?
+
+Yes, Patronus AI hires researchers and engineers to build [RL environments](https://www.patronus.ai/domains) for training and evaluating AI agents. Its Member of Technical Staff roles in research and engineering cover environment and reward design, agent infrastructure, reinforcement learning and post-training methods such as GRPO and SFT. [Current openings](https://www.patronus.ai/join#roles) are listed on patronus.ai/join, pulled live from the company job board.
+
+### Can I work remotely at Patronus AI, and where is the office?
+
+Patronus AI’s San Francisco [research and engineering roles](https://www.patronus.ai/join#roles) are in office five days a week because the team works closely together. Remote work is possible for specific circumstances and candidates and is agreed case by case. [Domain expert contracts](https://www.patronus.ai/join#roles) are fully remote and asynchronous. Experts work with the research team to design the tasks and grading behind [RL environments](https://www.patronus.ai/domains).
+
+### Do researchers at Patronus AI publish?
+
+Yes, researchers at Patronus AI publish their work. Papers from 2026 include main-track work at NeurIPS and ICML, such as [a language model that stands in for an environment during agentic RL](https://www.patronus.ai/research/world-modeling-for-agentic-rl) and [a study of reward exploits in code RL](https://www.patronus.ai/research/trace), plus workshop papers at NeurIPS, ACL and COLM. The full list is on [patronus.ai/research](https://www.patronus.ai/research).
+
+### What is the research culture like at Patronus AI?
+
+Patronus AI keeps [research and engineering under one roof](https://www.patronus.ai/company), so researchers own projects end to end, from framing an open problem to experiments, [RL environments](https://www.patronus.ai/domains) and production systems. The team works on reward design, agent behavior, reward hacking and scalable oversight, writes production code alongside engineers, and gets together at recurring research events in San Francisco and at global offsites.
+
+### Can domain experts work with Patronus AI on contract?
+
+Yes, Patronus AI hires expert practitioners as [remote contractors](https://www.patronus.ai/join#roles) to design realistic tasks that today’s AI models get wrong. Experts write the request, solve it and define how the answer is graded, and that work becomes training and evaluation data for frontier models. No AI background is needed. Fields include finance, law, healthcare and more.
+
+### Who founded Patronus AI?
+
+Patronus AI was founded in 2023 by [Anand Kannappan](https://www.patronus.ai/team/anand-kannappan), its CEO, and [Rebecca Qian](https://www.patronus.ai/team/rebecca-qian), its CTO. Before Patronus, Anand led ML explainability and experimentation work at Meta Reality Labs, and Rebecca published research at FAIR (Meta AI). Today the team includes researchers and engineers formerly at Meta Superintelligence Labs, Amazon AGI, Apple and Google.
+
+### Is Patronus AI a good place to work for AI researchers?
+
+Patronus AI suits researchers who want to work on [RL environments](https://www.patronus.ai/domains), agent behavior and post-training at a lab that publishes. Its team comes from Meta Superintelligence Labs, Amazon AGI, Apple and Google, its [papers](https://www.patronus.ai/research) appear at NeurIPS and ICML, and it raised a [$50M Series B](https://www.patronus.ai/news/announcing-our-50m-series-b) led by Greenfield Partners in June 2026.
+
+---
+
+# Coding
+
+> RL environments for coding built on real repositories, with their history, tickets and tests, to train agents on the work engineers actually do.
+
+Source: https://www.patronus.ai/domains/coding  
+Publisher: Patronus AI, a behavioral research lab for AI (https://www.patronus.ai/)
+
+Ship a feature in code no one documented
+
+Engineers almost never get a clean bug and failing test. They get a ticket, a codebase they didn’t write and a week of decisions spread across myriad chats and git. We build environments that model this complexity.
+
+## RL environments for coding agents
+
+RL environments for coding give an agent a codebase, a task and a reward for the result. Ours start from real repositories, with their file tree, commit and pull request history, tests, docs and run commands. The task doesn’t say where to look. The agent has to explore the code to decide what to do, the way an engineer does on a new team.
+
+Tasks look like what engineers get assigned. They range from small bug fixes to features that touch the database, the API and the frontend. Experts review every task before it is used.
+
+Passing tests is not the whole job. A patch can pass and still be the wrong change, and a model can learn to game the tests. Context also lives outside the code. In MEMTRACK, the facts an engineer needed were spread across Slack, Linear and Git, and the best model tested answered 60% of questions correctly. In TRAIL, the best model tested scored 11% at finding the step where an agent’s run went wrong.
+
+Coding is also where we study behavior. An agent can close the ticket and still be a poor colleague, for example by claiming a check it never ran. Our alignment work covers that side.
+
+## Published research
+
+- [MEMTRACK](https://www.patronus.ai/research/memtrack): Testing whether agents keep track of facts spread across workplace tools. (October 1, 2025 · arXiv 2510.01353 · NeurIPS 2025 Workshop)
+- [TRACE](https://www.patronus.ai/research/trace): 54 kinds of reward exploit in code RL, and how well models catch them. (January 27, 2026 · arXiv 2601.20103 · ICML 2026)
+- [TRAIL](https://www.patronus.ai/research/trail): A benchmark for finding the step where an agent went wrong. (May 13, 2025 · arXiv 2505.08638)
+
+## Questions about RL environments for coding
+
+### What are coding RL environments?
+
+Coding RL environments are sandboxes with a codebase, tools, a task and a reward. The agent reads code, runs commands and submits a change, and the reward scores the result. Our RL environments guide covers the general idea.
+
+### How is coding agent training data different from a code dataset?
+
+A code dataset is static text, such as files, diffs or solutions. Coding agent training data captures the work itself, from the files an agent opened to the commands it ran and the change it made. Environments produce that kind of data, and the same environment can serve training and evaluation.
+
+### How do coding RL environments verify rewards?
+
+Tests are the starting point for rewards in coding RL environments. Where a task needs more than tests, we add the checks a reviewer would make, written with engineers who know that kind of codebase. Looking at the process as well as the result also makes reward hacking harder.
+
+### How do you calibrate the difficulty of coding RL tasks?
+
+We set difficulty against the models a team is training and retune tasks as new models arrive. Real tasks stay hard because they are underspecified and spread across tools, not because they are puzzles.
+
+### Does training on coding help in other domains?
+
+There is public evidence that models that improve at coding also improve at computer use and tool use. Transfer to other domains is less clear, so we don’t assume it.
+
+### What makes a good RL environment for coding agents?
+
+A good coding RL environment starts from a real repository, with its file tree, commit and pull request history, tests, docs and run commands. Tasks look like what engineers get assigned, from small bug fixes to features that touch the database, the API and the frontend, and the task doesn’t say where to look. Experts review every task before it is used.
+
+## Guides
+
+[RL Environments](https://www.patronus.ai/guide-to-rl-environments)
+
+[Reinforcement Learning with Verifiable Rewards](https://www.patronus.ai/guide-to-rl-environments/reinforcement-learning-with-verifiable-rewards)
+
+[AI Agent Tools](https://www.patronus.ai/ai-agent-development/ai-agent-tools)
+
+## Training a model for this kind of work? Talk to us
+
+[Contact →](https://www.patronus.ai/contact)
+
+---
+
+# TRAIL
+
+> TRAIL is a benchmark of 148 human-annotated agent traces and an error taxonomy, built to test whether models can find where an agentic workflow went wrong.
+
+Source: https://www.patronus.ai/research/trail  
+Publisher: Patronus AI, a behavioral research lab for AI (https://www.patronus.ai/)
+
+TRAIL: Trace Reasoning and Agentic Issue Localization
+
+A benchmark for finding the step where an agent went wrong.
+
+[Darshan Deshpande](https://www.patronus.ai/team/darshan-deshpande), [Varun Prashant Gangal](https://www.patronus.ai/team/varun-prashant-gangal), Hersh Mehta, Jitin Krishnan, [Anand Kannappan](https://www.patronus.ai/team/anand-kannappan), [Rebecca Qian](https://www.patronus.ai/team/rebecca-qian)
+
+Domain · [Coding](https://www.patronus.ai/domains/coding) →
+
+[Read on arXiv →](https://arxiv.org/abs/2505.08638) [PDF →](https://arxiv.org/pdf/2505.08638)
+
+At a glance
+
+- **Traces, annotated by hand**: 148
+- **Errors labeled in them**: 841
+- **Best score of any model tested**: 11%
+- **Sources**: Traces from GAIA and SWE-bench agents
+
+## Key figure
+
+Error categorization F1, location accuracy and joint accuracy on the GAIA split of TRAIL, mean of three runs. The best model localizes and categorizes errors jointly in under a fifth of cases.
+
+## Abstract
+
+The increasing adoption of agentic workflows across diverse domains brings a critical need to scalably and systematically evaluate the complex traces these systems generate. Current evaluation methods depend on manual, domain-specific human analysis of lengthy workflow traces - an approach that does not scale with the growing complexity and volume of agentic outputs. Error analysis in these settings is further complicated by the interplay of external tool outputs and language model reasoning, making it more challenging than traditional software debugging. In this work, we (1) articulate the need for robust and dynamic evaluation methods for agentic workflow traces, (2) introduce a formal taxonomy of error types encountered in agentic systems, and (3) present a set of 148 large human-annotated traces (TRAIL) constructed using this taxonomy and grounded in established agentic benchmarks. To ensure ecological validity, we curate traces from both single and multi-agent systems, focusing on real-world applications such as software engineering and open-world information retrieval. Our evaluations reveal that modern long context LLMs perform poorly at trace debugging, with the best Gemini-2.5-pro model scoring a mere 11% on TRAIL. Our dataset and code are made publicly available to support and accelerate future research in scalable evaluation for agentic workflows.
+
+[Read on arXiv →](https://arxiv.org/abs/2505.08638) [PDF →](https://arxiv.org/pdf/2505.08638)
+
+Cite this
+
+Darshan Deshpande, Varun Prashant Gangal, Hersh Mehta, Jitin Krishnan, Anand Kannappan, Rebecca Qian. TRAIL: Trace Reasoning and Agentic Issue Localization. arXiv:2505.08638, 2025.
+
+```bibtex
+@article{deshpande2025trail, title={TRAIL: Trace Reasoning and Agentic Issue Localization}, author={Darshan Deshpande and Varun Prashant Gangal and Hersh Mehta and Jitin Krishnan and Anand Kannappan and Rebecca Qian}, journal={arXiv preprint arXiv:2505.08638}, year={2025} }
+```
+
+More research
+
+[All research →](https://www.patronus.ai/research)
+
+- [SpeedrunBench](https://www.patronus.ai/research/speedrunbench): Video game speedrunning as a test of whether agents can beat strategies humans already know. (September 3, 2026 · arXiv 2610.08076)
+- [TRACE](https://www.patronus.ai/research/trace): 54 kinds of reward exploit in code RL, and how well models catch them. (January 27, 2026 · arXiv 2601.20103 · ICML 2026)
+- [MEMTRACK](https://www.patronus.ai/research/memtrack): Testing whether agents keep track of facts spread across workplace tools. (October 1, 2025 · arXiv 2510.01353 · NeurIPS 2025 Workshop)
+
+From the blog
+
+[All posts →](https://www.patronus.ai/blog)
+
+- [Introducing TRAIL: A Benchmark for Agentic Evaluation](https://www.patronus.ai/blog/introducing-trail-a-benchmark-for-agentic-evaluation) (Jun 5, 2025)
+
+---
+
+# RL Environments: Tutorial & Examples
+
+> Learn the fundamentals of reinforcement learning environments and how they enable AI agents to learn from trial and error in various interactive settings, including LLM-based applications.
+
+Source: https://www.patronus.ai/guide-to-rl-environments  
+Publisher: Patronus AI, a behavioral research lab for AI (https://www.patronus.ai/)
+
+Reinforcement learning (RL) is a branch of AI where an agent learns by trial and error in an interactive setting. The agent takes actions in an environment, and the environment provides feedback in the form of rewards or penalties. Over time, the agent adapts its strategy to maximize the cumulative reward.
+
+RL environments are the simulated “worlds” in which agents operate. They define what the agent sees (state), what it can do (actions), and how it is evaluated (rewards and termination conditions). In classic settings, an environment might be a video game, a grid world, or a robotics simulator. Recently, however, RL environments have been extended to GenAI and LLM use cases, for example, simulating a web browser for an AI agent or enforcing formatting rules for a conversational chatbot.
+
+This article explores RL environments, explaining their core components and why they are important. We start with the basics of RL and traditional environments, then quickly shift focus to RL environments for LLM-based applications. Along the way, we implement a simple example environment in Python to illustrate how environments work in code.
+
+## Summary of key RL environment concepts
+
+| Concept | Description |
+| --- | --- |
+| Reinforcement learning (RL) | An AI approach where an agent learns by interacting with an environment, making decisions (actions), and receiving feedback (rewards) to improve future decisions. The goal is to find a policy that maximizes cumulative reward. |
+| RL environment | The setting, real or simulated, in which an agent operates. The environment provides the agent with observations (state), accepts the agent’s actions, and returns outcomes: new states and reward signals. An RL environment defines the “rules of the game” for the agent. |
+| RL environment components | Fundamental parts of any RL environment include:<br>- **State:** What the agent observes<br>- **Action space:** What moves or outputs the agent can make<br>- **Reward function:** How feedback is given<br>- **Transition dynamics:** Rules for state changes<br>- **Episodes / termination conditions:** When an interaction ends<br>- **Learning mechanisms:** Strategies that guide the agent to learn from the reward |
+| State | The information the agent perceives at each time step. This could be a numeric vector, an image frame, a text string, or any structured data representing the current situation. |
+| Actions and action space | The set of all possible actions the agent can take at a given step. Actions might be discrete choices (e.g., move left/right, click a button, or output one of N tokens), or continuous values (e.g., steering angles) depending on the task. |
+| Reward and reward function | The feedback signal scoring the agent’s last action. A reward can be dense in the form of frequent feedback, or sparse, i.e., only given at the end or upon specific events. The reward function is designed to encourage desired behavior; for example, it might give +1 for success and 0 or -1 for failure. |
+| RL episode | A complete sequence of interactions between the agent and the environment, from the initial state to termination. Each episode provides a self-contained experience for the agent to learn from success or failure before starting the next one. |
+| Learning mechanism | The strategy that enables the agent to improve based on experience and rewards, e.g., techniques like prompt optimization, self-reflection, and reinforcement learning with feedback in LLM-based environments. |
+
+## Why use reinforcement learning?
+
+Before we discuss what RL environments are, it is essential to understand the problem that reinforcement learning aims to solve.
+
+RL is best suited for situations where the correct sequence of actions isn’t explicitly known in advance: The agent must discover it through trial and error, learning from positive and negative feedback to maximize long-term success. A prime example in the context of LLMs is their alignment process, which utilizes reinforcement learning and human feedback to ensure that AI systems behave in ways consistent with human preferences.
+
+### Problems with SFT and RLHF
+
+In the past, supervised fine-tuning (SFT) and reinforcement learning with human feedback (RLHF) have been used to train agents.
+
+SFT trains a model on labeled examples, enabling it to reproduce correct answers from the data. However, it often struggles with open-ended or multi-step tasks where there’s no single right answer, such as explaining reasoning or handling ambiguous user queries.
+
+This is where RLHF came into play. RLHF was used to train models like ChatGPT to be more honest, helpful, and safe by optimizing them against human preference judgments rather than a static dataset. In effect, RLHF aligns the model’s behavior with what human evaluators prefer, surpassing the capabilities of supervised learning on example dialogues.
+
+However, RLHF also has its limitations. It relies on humans to provide feedback, which is slow, costly, and sometimes inconsistent. The model’s performance also depends upon the quality of the human evaluations: It can only get as good as the signals given to it. As AI systems become more capable and are deployed in more complex, long-horizon tasks, constant human-in-the-loop feedback becomes a bottleneck.
+
+### Challenges for LLM agents
+
+The problem with SFT and RLHF becomes even more evident during the training of LLM-based agents. Today’s agents might be asked to use tools, browse the web, write code, or carry out multi-step workflows autonomously. They need to be accurate, follow instructions over long conversation histories, and use external APIs correctly while avoiding pitfalls like hallucinations or biased outputs. Hard-coding these behaviors is impractical, and supervised training data may not cover the nuanced failures that occur when an agent operates independently.
+
+Without RL, an agent might easily misuse a tool or get distracted mid-task, since there’s no direct penalty for those mistakes in a pure language modeling objective.
+
+### The “DeepSeek moment”: A new era of RL for LLMs
+
+New research indicates that it is possible to replace or supplement human feedback with automated feedback signals. Instead of humans rating each outcome, the team can design an RL environment that automatically checks if the agent’s output meets specific criteria.
+
+A notable recent example is [DeepSeek](https://www.deepseek.com/en), a project that demonstrated the potential of this approach. DeepSeek’s team trained an LLM-based research agent using a fully automated pipeline with no human-labeled data, allowing the agent to learn through trial and error in a stable simulated environment. They used a copy of Wikipedia as a sandbox for the agent to explore, and they employed internal metrics to reward good outputs. The result was a model that achieved high marks on research tasks at a fraction of the training cost of more traditional approaches.
+
+This “DeepSeek moment” demonstrated to the AI community that RL environments with programmatic rewards could unlock rapid and scalable training, essentially pointing the way to align and improve AI agents beyond what human feedback alone could achieve. The impact has been immediate: All the major AI labs are now investing heavily in RL environments and simulations for training agents. Rather than labeling millions of static examples, companies are building rich environments where an AI can practice and be evaluated on the fly.
+
+## What are RL environments?
+
+In reinforcement learning, the environment is effectively the task simulator: everything outside the agent that responds to the agent’s actions. At its core, an RL environment provides the agent with a state (or observation), and when the agent takes an action, the environment returns a new state along with a reward. The environment defines the dynamics and the goal of the task. It is where the encoding of the problem that the agent is to solve occurs.
+
+What’s new today is that RL environments are not limited to physical control tasks or games. It’s possible to build environments that simulate software, tools, or even multi-step reasoning tasks. For example, if you want to train an AI agent to use a web browser to buy socks, you can create an environment that simulates a browser and website. The agent’s actions might be things like “click button” or “enter text,” and the environment would render the next page and perhaps give a reward when the purchase is successfully made.
+
+## When to use RL environments
+
+It is important to note that you do not always need RL environments to train. For example, it is better to use SFT techniques for one-shot tasks like spam detection and sentiment analysis or when high-quality labeled data is available.
+
+Here are some specific scenarios where RL environments should be used.
+
+### Training/testing an agent on a dynamic task
+
+Environments provide a safe, controlled space for the agent to practice whenever an AI agent needs to interactively learn or be evaluated on a dynamic task, especially when the task involves a sequence of decisions that is too complex or variable to preprogram manually. This is useful for training the agent, which can try various strategies in simulation and receive automatic rewards rather than needing a human to grade each attempt. It’s equally useful for testing and evaluation: You can check if a trained agent handles edge cases by seeing how it behaves in the environment scenarios.
+
+### Availability of an automated reward signal
+
+RL environments are also useful in scenarios where it is possible to formalize what is expected from the agent in terms of an automated reward. If you can define a clear measure of success for the task (something you can code to check), you can build an RL environment to train the agent to achieve it.
+
+For example, suppose the task is to generate SQL queries that run without errors and return the correct results from a database. In that case, the environment can automatically execute the query the agent produces. If it runs and matches the expected answer, the agent gets a reward; if it produces a SQL syntax error or an incorrect result, it receives a low or zero reward. This automatic, verifiable feedback is extremely valuable because it removes the need for constant human supervision once the environment is set up.
+
+The difference between RLHF and RL with verifiable rewards ([source](https://amatria.in/blog/postpretraining-revisted))
+
+## Components of RL environments
+
+An RL environment can be fully described by a [Markov Decision Process (MDP)](https://inst.eecs.berkeley.edu/~cs188/textbook/mdp/markov-decision-processes.html). The environment includes the state (what the agent observes), the action space (what it can do), the reward function (how it is scored), the transition dynamics (how the world changes), and the termination condition (when the interaction ends).
+
+### State
+
+The state or observation is what the agent “sees” at a given time. It captures the relevant information about the environment at that moment. For example, in a customer support bot environment, the state could be the conversation history, while for a coding agent, the state might be the programming task description plus the code written so far.
+
+The goal is to capture enough context for the model to plan its next move. For example, a customer support bot may not need the entire database schema; it only requires the customer query and the account details. Similarly, a coding agent doesn't need the entire internet as context, only access to the problem, the codebase, and a tool that accesses GitHub, etc.
+
+### Action and action space
+
+The action space defines what the agent is allowed to do. With LLM agents, actions are often language outputs or tool calls. For example, a text-only assistant might have an action space consisting of sequences of tokens, and it “acts” by generating text responses using these tokens. Similarly, a tool-calling agent could have a discrete action space, such as {“call database”, “search web”, “respond to user”} with parameters attached to each action.
+
+The challenge is balancing realism with practicality. If you let an agent type arbitrary text into a SQL interface, it could try millions of nonsense queries. Instead, many environments define structured actions: The agent must output JSON specifying the table and columns to query. This keeps the action space clean and makes evaluation straightforward.
+
+### Reward and reward function
+
+The reward tells the agent whether it did well or poorly. Designing rewards is where environments either succeed or fail. For example, in a code-writing environment, the reward can be measured by the number of unit tests that pass. In a Q&A setting, the reward might be +1 if the answer matches the ground truth and zero if not.
+
+The golden rule is to use verifiable signals whenever possible. For instance, if the task is “generate valid JSON,” don’t rely on a human to check it. Instead, parse the output directly using an LLM or any automatically verifiable heuristic approach and give +1 for valid, 0 for invalid. This kind of deterministic feedback makes environments robust.
+
+### Transition dynamics
+
+Transition dynamics describe how the state changes after an action is taken. In LLM environments, transitions typically involve changes in conversation flow, tool outcomes, or world updates. For instance, in a customer service bot, if the agent asks for an order number, the environment (simulating a user) might respond with one. The next state then includes that number.
+
+The environment designer decides these rules. Good environments anticipate edge cases; for example, what if the bot asks the same question twice, or produces nonsense SQL? A robust environment won’t crash—it will respond with a defined state like “invalid action,” along with a penalty.
+
+### Episodes and termination
+
+An episode is one full run of the interaction, from start to finish. For example, it could be a single Q&A pair where the episode ends as soon as the agent gives its answer and the environment assigns a reward for correctness, or a coding challenge where the episode continues until the agent submits a final solution or exceeds a maximum number of steps.
+
+Episodes are useful because they define boundaries for learning. They give the agent many fresh starts and clear signals of success or failure. Without them, an agent could wander endlessly with no chance to reset and try new strategies.
+
+### Learning mechanism
+
+This is one of the most challenging aspects of an RL environment for LLM applications. Deciding how the agent learns from the environment depends totally on your use case.
+
+In traditional RL settings, model parameters are fine-tuned using techniques such as [policy gradients](https://spinningup.openai.com/en/latest/algorithms/vpg.html), [proximal policy optimization (PPO)](https://spinningup.openai.com/en/latest/algorithms/ppo.html), or [Q-learning](https://spinningup.openai.com/en/latest/spinningup/rl_intro2.html#links-to-algorithms-in-taxonomy) to maximize the expected cumulative reward. However, in LLM-based environments, full gradient-based training is often too costly or impractical. Instead, lightweight statistical approaches and prompt optimization techniques are used. Here are some examples:
+
+- **Reinforcement learning with prompt feedback**, which means iteratively refining the system prompt based on the reward score from each episode (as you will see later in the tutorial section).
+- **Self-reflection loops**, where the model evaluates its own output and rewrites the instructions to reduce mistakes in future runs.
+- **Evolutionary strategies** such as generating multiple prompt variants, scoring them using the reward function, and selecting the best-performing version
+
+{{banner-large-dark-2-rle="/banners"}}
+
+## RL environment implementation example
+
+Enough of the theory, let’s see how to create an RL environment and implement reinforcement learning for a simple chatbot agent that helps a user log into their account and check their balance. This tutorial will demonstrate all the components of an RL environment in action.
+
+We will create a chatbot using the LangGraph library that uses the OpenAI GPT-4 model for reasoning. You can find the code for this article in this [Google Colab notebook.](https://colab.research.google.com/drive/1BGP0vB7aPR9ZgXQWFeXtUxdpeHupTak5?usp=sharing)
+
+**Note:** For real-world scenarios, you can use libraries like [HuggingFace TRL](https://huggingface.co/docs/trl/en/index) and [Gymnasium](https://gymnasium.farama.org/index.html) to implement various reinforcement learning techniques.
+
+### Installing and importing required libraries
+
+The following script installs the required libraries to run the code.
+
+```
+!pip install -qU langchain-openai
+!pip install -qU langgraph
+```
+
+The script below imports the required libraries into your Python application.
+
+```
+from google.colab import userdata
+OPENAI_API_KEY  = userdata.get('OPENAI_API_KEY')
+
+from langgraph.prebuilt import create_react_agent
+from langchain_openai import ChatOpenAI
+from typing import TypedDict, Annotated
+from langchain_core.messages import BaseMessage
+from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.messages import AnyMessage
+from langgraph.graph import add_messages
+```
+
+### Defining environment components
+
+Next, we will define all the components of our RL environment.
+
+#### State
+
+We will keep the state simple: It will consist of the conversation history.
+
+```
+class AgentState(TypedDict):
+   messages: Annotated[list[AnyMessage], add_messages]
+   remaining_steps:int # use default from LangGraph
+```
+
+Note that “remaining_steps” is only here for LangGraph’s tool calling retry limit.
+
+#### Actions
+
+We allow the chatbot to perform four actions: log in a user, verify two-factor authentication, retrieve a balance, and log the user out. We can store these actions in a Python list.
+
+```
+expected_actions = [
+    "login_user",
+    "verify_2fa",
+    "get_balance",
+    "logout_user"
+]
+```
+
+#### Reward function
+
+We will use a straightforward reward function. For each agent response, we check whether it invoked the correct tool from the predefined action list and followed the expected sequence. The agent performs these actions through tool calls.
+
+For example, the first tool call should log the user in, the second should verify two-factor authentication and retrieve the balance, and, finally, the logout should only occur if the user asks for it. If the agent logs out immediately after showing the balance, it receives a penalty. The reward increases as the agent completes each step correctly. Notice that the rewards are automatically verifiable and do not need human intervention for verification.
+
+```
+def compute_reward(called_tools):
+    """
+    Computes reward based on logical sequence:
+    1 -> login_user
+    3 -> verify_2fa and get_balance (after login)
+    4 -> logout_user (after previous steps)
+    -1 penalty -> if logout_user is called immediately after get_balance
+                  (i.e., in same step before user interaction)
+    """
+
+    # Normalize tool names
+    called = [t.lower() for t in called_tools]
+    reward = 0
+
+    # Step 1: login
+    if any("login" in t for t in called):
+        reward = 1
+
+        # Step 2: after login, 2FA + balance retrieval
+        if any("verify" in t for t in called) and any("balance" in t for t in called):
+            reward = 3
+
+            # Step 3: logout AFTER user has seen balance (not same step)
+            # If logout appears alongside get_balance, penalize (-1)
+            if any("logout" in t for t in called):
+                # Penalize if logout is called in the same turn as get_balance
+                if called.index("logout_user") > called.index("get_balance") and (
+                    len(called) - called.index("get_balance") == 1
+                ):
+                    reward = -1  # Immediate logout penalty
+                else:
+                    reward = 4
+
+    return reward
+```
+
+#### Transition dynamics
+
+The transition dynamics will simply involve adding the user and assistant messages to the agent’s state, i.e., conversation history.
+
+```
+def transition(state, message:AnyMessage):
+
+    state["messages"].append(message)
+    return state
+```
+
+#### Episode termination
+
+Finally, we terminate one RL episode if an agent or the user says any keyword such as “thank you,” “bye,” “goodbye,” “logged out,” or “session ended.” Note that in real-world scenarios, you will likely use another LLM to track whether an episode is terminated after every user interaction with the agent.
+
+```
+def check_episode_termination(messages):
+
+    # Get the most recent message
+    last_message = messages[-1]
+
+    text = last_message.content.lower()
+    end_signals = ["thank you", "bye", "goodbye", "logged out", "session ended"]
+
+    return any(signal in text for signal in end_signals)
+```
+
+#### Learning mechanism
+
+We will utilize reinforcement learning with a prompt feedback approach to guide the model in maximizing the reward. To do so, we will define a simple function that receives the existing system prompt for our chatbot along with the reward score and the possible action that it can take. The function will use an LLM to modify the prompt based on the reward score and the available actions.
+
+The rules in the prompt that modify the system prompt depend on the reward function that you want to maximize. In an ideal scenario, you will also pass the model input and output to your learning mechanism. However, in the following script, we keep our prompt simple and ask it to modify the system prompt based purely on the reward score and available actions.
+
+```
+llm = ChatOpenAI(model="gpt-4o", api_key=OPENAI_API_KEY)
+
+def update_prompt(reward_score, existing_prompt, actions_list):
+
+    learning_prompt = f"""
+    You are a reinforcement learning (RL) trainer helping another AI agent improve its system prompt.
+
+    The agent performs specific actions during an episode and receives a reward score out of 3.
+    Your task is to update the system prompt so that the agent performs better (achieves the maximum reward of 3/3).
+
+    Follow these steps carefully:
+
+    1️⃣ **Understand the context**
+      - Read the existing system prompt.
+      - Read the actions the agent can perform.
+      - Read the reward score (lower = needs significant improvement, higher = minor refinement).
+
+    2️⃣ **Analyze weaknesses**
+      - Identify what might be missing, ambiguous, or poorly phrased in the existing prompt that could lead to suboptimal tool usage or wrong sequencing.
+      - Consider how to make the prompt clearer about the logical order of actions.
+
+    3️⃣ **Plan improvements**
+      - If the reward score is low (0-1): make strong structural and behavioral changes.
+      - If the reward score is moderate (2): refine existing instructions, clarify the step order, or add missing constraints.
+      - If the reward score is high (3): make minimal or no changes; only polish the wording if needed.
+
+    4️⃣ **Rewrite the prompt**
+      - Write a clear, professional, and concise updated system prompt.
+      - Emphasize performing actions step by step, not all at once.
+      - Maintain logical order of actions and clarify expected behavior where needed.
+
+    5️⃣ **Output format**
+      - Return **only** the updated system prompt text -- do not include explanations or analysis.
+
+    ---
+
+    **Inputs:**
+    - Reward Score: {reward_score}
+    - Existing Prompt:
+    {existing_prompt}
+
+    - Actions List:
+    {actions_list}
+
+    Now, produce the improved system prompt following the above reasoning steps.
+    """
+
+    updated_prompt = llm.invoke(learning_prompt).content
+    return updated_prompt
+```
+
+### Training an agent in an RL environment
+
+We now have all the components for training an agent in an RL environment. The next step is to actually create our agent and train it via reinforcement learning.
+
+As discussed earlier, the agent will have access to four tools corresponding to four actions it can take. The following script defines these tools:
+
+```
+def login_user(username: str) -> str:
+    """
+    Log the user into their account.
+    """
+    return f"{username} successfully logged in."
+
+def verify_2fa(code: str ) -> str:
+    """
+    Verify the user's identity with a 2FA security code.
+    """
+    return "2FA verification passed."
+
+def get_balance() -> str:
+    """
+    Retrieve the user's current account balance.
+    """
+    return "Your account balance is $10,000."
+
+def logout_user() -> str:
+    """Safely log the user out of the system when the user asks to log him out."""
+    return "Logged out successfully."
+```
+
+Note that the tool above returns dummy values. In real-world use cases, these tools will likely make database and authentication calls to external APIs.
+
+Next, we will define the initial system prompt and create a [LangGraph React](https://langchain-ai.github.io/langgraph/agents/agents/#2-create-an-agent)agent for our chatbot. This system prompt will be updated by the training loop to maximize reward.
+
+```
+system_prompt = """
+You are an account management assistant.
+
+The user may need to:
+1. log in,
+2. verify 2FA,
+3. check their account balance, and
+4. log out.
+
+Call all the tools for one user query to get responses.
+
+"""
+
+def get_agent(system_prompt):
+
+  agent = create_react_agent(
+    model=llm,
+    tools=[login_user, verify_2fa, get_balance, logout_user],
+    prompt= system_prompt,
+    state_schema=AgentState
+  )
+
+  return agent
+```
+
+We can now test our RL environment. We will pose some questions to the chatbot, and after each episode, check if the reward is less than 4, which means either all the actions were not performed or they were not performed in the desired order. If it is less than 4, we update the system prompt.
+
+The logic above is implemented via two while loops. The external while loop checks if the user wants to start another episode for RL training; the internal while loop is used to generate a multi-step conversation between the user and the chatbot. The following script implements this logic:
+
+```
+while True:
+    # Initialize agent
+    agent = get_agent(system_prompt)
+    agent_state = {"messages": [], "remaining_steps": 10}
+    called_tools = []  # Track all tools used
+    total_reward = 0
+    step = 0
+
+    # Start conversation
+    user_input = input("👤 User: ")
+    agent_state = transition(agent_state, HumanMessage(content=user_input))
+
+    while True:
+        print(f"\n--- Step {step + 1} ---")
+
+        result = agent.invoke(agent_state)
+        assistant_reply = result["messages"][-1].content
+        print(f"🤖 Assistant: {assistant_reply}")
+
+        # Extract ALL tool calls
+        tool_names = []
+        for msg in result["messages"]:
+            if hasattr(msg, "tool_calls") and msg.tool_calls:
+                for call in msg.tool_calls:
+                    tool_names.append(call["name"])
+
+        if tool_names:
+            # Add and deduplicate
+            called_tools.extend(tool_names)
+            called_tools = list(dict.fromkeys(called_tools))
+
+            # Compute base reward with all tools
+            reward_with_all = compute_reward(called_tools)
+
+            # === HANDLE PENALTY CORRECTLY ===
+            if reward_with_all == -1:
+                # Recompute baseline WITHOUT logout to capture the true progress (should be 3)
+                called_without_logout = [t for t in called_tools if "logout" not in t.lower()]
+                baseline_reward = compute_reward(called_without_logout)
+                # Deduct exactly 1 point from the baseline (e.g., 3 -> 2)
+                total_reward = max(baseline_reward - 1, 0)
+                print("🔴 Penalty applied: Logged out immediately after showing balance.")
+            else:
+                total_reward = reward_with_all
+
+            # Debug info
+            print(f"🧩 Debug - Called tools list: {called_tools}")
+            print(f"🛠️ Tools called: {', '.join(tool_names)}")
+
+            # === DISPLAY PROGRESS ===
+            if total_reward == 1:
+                print("🟢 Reward Progress: 1 / 4 -- Step 1 complete: User logged in successfully.")
+            elif total_reward == 2:
+                print("🟠 Reward Progress: 2 / 4 -- Step 2 complete but penalty applied (premature logout).")
+            elif total_reward == 3:
+                print("🟡 Reward Progress: 3 / 4 -- Step 2 complete: Verification and balance retrieval successful.")
+            elif total_reward == 4:
+                print("🟢 Reward Progress: 4 / 4 -- Step 3 complete: Logout done -- full task successfully completed!")
+            else:
+                print(f"🎯 Reward Progress: {total_reward} / 4")
+
+        else:
+            print("No tool call detected this turn.")
+
+        # Append assistant message
+        last_message = result["messages"][-1]
+        agent_state = transition(agent_state, last_message)
+
+        # Step limit safety
+        agent_state["remaining_steps"] -= 1
+        if agent_state["remaining_steps"] <= 0:
+            print("\n⚠️ Step limit reached. Ending episode.")
+            break
+
+        # Next user input
+        user_input = input("\n👤 User: ")
+        if not user_input.strip():
+            print("No user input. Ending episode.")
+            break
+
+        # Append new user message
+        agent_state = transition(agent_state, HumanMessage(content=user_input))
+
+        # Termination check
+        if check_episode_termination(agent_state["messages"]):
+            print("\n🔚 Episode terminated by user.")
+            break
+
+        step += 1
+
+    # === END OF EPISODE ===
+    print(f"\n🏁 Episode finished with total reward: {total_reward}")
+
+    # === UPDATE PROMPT BASED ON REWARD ===
+    if total_reward < 4:
+        print("\n🧠 Updating system prompt based on reward...")
+        agent_state = {"messages": [], "remaining_steps": 10}
+        new_prompt = update_prompt(total_reward, system_prompt, expected_actions)
+        system_prompt = new_prompt
+        print("\n✨ Updated System Prompt:\n", system_prompt)
+    else:
+        print("\n✅ Perfect reward achieved! No prompt update needed.")
+
+    # Restart option
+    restart = input("\nStart another episode? (y/n): ").lower().strip()
+    if restart != "y":
+        print("👋 Ending training session.")
+        break
+```
+
+Here is the output:
+
+You can see that after the first episode, the total reward is 2. The system completed the first and second steps correctly, earning a reward of 3. However, it logged the user out immediately after showing the balance without waiting for user input, which resulted in a penalty of 1 point. As a result, the system prompt is updated.
+
+You can run multiple episodes to see if the reward increases or not. You can fine-tune your learning mechanism if the reward is lower than desired after a certain number of episodes. You can even modify the code to fine-tune your learning mechanism after each step or action within an episode.
+
+## Develop better AI agents with Patronus AI RL environments
+
+Patronus AI is a platform for agent evaluation, debugging, and reinforcement-based improvement that is purpose-built for LLM and autonomous agents. It provides tools for fine-grained tracing, root-cause analysis, and performance scoring across multi-step workflows, helping developers understand how and why an agent succeeds or fails. These capabilities, combined with automated verifiable feedback, allow Patronus to effectively turn evaluation pipelines into practical RL environments.
+
+Here are some of the distinctive features of Patronus RL environments.
+
+### Real-world task alignment
+
+Rather than relying on dummy tasks or synthetic benchmarks, Patronus provides environments built around real-world domains, such as coding challenges, SQL query generation, customer support workflows, finance Q&A, and trading scenarios. Because the tasks are representative of actual applications, improvements in agent behavior tend to translate directly into usable systems, not just academic score gains.
+
+### Automated verifiable reward signals
+
+Patronus uses objective and deterministic reward signals. Instead of having humans manually judge each agent response, the system employs verifiers that automatically check correctness, such as verifying unit tests, validating SQL query output, checking database state changes, or enforcing schema constraints. These verifiable signals are reproducible, scalable, and auditable. And unlike subjective feedback, they reduce variance, human cost, and evaluation inconsistency.
+
+### Generalization and transfer
+
+Through Patronus’s reward scaffolding across tasks, agents can generalize learned behaviors. For instance, once an agent learns to adhere to strict formatting, correct operation ordering, or proper error handling in one coding environment, these skills can be transferred to new, similar tasks. The consistency in evaluation logic across domains helps mitigate “overfitting to a prompt” and encourages broader reasoning skills.
+
+### Patronus supported environment types
+
+Patronus provides a variety of RL environments for different domains, some of which include:
+
+- Coding agents that generate and correct program outputs
+- SQL / database Q&A agents that query structured data
+- Customer service agents that answer customer questions
+- A finance Q&A agent that generates insights from financial data
+- Trading agents interacting with markets or simulated UI
+- Web interface navigation and user-journey agents for review or e-commerce tasks
+
+Each environment comes with structured tasks and built-in evaluation logic that checks not only correctness but also procedural order, error conditions, tool usage, and consistency. Check out Patronus AI to learn more about how you can develop your own customized RL environment with ease.
+
+{{banner-dark-small-1-rle="/banners"}}
+
+## Final thoughts
+
+RL environments are becoming an integral part of training LLM-based applications because they provide a safe and evaluative space where agents can learn from verifiable rewards, eliminating the need for human feedback.
+
+Patronus AI brings this idea to life through its integrated ecosystem of developing, evaluating, and debugging RL environments. Whether you’re training a coding assistant, a finance agent, or a customer support bot, Patronus helps you design realistic RL environments and measure progress with clarity.
+
+Check out Patronus AI to see how reinforcement learning can improve your agent’s performance in both experimentation and production.
+
+## Chapters
+
+- [RL Environments: Tutorial & Examples](https://www.patronus.ai/guide-to-rl-environments): Learn the fundamentals of reinforcement learning environments and how they enable AI agents to learn from trial and error in various interactive settings, including LLM-based applications.
+- [LLM Post Training: Tutorial & Examples](https://www.patronus.ai/guide-to-rl-environments/llm-post-training): Learn how to use post-training to adapt a pre-trained large language model into a specialized behavior model that follows instructions and exhibits desired behaviors using curated data, with a practical guide and three approaches to help you decide.
+- [Reinforcement Learning Applications: Tutorial & Examples](https://www.patronus.ai/guide-to-rl-environments/reinforcement-learning-applications): Learn the basics of reinforcement learning and how it is being used in various applications, from robotics to autonomous vehicles and chatbots, to guide machines in decision-making and align with human values.
+- [RL Training: Tutorial & Examples](https://www.patronus.ai/guide-to-rl-environments/rl-training): Learn reinforcement learning techniques for LLM post-training using policy optimization, reward functions, and continuous monitoring.
+- [Online Reinforcement Learning: Tutorial & Examples](https://www.patronus.ai/guide-to-rl-environments/online-reinforcement-learning): Learn how online reinforcement learning enables LLMs to adapt continuously through real-time feedback and dynamic optimization.
+- [Reinforcement Learning Evaluation: Tutorial & Best Practice](https://www.patronus.ai/guide-to-rl-environments/reinforcement-learning-evaluation): Learn how to evaluate LLMs post-trained with reinforcement learning, including techniques, failure modes, and production best practices.
+- [Model Based Reinforcement Learning: Tutorial & Examples](https://www.patronus.ai/guide-to-rl-environments/model-based-reinforcement-learning): Learn how model-based RL works, its core challenges, and how its patterns apply to modern LLM training and development.
+- [Reinforcement Learning with Verifiable Rewards: A Complete Guide](https://www.patronus.ai/guide-to-rl-environments/reinforcement-learning-with-verifiable-rewards): Learn how reinforcement learning with verifiable rewards uses deterministic validation to reliably fine-tune large language models.

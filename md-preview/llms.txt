@@ -1,0 +1,51 @@
+# Patronus AI
+
+> Patronus AI is a behavioral research lab for AI that studies where models fail and builds training data and simulated environments to improve them. Founded in 2023 by Anand Kannappan and Rebecca Qian, we work with frontier labs and enterprises. Our work covers and expands beyond five core domains: alignment, coding, knowledge work, science and computer use.
+
+## About
+- [Home](https://www.patronus.ai/): What Patronus AI does and featured research ([Markdown](https://evanjolley.github.io/patronus-preview/md-preview/index.md))
+- [Company](https://www.patronus.ai/company): Founders, mission, backing and team ([Markdown](https://evanjolley.github.io/patronus-preview/md-preview/company.md))
+- [Domains](https://www.patronus.ai/domains): The five domains we build environments for ([Markdown](https://evanjolley.github.io/patronus-preview/md-preview/domains.md))
+- [Research](https://www.patronus.ai/research): All published papers ([Markdown](https://evanjolley.github.io/patronus-preview/md-preview/research.md))
+- [Blog](https://www.patronus.ai/blog): Research write-ups and engineering notes
+- [News](https://www.patronus.ai/news): Company announcements and press
+- [Join](https://www.patronus.ai/join): Open roles ([Markdown](https://evanjolley.github.io/patronus-preview/md-preview/join.md))
+- [Contact](https://www.patronus.ai/contact): Talk to the team
+
+## Domains
+- [Alignment](https://www.patronus.ai/domains/alignment)
+- [Coding](https://www.patronus.ai/domains/coding) ([Markdown](https://evanjolley.github.io/patronus-preview/md-preview/domains/coding.md))
+- [Knowledge Work](https://www.patronus.ai/domains/knowledge-work)
+- [Science](https://www.patronus.ai/domains/science)
+- [Computer Use](https://www.patronus.ai/domains/computer-use)
+
+## Research
+- [GlobeBench](https://www.patronus.ai/research/globebench): A benchmark for whether text world models keep track of state, rules and side effects.
+- [World Modeling for Agentic RL](https://www.patronus.ai/research/world-modeling-for-agentic-rl): A language model that stands in for an environment while an agent trains.
+- [FigmaTrace](https://www.patronus.ai/research/figmatrace): Human design workflows in Figma, captured as training data for creative design tasks.
+- [SpeedrunBench](https://www.patronus.ai/research/speedrunbench): Video game speedrunning as a test of whether agents can beat strategies humans already know.
+- [TRACE](https://www.patronus.ai/research/trace): 54 kinds of reward exploit in code RL, and how well models catch them.
+- [DETOUR](https://www.patronus.ai/research/detour): A two-agent benchmark for tip-of-the-tongue search across several turns.
+- [HalluWorld](https://www.patronus.ai/research/halluworld): A controlled benchmark that measures hallucination against reference world models.
+- [Prompt Infilling for Diffusion LMs](https://www.patronus.ai/research/prompt-infilling-for-diffusion-lms): Teaching diffusion language models to fill in prompts, not only responses.
+- [Generative Simulators](https://www.patronus.ai/research/generative-simulators): Environments that generate their own tasks, world dynamics and rewards.
+- [TRAIL](https://www.patronus.ai/research/trail): A benchmark for finding the step where an agent went wrong. ([Markdown](https://evanjolley.github.io/patronus-preview/md-preview/research/trail.md))
+- [BLUR](https://www.patronus.ai/research/blur): 573 tip-of-the-tongue questions that need search, reasoning and tool use.
+- [MEMTRACK](https://www.patronus.ai/research/memtrack): Testing whether agents keep track of facts spread across workplace tools.
+- [Humanity’s Last Exam](https://www.patronus.ai/research/humanitys-last-exam): A multi-modal benchmark at the frontier of human knowledge.
+- [Contrastive Decoding for LLM Judges](https://www.patronus.ai/research/contrastive-decoding-for-llm-judges): Reducing score range bias when language models act as judges.
+- [Unified Hallucination Framework](https://www.patronus.ai/research/unified-hallucination-framework): One definition of hallucination: inaccurate world modeling.
+- [GLIDER](https://www.patronus.ai/research/glider-sota-slm-judge): Earlier evaluation research. A small, explainable judge model for grading LLM interactions.
+- [Lynx](https://www.patronus.ai/research/lynx-hallucination-detection-model): Earlier evaluation research. An open-source model for detecting hallucinations in retrieval-augmented generation.
+- [FinanceBench](https://www.patronus.ai/research/financebench): Open-book financial question answering about publicly traded companies.
+- [SimpleSafetyTests](https://www.patronus.ai/research/simplesafetytests): 100 prompts for finding critical safety risks in language models.
+
+## Guides
+- [Guide to RL environments](https://www.patronus.ai/guide-to-rl-environments) ([Markdown](https://evanjolley.github.io/patronus-preview/md-preview/guide-to-rl-environments.md))
+- [AI world models](https://www.patronus.ai/ai-world-models)
+- [AI agent development](https://www.patronus.ai/ai-agent-development)
+- [LLM testing](https://www.patronus.ai/llm-testing)
+- [AI reliability](https://www.patronus.ai/ai-reliability)
+
+## Optional
+- [Full text of these pages](https://evanjolley.github.io/patronus-preview/md-preview/llms-full.txt): every page above in one Markdown file
